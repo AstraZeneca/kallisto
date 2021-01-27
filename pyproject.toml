@@ -1,0 +1,49 @@
+[tool.poetry]
+name = "kallisto"
+version = "0.1.0"
+description = "kallisto calculates quantum mechanically derived atomic features."
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/f3rmion/kallisto"
+repository = "https://github.com/f3rmion/kallisto"
+keywords = ["quantum mechanics", "atomic featurizer", "machine learning"]
+authors = ["Eike Caldeweyher <hello@eikecaldeweyher.de>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+click = "^7.1.2"
+numpy = "^1.19.0"
+scipy = "^1.5.2"
+flake8 = "^3.8.4"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+pytest-cov = {version = "^2.10.0", extras = ["toml"]}
+coverage = {version = "^5.2", extras = ["toml"]}
+black = "^19.10b0"
+flake8 = "^3.8.3"
+flake8-bandit = "^2.1.2"
+flake8-black = "^0.2.0"
+flake8-bugbear = "^20.1.4"
+flake8-import-order = "^0.18.1"
+safety = "^1.9.0"
+mypy = "^0.782"
+pytype = {version = "^2020.6.26", python = "3.7"}
+codecov = "^2.1.8"
+
+[tool.coverage.paths]
+source = ["src", "*/site-packages"]
+
+[tool.coverage.run]
+branch = true
+source = ["kallisto"]
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.poetry.scripts]
+kallisto = "kallisto.console:cli"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
