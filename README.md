@@ -5,6 +5,7 @@
 ##
 
 [![Tests](https://github.com/AstraZeneca/kallisto/workflows/Tests/badge.svg)](https://github.com/AstraZeneca/kallisto/actions?workflow=Tests)
+[![Codecov](https://codecov.io/gh/AstraZeneca/kallisto/branch/master/graph/badge.svg)](https://codecov.io/gh/AstraZeneca/kallisto)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/python/black)
 
 Table of Contents
