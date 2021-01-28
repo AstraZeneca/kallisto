@@ -349,6 +349,7 @@ def exchangeSubstructure(
     newSubBonds: np.ndarray,
     name: str,
     rotate: int,
+    exclude: bool,
 ):
     """Exchange substructure (subnr) from ref with substrate."""
 
@@ -428,7 +429,7 @@ def exchangeSubstructure(
             refnat = ref.get_number_of_atoms()
             oldnat = oldsub.get_number_of_atoms()
             nat = refnat - oldnat
-            writeTransitionMetalConstrains(nat, newnat, newSubBonds)
+            writeTransitionMetalConstrains(nat, newnat, newSubBonds, exclude)
 
 
 def getRodriguezRotation(
@@ -514,16 +515,23 @@ def getSubstructureFromPath(refmol: Molecule, path: np.ndarray) -> Molecule:
     return Molecule(symbols=atoms)
 
 
-def writeTransitionMetalConstrains(shift: int, n: int, bonds: np.ndarray):
+def writeTransitionMetalConstrains(
+    shift: int, n: int, bonds: np.ndarray, exclude: bool
+):
     """Write out constrain file for GFN-xTB."""
 
     import os
 
     f = open("constrain.inp", "w")
     s = os.linesep
+    shiftExclude = 1
+    if exclude:
+        shiftExclude = 0
     f.write("$fix" + s)
-    f.write(" atoms: 1-{}".format(shift + 1) + s)
+    f.write(" atoms: 1-{}".format(shift + shiftExclude) + s)
     f.write("$constrain" + s)
+    if exclude:
+        f.write(" distance: {}, {}, auto".format(19, 86) + s)
     for i in range(n):
         for partner in bonds[i]:
             f.write(
@@ -578,16 +586,11 @@ def matchSubstrates(
     # covalent bonding partner in new substrate
     covNew = len(bondsNewSub[0][:])
 
-    # single atom case
-    if (covOld == 0) or ((covNew == 0) and not centered):
-        if covNew != 0:
-            # exchange atom with structure
-            pass
-        else:
-            # exchange atom with atom
-            for i in range(newnat):
-                newxyz[i, :] = newxyz2[i, :] + shift - oldShift
-            return newxyz
+    # Check for linear moleule case
+    if covNew != 1:
+        isNotLinear = True
+    else:
+        isNotLinear = False
 
     covOld += count
     covNew += count
@@ -621,6 +624,7 @@ def matchSubstrates(
         shift = getNewSubstrateCenter(indexNew, shiftNewSub, distRef)
 
     bdim = np.minimum(covOld, covNew)
+    print(bdim)
 
     if bdim >= 3:
         bdim = 3
@@ -645,18 +649,25 @@ def matchSubstrates(
         b2xyz[0][:] = shiftNewSub[0][:]
         b2xyz[1][:] = shiftNewSub[indexNew][:]
 
-    u = np.zeros(shape=(3, 3), dtype=np.float64)
-    error = 0.0
-    # get RMSD value and rotation matrix
-    error, u = rmsd(bdim, b2xyz, b1xyz)
-
     tmpxyz = np.zeros(shape=(newnat, 3), dtype=np.float64)
-    tmpxyz = np.matmul(u.T, newxyz2[:][0:newnat].T)
-
-    # shift
     outxyz = np.zeros(shape=(newnat, 3), dtype=np.float64)
+
+    if isNotLinear:
+        u = np.zeros(shape=(3, 3), dtype=np.float64)
+        error = 0.0
+        # get RMSD value and rotation matrix
+        error, u = rmsd(bdim, b2xyz, b1xyz)
+        tmpxyz = np.matmul(u.T, newxyz2[:][0:newnat].T)
+        # shift
+        for i in range(newnat):
+            outxyz[i, :] = tmpxyz.T[i, :] + oldShift
+
+        return outxyz
+
+    tmpxyz = newxyz2[:][0:newnat]
+    # shift
     for i in range(newnat):
-        outxyz[i, :] = tmpxyz.T[i, :] + oldShift
+        outxyz[i, :] = tmpxyz[i, :] + oldShift
 
     return outxyz
 

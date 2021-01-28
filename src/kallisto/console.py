@@ -436,9 +436,17 @@ def lig(config, inp: str, center: int, out: click.File):
     show_default=True,
     help="Rotate new substrate around covalent bond to center around specified degree .",
 )
+@click.option("--exclude", is_flag=True)
 @click.argument("out", type=click.File("w"), default="-", required=False)
 def exs(
-    config, inp: str, center: int, subnr: int, name: str, rotate: int, out: click.File
+    config,
+    inp: str,
+    center: int,
+    subnr: int,
+    name: str,
+    exclude: bool,
+    rotate: int,
+    out: click.File,
 ):
     """Exchange a substrate within a transition metal complex with another
     substrate. Use an root mean squared deviation (RMSD) measure to rotate
@@ -459,7 +467,16 @@ def exs(
     from rmsd import exchangeSubstructure
 
     exchangeSubstructure(
-        nat, center, subnr, covBonds, ref, substrate, newSubBonds, name, rotate,
+        nat,
+        center,
+        subnr,
+        covBonds,
+        ref,
+        substrate,
+        newSubBonds,
+        name,
+        rotate,
+        exclude,
     )
 
 
