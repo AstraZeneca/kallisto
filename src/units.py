@@ -2,11 +2,11 @@
 
 from math import pi, sqrt
 
-__version__ = "2014"
+version = "arxiv2014"
 
 
 class Units(dict):
-    """Dictionary for units that support .attribute access."""
+    """Dictionary for units."""
 
     def __init__(self, *args, **kwargs):
         super(Units, self).__init__(*args, **kwargs)
@@ -14,8 +14,8 @@ class Units(dict):
 
 
 codata = {
-    # Source: http://arxiv.org/pdf/1507.07956.pdf
-    "2014": {
+    # Reference: http://arxiv.org/pdf/1507.07956.pdf
+    "arxiv2014": {
         "_c": 299792458.0,
         "_mu0": 4.0e-7 * pi,
         "_Grav": 6.67408e-11,
@@ -31,87 +31,103 @@ codata = {
 
 
 def createUnits(version):
-    """Function that creates a dictionary containing units."""
+    """Create a dictionary with units."""
 
-    # try to obtain codata version
     try:
-        u = Units(codata[version])
+        units = Units(codata[version])
     except KeyError:
-        raise NotImplementedError(
-            "Codata version {0} not implemented".format(__version__)
-        )
+        raise NotImplementedError("Codata {0} not found".format(version))
 
+    # Define all units
     # permittivity of vacuum
-    u["_eps0"] = 1 / u["_mu0"] / u["_c"] ** 2
+    units["_eps0"] = 1 / units["_mu0"] / units["_c"] ** 2
     # Planck constant / 2pi, J s
-    u["_hbar"] = u["_hplanck"] / (2 * pi)
+    units["_hbar"] = units["_hplanck"] / (2 * pi)
     # Angstrom
-    u["Ang"] = u["Angstrom"] = 1.0
+    units["Ang"] = units["Angstrom"] = 1.0
     # Nanometer
-    u["nm"] = 10.0
+    units["nm"] = 10.0
     # Bohr
-    u["Bohr"] = 4e10 * pi * u["_eps0"] * u["_hbar"] ** 2 / u["_me"] / u["_e"] ** 2
+    units["Bohr"] = (
+        4e10
+        * pi
+        * units["_eps0"]
+        * units["_hbar"] ** 2
+        / units["_me"]
+        / units["_e"] ** 2
+    )
     # Electronvolt
-    u["eV"] = 1.0
+    units["eV"] = 1.0
     # Hartree
-    u["Hartree"] = (
-        u["_me"] * u["_e"] ** 3 / 16 / pi ** 2 / u["_eps0"] ** 2 / u["_hbar"] ** 2
+    units["Hartree"] = (
+        units["_me"]
+        * units["_e"] ** 3
+        / 16
+        / pi ** 2
+        / units["_eps0"] ** 2
+        / units["_hbar"] ** 2
     )
     # Define kJ/mol
-    u["kJ"] = 1000.0 / u["_e"]
+    units["kJ"] = 1000.0 / units["_e"]
     # Define kcal/mol
-    u["kcal"] = 4.184 * u["kJ"]
+    units["kcal"] = 4.184 * units["kJ"]
     # Define mol
-    u["mol"] = u["_Nav"]
+    units["mol"] = units["_Nav"]
     # Define Rydberg
-    u["Rydberg"] = 0.5 * u["Hartree"]
-    u["Ry"] = u["Rydberg"]
+    units["Rydberg"] = 0.5 * units["Hartree"]
+    units["Ry"] = units["Rydberg"]
     # Define Hartree
-    u["Ha"] = u["Hartree"]
+    units["Ha"] = units["Hartree"]
     # Define second
-    u["second"] = 1e10 * sqrt(u["_e"] / u["_amu"])
+    units["second"] = 1e10 * sqrt(units["_e"] / units["_amu"])
     # Define femtosecond
-    u["fs"] = 1e-15 * u["second"]
+    units["fs"] = 1e-15 * units["second"]
     # Define Boltzmann constant, eV/K
-    u["kB"] = u["_k"] / u["_e"]
+    units["kB"] = units["_k"] / units["_e"]
     # Define Pascal J/m^3
-    u["Pascal"] = (1 / u["_e"]) / 1e30
+    units["Pascal"] = (1 / units["_e"]) / 1e30
     # Define Gigapascal
-    u["GPa"] = 1e9 * u["Pascal"]
+    units["GPa"] = 1e9 * units["Pascal"]
     # Define Debye
-    u["Debye"] = 1.0 / 1e11 / u["_e"] / u["_c"]
+    units["Debye"] = 1.0 / 1e11 / units["_e"] / units["_c"]
     # fine structure constant
-    u["alpha"] = u["_e"] ** 2 / (4 * pi * u["_eps0"]) / u["_hbar"] / u["_c"]
+    units["alpha"] = (
+        units["_e"] ** 2 / (4 * pi * units["_eps0"]) / units["_hbar"] / units["_c"]
+    )
     # Inverse centimetre: cm^-1 energy unit
-    u["invcm"] = 100 * u["_c"] * u["_hplanck"] / u["_e"]
+    units["invcm"] = 100 * units["_c"] * units["_hplanck"] / units["_e"]
     # atomic unit of time, s:
-    u["_aut"] = u["_hbar"] / (u["alpha"] ** 2 * u["_me"] * u["_c"] ** 2)
+    units["_aut"] = units["_hbar"] / (
+        units["alpha"] ** 2 * units["_me"] * units["_c"] ** 2
+    )
     # atomic unit of velocity, m/s:
-    u["_auv"] = u["_e"] ** 2 / u["_hbar"] / (4 * pi * u["_eps0"])
+    units["_auv"] = units["_e"] ** 2 / units["_hbar"] / (4 * pi * units["_eps0"])
     # atomic unit of force, N:
-    u["_auf"] = u["alpha"] ** 3 * u["_me"] ** 2 * u["_c"] ** 3 / u["_hbar"]
+    units["_auf"] = (
+        units["alpha"] ** 3 * units["_me"] ** 2 * units["_c"] ** 3 / units["_hbar"]
+    )
     # atomic unit of pressure, Pa:
-    u["_aup"] = u["alpha"] ** 5 * u["_me"] ** 4 * u["_c"] ** 5 / u["_hbar"] ** 3
-    u["AUT"] = u["second"] * u["_aut"]
-
-    # Get SI units
+    units["_aup"] = (
+        units["alpha"] ** 5 * units["_me"] ** 4 * units["_c"] ** 5 / units["_hbar"] ** 3
+    )
+    units["AUT"] = units["second"] * units["_aut"]
+    # Define SI units
     # metre
-    u["m"] = 1e10 * u["Ang"]
+    units["m"] = 1e10 * units["Ang"]
     # kilogram
-    u["kg"] = 1.0 / u["_amu"]
+    units["kg"] = 1.0 / units["_amu"]
     # second
-    u["s"] = u["second"]
+    units["s"] = units["second"]
     # ampere
-    u["A"] = 1.0 / u["_e"] / u["s"]
+    units["A"] = 1.0 / units["_e"] / units["s"]
     # derived
-    u["J"] = u["kJ"] / 1000  # Joule = kg * m**2 / s**2
-    u["C"] = 1.0 / u["_e"]  # Coulomb = A * s
+    units["J"] = units["kJ"] / 1000  # Joule = kg * m**2 / s**2
+    units["C"] = 1.0 / units["_e"]  # Coulomb = A * s
 
-    return u
+    return units
 
 
-# Initialize expected symbols
-# pylint: disable=invalid-name
+# Initialize symbols
 (
     _Grav,
     _Nav,
@@ -160,4 +176,4 @@ def createUnits(version):
 
 
 # Update the module scope:
-globals().update(createUnits(__version__))
+globals().update(createUnits(version))
