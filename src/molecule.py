@@ -2,7 +2,6 @@
 
 from atom import Atom
 import numpy as np
-from symbols import symbols2numbers
 
 
 class Molecule(object):
@@ -58,11 +57,6 @@ class Molecule(object):
                     natoms = 0
                 numbers = np.zeros(natoms, int)
             self.new_array(name="numbers", a=numbers, dtype=int)
-        else:
-            if numbers is not None:
-                raise TypeError('Use only one of "symbols" and "numbers".')
-            else:
-                self.new_array(name="numbers", a=symbols2numbers(symbols), dtype=int)
 
         if positions is None:
             if "numbers" in self.arrays:
