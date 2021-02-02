@@ -6,8 +6,8 @@ import numpy as np
 from utils import basestring
 
 
-def atomproperty(name, doc):
-    """Helper function to easily create Atom attribute property."""
+def atomProperty(name: str, doc: str):
+    """Helper function to create Atom property."""
 
     def getter(self):
         return self.get(name)
@@ -21,8 +21,8 @@ def atomproperty(name, doc):
     return property(getter, setter, deleter, doc)
 
 
-def xyzproperty(index):
-    """Helper function to easily create Atom XYZ-property."""
+def xyzProperty(index: int):
+    """Helper function to create Atom XYZ-property."""
 
     def getter(self):
         return self.position[index]
@@ -52,16 +52,16 @@ class Atom(object):
 
     def __init__(self, symbol="X", position=(0, 0, 0), charge=0, molecule=None):
 
-        self.data = d = {}
+        self.data = data = {}
 
         if molecule is None:
             # This atom is not part of a molecule
             if isinstance(symbol, basestring):
-                d["number"] = atomic_numbers[symbol]
+                data["number"] = atomic_numbers[symbol]
             else:
-                d["number"] = symbol
-            d["position"] = np.array(position, float)
-            d["charge"] = charge
+                data["number"] = symbol
+            data["position"] = np.array(position, float)
+            data["charge"] = charge
 
         self.molecule = molecule
 
@@ -94,9 +94,9 @@ class Atom(object):
         if (self.molecule is None) and (name not in ["number", "symbol", "position"]):
             self.data[name] = None
 
-    symbol = atomproperty("symbol", "Chemical symbol")
-    position = atomproperty("position", "XYZ-coordinates")
-    charge = atomproperty("charge", "Initial atomic charge")
-    x = xyzproperty(0)
-    y = xyzproperty(1)
-    z = xyzproperty(2)
+    symbol = atomProperty("symbol", "Chemical symbol")
+    position = atomProperty("position", "XYZ-coordinates")
+    charge = atomProperty("charge", "Initial atomic charge")
+    x = xyzProperty(0)
+    y = xyzProperty(1)
+    z = xyzProperty(2)

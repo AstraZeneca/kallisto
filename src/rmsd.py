@@ -9,7 +9,7 @@ import numpy as np
 
 
 def rmsd(n: int, coord1: np.ndarray, coord2: np.ndarray) -> Tuple[float, np.ndarray]:
-    """This function calculates the least square rmsd in Angstrom of two
+    """Calculate the least square rmsd in Angstrom for two
     coordinate sets coord1(n,3) and coord2(n,3) using a method based on
     quaternions."""
 
@@ -89,7 +89,7 @@ def rmsd(n: int, coord1: np.ndarray, coord2: np.ndarray) -> Tuple[float, np.ndar
 
 
 def rotationMatrix(q: np.ndarray) -> np.ndarray:
-    """This function constructs a rotation matrix U from quaternion q."""
+    """Constructs rotation matrix U from quaternion q."""
     q0 = q[0]
     q1 = q[1]
     q2 = q[2]
@@ -182,7 +182,7 @@ def dstmev(smat: np.ndarray):
 
 
 def givens4(A: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
-    """This function performs givens rotations to reduce the
+    """Perform givens rotations to reduce the
     symmetric 4x4 matrix to tridiagonal form."""
 
     tmat = np.zeros(shape=(4, 4), dtype=np.float64)

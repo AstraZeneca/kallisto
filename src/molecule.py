@@ -67,9 +67,7 @@ class Molecule(object):
         self.new_array(name="positions", a=positions, dtype=float, shape=(3,))
 
     def new_array(self, name, a, dtype=None, shape=None):
-        """Add a new array.
-
-        If *shape* is not *None*, the shape of *a* will be checked."""
+        """Add a new array."""
 
         if dtype is not None:
             a = np.array(a, dtype, order="C")
@@ -107,10 +105,7 @@ class Molecule(object):
 
     # Setter methods
     def set_array(self, name, a, dtype=None, shape=None):
-        """Set array.
-
-        If *shape* is not *None*, the shape of *a* will be checked.
-        If *a* is *None*, then the array is deleted."""
+        """Set array."""
 
         b = self.arrays.get(name)
         if b is None:
@@ -139,10 +134,8 @@ class Molecule(object):
 
     # Getter methods
     def get_array(self, name, copy=True):
-        """Get an array.
+        """Get an array."""
 
-        Returns a copy unless the optional argument copy is false.
-        """
         if copy:
             return self.arrays[name].copy()
         else:
@@ -170,7 +163,7 @@ class Molecule(object):
         return len(self.get_positions())
 
     def get_bonds(self, partner="X", thresholdBond=0.6, thresholdCN=800.0):
-        """A method to compute an index table for covalent bonding partner.
+        """Get an index table for covalent bonding partner.
 
         thresholdBond defines the treshold for a covalent bond."""
 
@@ -183,7 +176,7 @@ class Molecule(object):
         )
 
     def get_cns(self, cntype: str, threshold=800.0):
-        """A method to compute coordination numbers (cns).
+        """Get coordination numbers (cns).
 
         CN values are calculated for a given structure and are returned as an
         array. Choose functional type by "cn" defining standard (exp), covalent (cov),
@@ -196,7 +189,7 @@ class Molecule(object):
         return getCoordinationNumbers(at, coords, cntype, threshold)
 
     def get_cnspheres(self, cntype: str, threshold=800.0):
-        """A method to compute coordination number spheres (cnsp)."""
+        """Get coordination number spheres (cnsp)."""
 
         from methods import getCoordinationNumberSpheres
 
@@ -205,7 +198,7 @@ class Molecule(object):
         return getCoordinationNumberSpheres(at, coords, cntype, threshold)
 
     def get_vdw(self, charge: int, vdwtype: str, scale: float):
-        """A method to compute atomic-charge dependent van der Waals radii (vdws).
+        """Get atomic-charge dependent van der Waals radii (vdws).
 
         VDW values are calculated for a given structure and are returned as an
         array. For the charge dependency EEQ atomic partial charges are used
@@ -219,7 +212,7 @@ class Molecule(object):
         return getVanDerWaalsRadii(nat, at, aiw, charge, vdwtype, scale)
 
     def get_alp(self, charge: int):
-        """A method to compute atomic-charge dependent dynamic atomic polarizabilities (alps).
+        """Get atomic-charge dependent dynamic atomic polarizabilities (alps).
 
         ALP values are calculated for a given structure and are returned as an
         array. For the charge dependency EEQ atomic partial charges are used
@@ -233,8 +226,7 @@ class Molecule(object):
         return getPolarizabilities(at, covcn, qs, charge)
 
     def get_eeq(self, charge: int):
-        """A method to compute atomic electronegativity equilibration partial
-        charges (eeqs).
+        """Get atomic electronegativity equilibration partial charges (eeqs).
 
         EEQ values are calculated for a given structure and are returned as an
         array."""
@@ -247,7 +239,7 @@ class Molecule(object):
         return getAtomicPartialCharges(at, coords, cns, charge)
 
     def writeMolecule(self, name: str):
-        """Write out the given molecule."""
+        """Write molecular structure."""
 
         import os
         from units import Bohr

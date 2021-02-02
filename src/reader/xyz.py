@@ -1,16 +1,7 @@
 # src/reader/xyz.py
 
 from atom import Atom
-from molecule import Molecule
 from units import Bohr
-
-
-def construct_molecule():
-    return Molecule()
-
-
-def construct_atom():
-    return Atom()
 
 
 def read(fileObject):
