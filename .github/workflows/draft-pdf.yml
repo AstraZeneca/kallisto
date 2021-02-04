@@ -1,3 +1,4 @@
+name: PDFGen
 on: [push]
 
 jobs:
