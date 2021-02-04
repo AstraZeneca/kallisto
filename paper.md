@@ -8,20 +8,23 @@ tags:
   - Atomic Features
   - Computational Chemistry
   - Computational Modelling
+
 authors:
   - name: Eike Caldeweyher^[Corresponding author]
     orcid: 0000-0002-3985-595X
     affiliation: "1" 
+
 affiliations:
  - name: Data Science and Modelling, Pharmaceutical Science, R&D, AstraZeneca, Gothenburg, Sweden
    index: 1
+
 date: 4 February 2021
 bibliography: paper.bib
 ---
 
 # Statement of Need
 
-Machine learning (ML) has recently become even more popular within the pharmaceutical industry especially for tasks as, e.g., building predictive models, performing virtual screening, or predicting compound activities.[`@ghasemi2018`]
+Machine learning (ML) has recently become even more popular within the pharmaceutical industry especially for tasks as, e.g., building predictive models, performing virtual screening, or predicting compound activities.[`@roy2015`, `@sprous2010`]
 Traditional ML models often exploited the quantitative structure-activity relationship (QSAR) that has been popularized by medicinal chemists and statisticians to relate bioactivities to specific functional group manipulations.
 The QSAR approach decreases the dimensionality of the underlying problem and projects the molecular structure into a vector space spanned by the physicochemical features.
 Early approaches heavily relied on linear regression to correlate physicochemical features and bioactivities for each compound.
