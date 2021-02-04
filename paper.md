@@ -41,6 +41,6 @@ Furthermore, we cover parts of the theory that are used behind the scenes and co
 
 # Acknowledgements
 
-EC acknowledges contributions from Philipp Pracht (`@ppracht`).
+EC acknowledges contributions from Philipp Pracht (`@pprcht`).
 
 # References
