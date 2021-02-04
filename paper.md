@@ -1,14 +1,12 @@
 ---
-title: 'kallisto: A Python command-line interface for modelling in computational chemistry and atomic features in machine learning applications'
+title: 'kallisto: A command-line interface to simplify computational modelling and the generation of atomic features.'
 tags:
   - Python
   - Poetry
-  - Click
-  - Chemistry
-  - Machine Learning
   - Atomic Features
+  - Machine Learning
   - Computational Chemistry
-  - Computational Modelling
+  - Pharmaceutical Science
 
 authors:
   - name: Eike Caldeweyher^[Corresponding author]
