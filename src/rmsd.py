@@ -530,8 +530,6 @@ def writeTransitionMetalConstrains(
     f.write("$fix" + s)
     f.write(" atoms: 1-{}".format(shift + shiftExclude) + s)
     f.write("$constrain" + s)
-    if exclude:
-        f.write(" distance: {}, {}, auto".format(19, 86) + s)
     for i in range(n):
         for partner in bonds[i]:
             f.write(
