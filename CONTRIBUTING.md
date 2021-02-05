@@ -66,7 +66,7 @@ Contributions are welcome via Github pull requests.
 ### For New Contributors
 
 If you never created a pull request before you can learn how to do this 
-from [this great tutorial](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github)
+from [this great tutorial](https://app.egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github)
 
 Don't know where to start?
 You can start by looking through these [help-wanted issues](https://github.com/f3rmion/kallisto/labels/help%20wanted).
