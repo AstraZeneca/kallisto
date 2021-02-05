@@ -25,15 +25,15 @@ bibliography: paper.bib
 
 # Statement of Need
 
-Machine learning (ML) has recently become very popular within pharmaceutical industry [@roy2015, @sprous2010].
+Machine learning (ML) has recently become very popular within pharmaceutical industry [@roy2015] [@sprous2010].
 Tasks as, e.g., building predictive models, performing virtual screening, or predicting compound activities are potential usecases for such ML applications.
-Traditionally, ML models often rely on the quantitative structure-activity relationship (QSAR) that has been popularized by medicinal chemists and statisticians to relate bioactivities to specific functional group manipulations [@dudek2006, @verma2010].
+Traditionally, ML models often rely on the quantitative structure-activity relationship (QSAR) that has been popularized by medicinal chemists and statisticians to relate bioactivities to specific functional group manipulations [@dudek2006] [@verma2010].
 This QSAR approach decreases the dimensionality of the underlying problem and projects the molecular structure into a space spanned by the physicochemical features.
 While early approaches relied more on linear regression, modern approaches combine such features with non-linear ML algorithms.
 
 Chemoinformatic packages like RDKit [@landrum2006] enable the fast calculation of atomic/molecular features based on structural information like the molecular graph.
 However, frequently we want to go beyond a structure-only approach thus incorporating electronic structure effects as obtained, e.g., by a quantum mechanical (QM) treatment.
-The calculation of QM-based features relies often on well-established quantum chemistry methods like Kohn-Sham density functional theory (DFT) that is currently the workhorse of computational chemistry [@parr1980, @kohn1999].
+The calculation of QM-based features relies often on well-established quantum chemistry methods like Kohn-Sham density functional theory (DFT) that is currently the workhorse of computational chemistry [@parr1980] [@kohn1999].
 However, generating the feature space by DFT is computationally demanding and can become the computational bottleneck especially when aiming for high-throughput experiments with several hundred to thousands of molecules.
 
 Since there exists a critical need for an efficient yet accurate featurizer, we developed the ``kallisto`` command-line interface that is able to calculate QM-based atomic features for atoms and molecules efficiently (whole periodic table up to Radon).
