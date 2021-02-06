@@ -31,7 +31,7 @@ Traditionally, ML models often rely on the quantitative structure-activity relat
 This QSAR approach decreases the dimensionality of the underlying problem and projects the molecular structure into a space spanned by the physicochemical features.
 While early approaches relied more on linear regression, modern approaches combine such features with non-linear ML algorithms.
 
-Chemoinformatic packages like RDKit [@landrum2006] enable the fast calculation of atomic/molecular features based on structural information like the molecular graph, while recently an extended H\"uckel package has been added as well [@landrum2019].
+Chemoinformatic packages like RDKit [@landrum2006] enable the fast calculation of atomic/molecular features based on structural information like the molecular graph, while recently an extended Hueckel package has been added as well [@landrum2019].
 However, frequently we want to go beyond a structure-only approach thus incorporating electronic structure effects as obtained, e.g., by a (higher-level) quantum mechanical (QM) treatment.
 The calculation of QM-based features relies often on well-established quantum chemistry methods like Kohn-Sham density functional theory (DFT) that is currently the workhorse of computational chemistry [@parr1980] [@kohn1999].
 However, generating the feature space by DFT is computationally demanding and can become the computational bottleneck especially when aiming for high-throughput experiments with several hundred to thousands of molecules.
