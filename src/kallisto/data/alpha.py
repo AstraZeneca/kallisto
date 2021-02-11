@@ -1,4 +1,4 @@
-# src/data/alpha.py
+# src/kallisto/data/alpha.py
 
 import numpy as np
 

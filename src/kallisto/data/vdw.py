@@ -1,4 +1,4 @@
-# src/data/vdw.py
+# src/kallisto/data/vdw.py
 
 import numpy as np
 

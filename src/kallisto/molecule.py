@@ -1,7 +1,8 @@
-# src/molecule.py
+# src/kallisto/molecule.py
 
-from atom import Atom
 import numpy as np
+
+from kallisto.atom import Atom
 
 
 class Molecule(object):
@@ -167,7 +168,7 @@ class Molecule(object):
 
         thresholdBond defines the treshold for a covalent bond."""
 
-        from methods import getCovalentBondingPartner
+        from kallisto.methods import getCovalentBondingPartner
 
         at = self.get_atomic_numbers()
         coords = self.get_positions()
@@ -182,7 +183,7 @@ class Molecule(object):
         array. Choose functional type by "cn" defining standard (exp), covalent (cov),
         or error (err)."""
 
-        from methods import getCoordinationNumbers
+        from kallisto.methods import getCoordinationNumbers
 
         at = self.get_atomic_numbers()
         coords = self.get_positions()
@@ -191,7 +192,7 @@ class Molecule(object):
     def get_cnspheres(self, cntype: str, threshold=800.0):
         """Get coordination number spheres (cnsp)."""
 
-        from methods import getCoordinationNumberSpheres
+        from kallisto.methods import getCoordinationNumberSpheres
 
         at = self.get_atomic_numbers()
         coords = self.get_positions()
@@ -204,7 +205,7 @@ class Molecule(object):
         array. For the charge dependency EEQ atomic partial charges are used
         in an empirical scaling function as used in the dftd4 program."""
 
-        from methods import getVanDerWaalsRadii
+        from kallisto.methods import getVanDerWaalsRadii
 
         at = self.get_atomic_numbers()
         nat = self.get_number_of_atoms()
@@ -218,7 +219,7 @@ class Molecule(object):
         array. For the charge dependency EEQ atomic partial charges are used
         in an empirical scaling function as used in the dftd4 program."""
 
-        from methods import getPolarizabilities
+        from kallisto.methods import getPolarizabilities
 
         at = self.get_atomic_numbers()
         covcn = self.get_cns(cntype="cov")
@@ -231,7 +232,7 @@ class Molecule(object):
         EEQ values are calculated for a given structure and are returned as an
         array."""
 
-        from methods import getAtomicPartialCharges
+        from kallisto.methods import getAtomicPartialCharges
 
         at = self.get_atomic_numbers()
         coords = self.get_positions()
@@ -242,8 +243,8 @@ class Molecule(object):
         """Write molecular structure."""
 
         import os
-        from units import Bohr
-        from data import chemical_symbols
+        from kallisto.data import chemical_symbols
+        from kallisto.units import Bohr
 
         coord = self.get_positions()
         at = self.get_atomic_numbers()

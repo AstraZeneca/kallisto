@@ -4,8 +4,9 @@ from typing import Tuple
 
 import click
 import numpy as np
-import reader.strucreader as ksr
-from utils import errorbye, verbosePrinter
+
+import kallisto.reader.strucreader as ksr
+from kallisto.utils import errorbye, verbosePrinter
 
 
 class Config(object):
@@ -178,7 +179,7 @@ def sort(config, inp: str, start: str, out: click.File):
     nat = molecule.get_number_of_atoms()
 
     # construct graph
-    from sort import Graph
+    from kallisto.sort import Graph
 
     g = Graph(inp)
 
@@ -295,7 +296,7 @@ def vdw(config, inp: str, out: click.File, chrg: int, vdwtype: str, angstrom: bo
     vdw = np.zeros(shape=(nat,), dtype=np.float64)
 
     if angstrom:
-        from units import Bohr
+        from kallisto.units import Bohr
 
         scale = Bohr
     else:
@@ -324,7 +325,7 @@ def rms(config, compare: Tuple[str, str], out: click.File):
     Based on a Fortran implementation by Chaok Seok, Evangelos
     Coutsias, and Ken Dill."""
 
-    from rmsd import rmsd
+    from kallisto.rmsd import rmsd
 
     mol1 = ksr.constructMolecule(geometry=compare[0])
     nat1 = mol1.get_number_of_atoms()
@@ -382,7 +383,7 @@ def lig(config, inp: str, center: int, out: click.File):
     # get all covalent bonding partner in reference complex
     covbonds = config.context.invoke(bonds, inp=inp)
 
-    from rmsd import recursiveGetSubstructures
+    from kallisto.rmsd import recursiveGetSubstructures
 
     verbosePrinter(config.verbose, "Write out substructures for {}".format(center), out)
 
@@ -464,7 +465,7 @@ def exs(
     newSubBonds = substrate.get_bonds(partner="X")
     newSubBonds = np.array(newSubBonds, dtype=object)
 
-    from rmsd import exchangeSubstructure
+    from kallisto.rmsd import exchangeSubstructure
 
     exchangeSubstructure(
         nat,
@@ -513,7 +514,7 @@ def stm(config, inp: str, origin: int, partner: int, out: click.File):
     mol = ksr.constructMolecule(geometry=inp)
 
     # calculate Sterimol descriptors: L, bmin, bmax
-    from sterics import getClassicalSterimol
+    from kallisto.sterics import getClassicalSterimol
 
     L, bmin, bmax = getClassicalSterimol(mol, origin, partner)
 
@@ -526,7 +527,7 @@ def stm(config, inp: str, origin: int, partner: int, out: click.File):
         )
 
         # print values in Angstrom
-        from units import Bohr
+        from kallisto.units import Bohr
 
         verbosePrinter(
             config.verbose,

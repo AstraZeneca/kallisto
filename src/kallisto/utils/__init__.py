@@ -1,4 +1,4 @@
-# src/utils/__init__.py
+# src/kallisto/utils/__init__.py
 
 from math import gcd
 

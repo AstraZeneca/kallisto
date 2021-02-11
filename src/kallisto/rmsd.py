@@ -1,11 +1,12 @@
-# src/rmsd.py
+# src/kallisto/rmsd.py
 
 from collections import Counter
 from typing import Tuple
 
-from atom import Atom
-from molecule import Molecule
 import numpy as np
+
+from kallisto.atom import Atom
+from kallisto.molecule import Molecule
 
 
 def rmsd(n: int, coord1: np.ndarray, coord2: np.ndarray) -> Tuple[float, np.ndarray]:
@@ -13,7 +14,7 @@ def rmsd(n: int, coord1: np.ndarray, coord2: np.ndarray) -> Tuple[float, np.ndar
     coordinate sets coord1(n,3) and coord2(n,3) using a method based on
     quaternions."""
 
-    from units import Bohr
+    from kallisto.units import Bohr
 
     # copy original coordinates
     x = np.zeros(shape=(n, 3), dtype=np.float64)

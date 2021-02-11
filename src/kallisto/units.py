@@ -1,4 +1,4 @@
-# src/units.py
+# src/kallisto/units.py
 
 from math import pi, sqrt
 

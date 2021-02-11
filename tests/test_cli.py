@@ -616,7 +616,6 @@ def test_cli_exs_no_verbose(runner):
             cli, ["exs", "--inp", f1.name, f2.name, "--center", "2", "--subnr", "2"]
         )
         assert result.exit_code == 0
-        f2.close()
         newstructure = "newstructure.xyz"
         gotFile = os.path.isfile(newstructure)
         if gotFile:
@@ -765,7 +764,6 @@ def test_cli_exs(runner):
         assert gotFile is True
         if gotFile:
             os.remove(constrain)
-        f2.close()
 
 
 # test cli part for stm

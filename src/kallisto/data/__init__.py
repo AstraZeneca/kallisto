@@ -1,4 +1,4 @@
-# src/data/__init__.py
+# src/kallisto/data/__init__.py
 
 chemical_symbols = [
     # 0

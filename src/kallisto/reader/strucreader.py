@@ -1,9 +1,9 @@
-# src/reader/strucreader.py
+# src/kallisto/reader/strucreader.py
 
-from atom import Atom
-from molecule import Molecule
-import reader.turbomole as tm
-import reader.xyz as xyz
+from kallisto.atom import Atom
+from kallisto.molecule import Molecule
+import kallisto.reader.turbomole as tm
+import kallisto.reader.xyz as xyz
 
 
 def constructMolecule(geometry: str) -> Molecule:

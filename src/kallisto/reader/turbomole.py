@@ -1,6 +1,6 @@
-# src/reader/turbomole.py
+# src/kallisto/reader/turbomole.py
 
-from atom import Atom
+from kallisto.atom import Atom
 
 
 def read(fileObject):

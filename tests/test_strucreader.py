@@ -3,8 +3,8 @@
 import os
 import tempfile
 
-from atom import Atom
-import reader.strucreader as ksr
+from kallisto.atom import Atom
+import kallisto.reader.strucreader as ksr
 
 # define global lineseperator
 s = os.linesep

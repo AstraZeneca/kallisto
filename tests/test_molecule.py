@@ -3,9 +3,10 @@
 import os
 import tempfile
 
-from molecule import Molecule
 import numpy as np
-import reader.strucreader as ksr
+
+from kallisto.molecule import Molecule
+import kallisto.reader.strucreader as ksr
 
 # define global lineseperator
 s = os.linesep

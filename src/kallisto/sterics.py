@@ -1,8 +1,9 @@
-# src/sterics.py
+# src/kallisto/sterics.py
 
-from molecule import Molecule
 import numpy as np
 from scipy.spatial.transform import Rotation as R  # type: ignore
+
+from kallisto.molecule import Molecule
 
 
 def getClassicalSterimol(mol: Molecule, origin: int, partner: int):

@@ -1,7 +1,7 @@
-# src/reader/xyz.py
+# src/kallisto/reader/xyz.py
 
-from atom import Atom
-from units import Bohr
+from kallisto.atom import Atom
+from kallisto.units import Bohr
 
 
 def read(fileObject):

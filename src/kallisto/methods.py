@@ -1,4 +1,4 @@
-# src/methods.py
+# src/kallisto/methods.py
 
 import numpy as np
 
@@ -12,8 +12,8 @@ def getCoordinationNumbers(
         array. Choose functional type by "cn" defining standard (exp), covalent (cov),
         or error (err)."""
 
-    from data import covalent_radius as rcov
-    from data import pauling_en
+    from kallisto.data import covalent_radius as rcov
+    from kallisto.data import pauling_en
     from scipy import special
 
     nat = len(at)
@@ -94,8 +94,8 @@ def getCoordinationNumberSpheres(
 ):
     """A method to compute coordination number spheres (cnsp)."""
 
-    from data import covalent_radius as rcov
-    from data import pauling_en
+    from kallisto.data import covalent_radius as rcov
+    from kallisto.data import pauling_en
     from scipy import special
 
     nat = len(at)
@@ -188,7 +188,7 @@ def getAtomicPartialCharges(
         EEQ values are calculated for a given structure and are returned as an
         array."""
 
-    from data import eeq_alp, eeq_cnfak, eeq_en, eeq_gamm
+    from kallisto.data import eeq_alp, eeq_cnfak, eeq_en, eeq_gamm
     from numpy import linalg as LA
     from scipy import special
 
@@ -264,10 +264,10 @@ def getPolarizabilities(at: np.ndarray, covcn: np.ndarray, qs: np.ndarray, charg
     array. For the charge dependency EEQ atomic partial charges are used
     in an empirical scaling function as used in the dftd4 program."""
 
-    from data.alpha import refx, refh, hcount, ascale, refn
-    from data.alpha import refcn, refsys, alphaiw, zeff
-    from data.alpha import sscale, seciw, gam
-    from utils.alpha import zeta, cngw
+    from kallisto.data.alpha import refx, refh, hcount, ascale, refn
+    from kallisto.data.alpha import refcn, refsys, alphaiw, zeff
+    from kallisto.data.alpha import sscale, seciw, gam
+    from kallisto.utils.alpha import zeta, cngw
 
     # parameter
     g_a = 3.0
@@ -365,7 +365,7 @@ def getCovalentBondingPartner(
 
     thresholdBond defines the treshold for a covalent bond."""
 
-    from data import covalent_radius as rcov
+    from kallisto.data import covalent_radius as rcov
 
     # parameter
     k1 = 16.0
@@ -426,7 +426,7 @@ def getVanDerWaalsRadii(
         array. For the charge dependency EEQ atomic partial charges are used
         in an empirical scaling function as used in the dftd4 program."""
 
-    from data.vdw import rahm, truhlar
+    from kallisto.data.vdw import rahm, truhlar
 
     vdw = np.zeros(shape=(nat,), dtype=np.float64)
 

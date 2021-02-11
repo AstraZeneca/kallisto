@@ -1,9 +1,10 @@
-# src/atom.py
+# src/kallisto/atom.py
 
-from data import atomic_numbers
-from data import chemical_symbols
 import numpy as np
-from utils import basestring
+
+from kallisto.data import atomic_numbers
+from kallisto.data import chemical_symbols
+from kallisto.utils import basestring
 
 
 def atomProperty(name: str, doc: str):

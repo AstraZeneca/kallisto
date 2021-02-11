@@ -1,11 +1,12 @@
-# src/sort.py
+# src/kallisto/sort.py
 
 
 from collections import defaultdict
 
-from data import chemical_symbols
-import reader.strucreader as ksr
-from units import Bohr
+
+from kallisto.data import chemical_symbols
+import kallisto.reader.strucreader as ksr
+from kallisto.units import Bohr
 
 
 class Graph:
