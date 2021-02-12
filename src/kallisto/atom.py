@@ -17,7 +17,7 @@ def atomProperty(name: str, doc: str):
         self.set(name, value)
 
     def deleter(self):
-        self.delete(name)
+        pass
 
     return property(getter, setter, deleter, doc)
 
@@ -90,12 +90,8 @@ class Atom(object):
         if self.molecule is None:
             self.data[name] = value
 
-    def delete(self, name):
-        """Delete name attribute."""
-        if (self.molecule is None) and (name not in ["number", "symbol", "position"]):
-            self.data[name] = None
-
     symbol = atomProperty("symbol", "Chemical symbol")
+    number = atomProperty("number", "Atomic number")
     position = atomProperty("position", "XYZ-coordinates")
     charge = atomProperty("charge", "Initial atomic charge")
     x = xyzProperty(0)
