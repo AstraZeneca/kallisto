@@ -28,8 +28,12 @@ class Molecule(object):
 
         molecule = None
 
+        # Get data from another molecule
+        if hasattr(symbols, "get_positions"):
+            molecule = symbols
+            symbols = None
         # Get data from a list or tuple of Atom objects
-        if (
+        elif (
             isinstance(symbols, (list, tuple))
             and len(symbols) > 0
             and isinstance(symbols[0], Atom)
@@ -41,14 +45,14 @@ class Molecule(object):
             molecule = self.__class__(None, *data)
             symbols = None
 
-        self.arrays = {}
-
         if molecule is not None:
             # Get data from another molecule
             if symbols is None and numbers is None:
                 numbers = molecule.get_atomic_numbers()
             if positions is None:
                 positions = molecule.get_positions()
+
+        self.arrays = {}
 
         if symbols is None:
             if numbers is None:
@@ -95,13 +99,6 @@ class Molecule(object):
                 )
             break
 
-        if shape is not None and a.shape[1:] != shape:
-            raise ValueError(
-                'Array "{name}" has wrong shape: {a} != {b}.'.format(
-                    name=a.name, a=a.shape, b=(a.shape[0:1] + shape)
-                )
-            )
-
         self.arrays[name] = a
 
     # Setter methods
@@ -124,14 +121,6 @@ class Molecule(object):
                         )
                     )
                 b[:] = a
-
-    def set_atomic_numbers(self, numbers):
-        """Set atomic numbers."""
-        self.set_array("numbers", numbers, int, ())
-
-    def set_positions(self, positions):
-        """Set positions."""
-        self.set_array("positions", positions, np.ndarray, ())
 
     # Getter methods
     def get_array(self, name, copy=True):
