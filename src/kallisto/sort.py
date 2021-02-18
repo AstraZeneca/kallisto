@@ -3,6 +3,7 @@
 
 from collections import defaultdict
 
+import click
 
 from kallisto.data import chemical_symbols
 import kallisto.reader.strucreader as ksr
@@ -12,11 +13,11 @@ from kallisto.units import Bohr
 class Graph:
     """Define a molecular graph."""
 
-    def __init__(self, inp: str):
+    def __init__(self, inp: str, out: click.File):
 
         self.inp = inp
         self.graph = defaultdict(list)  # type: ignore
-        self.molecule = ksr.constructMolecule(geometry=self.inp)
+        self.molecule = ksr.constructMolecule(geometry=self.inp, out=out)
         self.nat = self.molecule.get_number_of_atoms()
         self.at = self.molecule.get_atomic_numbers()
         self.coordinates = self.molecule.get_positions()

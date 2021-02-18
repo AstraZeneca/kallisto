@@ -57,7 +57,7 @@ def cli(config, verbose: bool, shift: int):
 def cns(config, inp: str, out: click.File, cntype: str):
     """Atomic coordination numbers."""
 
-    molecule = ksr.constructMolecule(geometry=inp)
+    molecule = ksr.constructMolecule(geometry=inp, out=out)
     cns = molecule.get_cns(cntype)
     verbosePrinter(config.verbose, cns, out)
 
@@ -85,7 +85,7 @@ def cns(config, inp: str, out: click.File, cntype: str):
 def cnsp(config, inp: str, out: click.File, cntype: str):
     """Atomic coordination number spheres."""
 
-    molecule = ksr.constructMolecule(geometry=inp)
+    molecule = ksr.constructMolecule(geometry=inp, out=out)
     nat = molecule.get_number_of_atoms()
     cnsp = molecule.get_cnspheres(cntype)
     for i in range(nat):
@@ -119,7 +119,7 @@ def bonds(config, inp: str, partner: int, constrain: bool, out: click.File):
 
     import os
 
-    molecule = ksr.constructMolecule(geometry=inp)
+    molecule = ksr.constructMolecule(geometry=inp, out=out)
 
     if partner == "X":
         # Get index table of covalent bonding partners
@@ -174,14 +174,14 @@ def sort(config, inp: str, start: str, out: click.File):
     start defines on which atom we start the sorting process.
     """
 
-    molecule = ksr.constructMolecule(geometry=inp)
+    molecule = ksr.constructMolecule(geometry=inp, out=out)
     bonds = molecule.get_bonds()
     nat = molecule.get_number_of_atoms()
 
     # construct graph
     from kallisto.sort import Graph
 
-    g = Graph(inp)
+    g = Graph(inp, out)
 
     for i in range(nat):
         partners = bonds[i]
@@ -218,7 +218,7 @@ def sort(config, inp: str, start: str, out: click.File):
 def eeq(config, inp: str, out: click.File, chrg: int):
     """Electronegativity equilibration atomic partial charges."""
 
-    molecule = ksr.constructMolecule(geometry=inp)
+    molecule = ksr.constructMolecule(geometry=inp, out=out)
     nat = molecule.get_number_of_atoms()
     eeq = molecule.get_eeq(chrg)
     for i in range(nat):
@@ -248,7 +248,7 @@ def eeq(config, inp: str, out: click.File, chrg: int):
 def alp(config, inp: str, out: click.File, chrg: int, molecular: bool):
     """Static atomic polarizabilities in Bohr^3."""
 
-    molecule = ksr.constructMolecule(geometry=inp)
+    molecule = ksr.constructMolecule(geometry=inp, out=out)
     nat = molecule.get_number_of_atoms()
     alp = molecule.get_alp(charge=chrg)
     if molecular:
@@ -291,7 +291,7 @@ def alp(config, inp: str, out: click.File, chrg: int, molecular: bool):
 def vdw(config, inp: str, out: click.File, chrg: int, vdwtype: str, angstrom: bool):
     """Charge-dependent atomic van der Waals radii in Bohr."""
 
-    molecule = ksr.constructMolecule(geometry=inp)
+    molecule = ksr.constructMolecule(geometry=inp, out=out)
     nat = molecule.get_number_of_atoms()
     vdw = np.zeros(shape=(nat,), dtype=np.float64)
 
@@ -327,20 +327,19 @@ def rms(config, compare: Tuple[str, str], out: click.File):
 
     from kallisto.rmsd import rmsd
 
-    mol1 = ksr.constructMolecule(geometry=compare[0])
+    mol1 = ksr.constructMolecule(geometry=compare[0], out=out)
     nat1 = mol1.get_number_of_atoms()
-    mol2 = ksr.constructMolecule(geometry=compare[1])
+    mol2 = ksr.constructMolecule(geometry=compare[1], out=out)
     nat2 = mol2.get_number_of_atoms()
 
     # for RMSD comparison both coordinates need the same atom count
     if nat1 != nat2:
-        click.echo(
+        errorbye(
             "Error: number of atoms do not match in {} and in {}".format(
                 compare[0], compare[1]
             ),
-            file=out,  # type: ignore
+            out,
         )
-        errorbye(out)
 
     coord1 = mol1.get_positions()
     coord2 = mol2.get_positions()
@@ -377,7 +376,7 @@ def lig(config, inp: str, center: int, out: click.File):
     """Get all substructures (or ligands) that are bound to the center atom."""
 
     # setup reference molecular structure
-    ref = ksr.constructMolecule(geometry=inp)
+    ref = ksr.constructMolecule(geometry=inp, out=out)
     nat = ref.get_number_of_atoms()
 
     # get all covalent bonding partner in reference complex
@@ -455,8 +454,8 @@ def exs(
     Calculate the RMSD between two structures using quaternions."""
 
     # setup reference molecular structure
-    ref = ksr.constructMolecule(geometry=inp[0])
-    substrate = ksr.constructMolecule(geometry=inp[1])
+    ref = ksr.constructMolecule(geometry=inp[0], out=out)
+    substrate = ksr.constructMolecule(geometry=inp[1], out=out)
     nat = ref.get_number_of_atoms()
 
     # get all covalent bonding partner in reference complex
@@ -511,7 +510,7 @@ def stm(config, inp: str, origin: int, partner: int, out: click.File):
     """Calculate sterimol descriptors using kallisto van der Waals radii."""
 
     # setup molecular structure
-    mol = ksr.constructMolecule(geometry=inp)
+    mol = ksr.constructMolecule(geometry=inp, out=out)
 
     # calculate Sterimol descriptors: L, bmin, bmax
     from kallisto.sterics import getClassicalSterimol

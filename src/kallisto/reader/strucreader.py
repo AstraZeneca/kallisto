@@ -1,29 +1,25 @@
 # src/kallisto/reader/strucreader.py
 
-from kallisto.atom import Atom
+import click
+
 from kallisto.molecule import Molecule
 import kallisto.reader.turbomole as tm
 import kallisto.reader.xyz as xyz
+from kallisto.utils import errorbye
 
 
-def constructMolecule(geometry: str) -> Molecule:
+def constructMolecule(geometry: str, out: click.File) -> Molecule:
     """Helper function to construct a Molecule."""
     try:
         with open(geometry, "r+") as fileObject:
             # read atoms from input file
             atoms = read(fileObject)
-
             # create molecule from atoms
             molecule = Molecule(symbols=atoms)
     except FileNotFoundError:
-        print(" Error: Input file '" + geometry + "' not found.")
-        exit()
+        errorbye('Error: Inpt file "{0}" not found.'.format(geometry), out)
 
     return molecule
-
-
-def construct_atom():
-    return Atom()
 
 
 def read(fileObject):
@@ -48,10 +44,7 @@ def read(fileObject):
 
     fileObject.close()
 
-    atoms = None
-
-    if atoms is None:
-        atoms = []
+    atoms = []
 
     newfile = open(fname, "r+")
 
@@ -60,8 +53,8 @@ def read(fileObject):
     elif filetp == "xyz":
         atoms = xyz.read(newfile)
     else:
-        print("Error: file type of input '" + fname + "' not recognized")
-        quit()
+        print('Error: file type of input "{0}" not recognized'.format(fname))
+        exit(1)
 
     newfile.close()
 

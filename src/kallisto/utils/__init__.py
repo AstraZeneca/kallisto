@@ -16,9 +16,10 @@ def verbosePrinter(config: bool, message: str, out: click.File):
         click.echo(message, file=out)  # type: ignore
 
 
-def errorbye(out: click.File):
+def errorbye(message: str, out: click.File):
     """Exit application due to error."""
     click.echo("", file=out)  # type: ignore
+    click.echo(message)  # type: ignore
     click.echo(
         """-> kallisto was terminated due to an error.
         Please check the output.""",
