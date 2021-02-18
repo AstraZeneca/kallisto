@@ -15,17 +15,14 @@ def read(fileObject):
 
     lines = fileObject.readlines()
 
-    atoms = None
-
-    if atoms is None:
-        atoms = []
+    atoms = []
 
     start = 0
 
     # find "$coord" marker
-    for i, l in enumerate(lines):
-        if l.strip().startswith("$coord"):
-            start = i
+    for index, line in enumerate(lines):
+        if line.strip().startswith("$coord"):
+            start = index
             break
     for line in lines[start + 1 :]:
         # check if new section begins
