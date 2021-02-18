@@ -16,25 +16,18 @@ def read(fileObject):
 
     lines = fileObject.readlines()
 
-    atoms = None
-
-    if atoms is None:
-        atoms = []
+    atoms = []
 
     # by convention the first thing in the xyz is the number of atoms
     nat = int(lines[0])
 
     # loop over the nat lines
     for line in lines[2 : nat + 2]:
-        # check if new section begins
-        if line.startswith("$"):
-            break
-        else:
-            symbolRaw, x, y, z = line.split()[:4]
-            symbolShort = symbolRaw.strip()
-            atomSymbol = symbolShort[0].upper() + symbolShort[1:].lower()
-            atomPosition = [float(x) / Bohr, float(y) / Bohr, float(z) / Bohr]
-            atom = Atom(symbol=atomSymbol, position=atomPosition)
-            atoms.append(atom)
+        symbolRaw, x, y, z = line.split()[:4]
+        symbolShort = symbolRaw.strip()
+        atomSymbol = symbolShort[0].upper() + symbolShort[1:].lower()
+        atomPosition = [float(x) / Bohr, float(y) / Bohr, float(z) / Bohr]
+        atom = Atom(symbol=atomSymbol, position=atomPosition)
+        atoms.append(atom)
 
     return atoms
