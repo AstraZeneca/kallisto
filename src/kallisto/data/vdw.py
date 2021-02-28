@@ -1,9 +1,5 @@
 # src/kallisto/data/vdw.py
 
-import numpy as np
-
-truhlar = np.zeros(shape=(86,), dtype=np.int64)
-
 # Scaling factors to match vdw radii from Table 12
 # in J. Phys. Chem. A, Vol. 113, No. 19, 2009
 truhlar = [
@@ -111,8 +107,6 @@ truhlar = [
     1.00,  # Rn
 ]
 
-
-rahm = np.zeros(shape=(86,), dtype=np.int64)
 
 # Scaling factors to match vdw radii
 # in Chem. Eur. J. 2017, 23, 4017

@@ -33,7 +33,6 @@ def cli(config, verbose: bool, shift: int):
 
     config.shift = shift
     config.verbose = verbose
-    pass
 
 
 @cli.command("cns")
@@ -144,7 +143,6 @@ def bonds(config, inp: str, partner: int, constrain: bool, out: click.File):
                 )
         f.write("$end" + s)
         f.close()
-        pass
 
     return bonds
 
@@ -293,7 +291,6 @@ def vdw(config, inp: str, out: click.File, chrg: int, vdwtype: str, angstrom: bo
 
     molecule = ksr.constructMolecule(geometry=inp, out=out)
     nat = molecule.get_number_of_atoms()
-    vdw = np.zeros(shape=(nat,), dtype=np.float64)
 
     if angstrom:
         from kallisto.units import Bohr

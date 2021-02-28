@@ -13,18 +13,13 @@ def getClassicalSterimol(mol: Molecule, origin: int, partner: int):
     # initialize coordinates
     coords = mol.get_positions()
 
-    # get number of atoms
-    nat = mol.get_number_of_atoms()
-
     # get van der Waals radii in Bohr
-    vdw = np.zeros(shape=(nat,), dtype=np.float64)
     vdw = mol.get_vdw(charge=0, vdwtype="rahm", scale=1)
 
     # shift all atoms wrt origin
     coords -= coords[origin]
 
     # extract vector origin -> attachted and normalize
-    vector = np.zeros(shape=(3,), dtype=np.float64)
     vector = coords[partner] - coords[origin]
     vector /= np.linalg.norm(vector)
 
@@ -60,8 +55,8 @@ def getClassicalSterimol(mol: Molecule, origin: int, partner: int):
     projected = cvalues + vdw
 
     lval = np.max(projected)
-    L = unitVector * lval
-    L = L.reshape(-1)
+    # L = unitVector * lval
+    # L = L.reshape(-1)
 
     # B min and max values
     r = 1

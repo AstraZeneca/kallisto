@@ -74,16 +74,12 @@ def rmsd(n: int, coord1: np.ndarray, coord2: np.ndarray) -> Tuple[float, np.ndar
     smat[3, 3] = -rmat[0, 0] - rmat[1, 1] + rmat[2, 2]
 
     # calculate largest eigenvalue and eigenvector
-    eigenval = 0.0
-    eigenvec = np.zeros(shape=(4,), dtype=np.float64)
     eigenval, eigenvec = dstmev(smat)
 
     # convert quaternion eigenvec to rotation matrix U
-    u = np.zeros(shape=(3, 3), dtype=np.float64)
     u = rotationMatrix(eigenvec)
 
     # root mean squared deviation
-    error = 0.0
     error = np.sqrt(np.maximum(0.0, ((x_norm + y_norm) - 2 * eigenval) / float(n),))
 
     return error, u
@@ -186,7 +182,6 @@ def givens4(A: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
     """Perform givens rotations to reduce the
     symmetric 4x4 matrix to tridiagonal form."""
 
-    tmat = np.zeros(shape=(4, 4), dtype=np.float64)
     vmat = np.zeros(shape=(4, 4), dtype=np.float64)
 
     # initialize
@@ -276,7 +271,6 @@ def pythag(a: np.ndarray, b: np.ndarray) -> float:
 
     aAbs = abs(a)
     bAbs = abs(b)
-    result = 0.0
 
     if aAbs > bAbs:
         frac = bAbs / aAbs
@@ -364,7 +358,6 @@ def exchangeSubstructure(
     newnat = newsub.get_number_of_atoms()
 
     # extract coordinates of central atom
-    centralAtom = np.zeros(shape=(1, 3), dtype=np.float64)
     centralAtom = refxyz[center, :]
 
     for i in range(len(bonds[center])):
@@ -383,17 +376,16 @@ def exchangeSubstructure(
             oldsub = getSubstructureFromPath(ref, path)
             # get all bonding partner
             oldSubBonds = oldsub.get_bonds(partner="X")
-            outxyz = np.zeros(shape=(newnat, 3), dtype=np.float64)
             outxyz = matchSubstrates(
                 bonds, newsub, newSubBonds, oldsub, oldSubBonds, centralAtom,
             )
 
             # atoms from complex excluding old substrate
             atoms = []
-            for i in range(refnat):
-                if i in path:
+            for j in range(refnat):
+                if j in path:
                     continue
-                atom = Atom(symbol=refat[i], position=refxyz[i, :])
+                atom = Atom(symbol=refat[j], position=refxyz[j, :])
                 atoms.append(atom)
 
             # atoms from new substrate
@@ -416,8 +408,8 @@ def exchangeSubstructure(
                     atom = Atom(symbol=newat[i], position=outxyz2[i, :])
                     atoms.append(atom)
             else:
-                for i in range(newnat):
-                    atom = Atom(symbol=newat[i], position=outxyz[i, :])
+                for j in range(newnat):
+                    atom = Atom(symbol=newat[j], position=outxyz[j, :])
                     atoms.append(atom)
 
             # create molecule from atoms
@@ -471,7 +463,6 @@ def getRotationMatrix(
     vector pointing from partner -> origin."""
 
     # get vector and normalize
-    n = np.zeros(shape=(3,), dtype=np.float64)
     n = partner - origin
     n /= np.linalg.norm(n)
 
@@ -618,12 +609,9 @@ def matchSubstrates(
         indexOld = covOld - 1
         indexNew = covNew - 1
         shiftOldSub[indexOld, :] = center - oldShift
-        distRef = getDist(shiftOldSub[0, :], shiftOldSub[indexOld, :])
         shiftNewSub[indexNew][:] = 0
-        shift = getNewSubstrateCenter(indexNew, shiftNewSub, distRef)
 
     bdim = np.minimum(covOld, covNew)
-    print(bdim)
 
     if bdim >= 3:
         bdim = 3
@@ -653,9 +641,8 @@ def matchSubstrates(
 
     if isNotLinear:
         u = np.zeros(shape=(3, 3), dtype=np.float64)
-        error = 0.0
         # get RMSD value and rotation matrix
-        error, u = rmsd(bdim, b2xyz, b1xyz)
+        _, u = rmsd(bdim, b2xyz, b1xyz)
         tmpxyz = np.matmul(u.T, newxyz2[:][0:newnat].T)
         # shift
         for i in range(newnat):
@@ -675,7 +662,6 @@ def getNewSubstrateCenter(index: int, shift: np.ndarray, distRef: float):
     """Get the position of the new substrate."""
 
     n = index - 2
-    center = np.zeros(shape=(3,), dtype=np.ndarray)
 
     if n > 0:
         center = np.sum(shift, axis=0)

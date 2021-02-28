@@ -251,7 +251,6 @@ def getAtomicPartialCharges(
     np.reshape(X, (m,))
 
     # get eeq charges
-    qs = np.zeros(shape=(m), dtype=np.float64)
     qs = np.linalg.solve(A, X)
 
     return qs[:-1]
@@ -337,7 +336,6 @@ def getPolarizabilities(at: np.ndarray, covcn: np.ndarray, qs: np.ndarray, charg
     # polarizabilities
     zetvec = np.zeros(shape=(ndim), dtype=np.float64)
     aw = np.zeros(shape=(23, nat), dtype=np.float64)
-    k = -1
     for i in range(nat):
         ia = at[i] - 1
         iz = zeff[ia]

@@ -18,8 +18,6 @@ refcnD3 = np.zeros(shape=(7, 86), dtype=np.float64)
 refsys = np.zeros(shape=(7, 86), dtype=np.int64)
 alphaiw = np.zeros(shape=(23, 7, 86), dtype=np.float64)
 
-refn = np.zeros(shape=(86,), dtype=np.int64)
-
 # EHJC - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 2009
 # reference systems count
 refn = [
