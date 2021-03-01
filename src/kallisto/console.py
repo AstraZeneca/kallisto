@@ -299,7 +299,6 @@ def vdw(config, inp: str, out: click.File, chrg: int, vdwtype: str, angstrom: bo
     else:
         scale = 1.0
 
-    vdw = np.zeros(shape=(nat,), dtype=np.float64)
     vdw = molecule.get_vdw(chrg, vdwtype, scale)
     for i in range(nat):
         verbosePrinter(config.verbose, vdw[i], out)

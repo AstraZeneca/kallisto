@@ -399,13 +399,13 @@ def exchangeSubstructure(
                 # reference shift
                 refShift = getRodriguezRotation(partner, origin, partner, theta)
                 shift = outxyz[0, :] - refShift
-                for i in range(newnat):
-                    outxyz2[i, :] = getRodriguezRotation(
-                        outxyz[i, :], origin, partner, theta,
+                for j in range(newnat):
+                    outxyz2[j, :] = getRodriguezRotation(
+                        outxyz[j, :], origin, partner, theta,
                     )
-                    outxyz2[i, :] += shift
+                    outxyz2[j, :] += shift
 
-                    atom = Atom(symbol=newat[i], position=outxyz2[i, :])
+                    atom = Atom(symbol=newat[j], position=outxyz2[j, :])
                     atoms.append(atom)
             else:
                 for j in range(newnat):
