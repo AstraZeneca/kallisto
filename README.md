@@ -22,7 +22,8 @@
 
 # Full Author List
 
-Eike Caldeweyher and Philipp Pracht
+- Developer [Eike Caldeweyher](https://scholar.google.com/citations?user=25n8C3wAAAAJ&hl=de)
+- Developer [Philipp Pracht](https://scholar.google.com/citations?user=PJiGPk0AAAAJ&hl=de)
 
 # Introduction
 
