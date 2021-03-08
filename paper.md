@@ -17,31 +17,49 @@ affiliations:
  - name: Data Science and Modelling, Pharmaceutical Science, R&D, AstraZeneca, Gothenburg, Sweden
    index: 1
 
-date: 4 February 2021
+date: 8 March 2021
 
 bibliography: paper.bib
 
 ---
 
+# Atomic Features
+
+The ``kallisto`` software gives you access to the following atomic features (all atoms up to Radon)
+
+- Coordination numbers [@grimme2010; @caldeweyher2019]
+- Electronegativity equlibration atomic partial charges [@caldeweyher2019]
+- Dynamic polarizabilities [@grimme2010; @caldeweyher2019]
+- Van-der-Waals radii [@fedorov2018; @rahm2017; @mantina2009]
+- Sterimol descriptors (L, Bmin, Bmax) [@brethome2019]
+
+# Modelling Helpers
+
+The ``kallisto`` software gives you access to the following modelling helper
+
+- Breadth first sorting of molecules
+- Root mean squared deviation between molecules
+- Substructure identifier for molecules
+- Substructure exchanger 
+
 # Statement of Need
 
-Machine learning (ML) has recently become very popular within pharmaceutical industry [@roy2015] [@sprous2010].
-Tasks as, e.g., building predictive models, performing virtual screening, or predicting compound activities are potential usecases for such ML applications.
-Traditionally, ML models often rely on the quantitative structure-activity relationship (QSAR) that has been popularized by medicinal chemists and statisticians to relate bioactivities to specific functional group manipulations [@dudek2006] [@verma2010].
+Machine learning (ML) has recently become very popular within pharmaceutical industry [@roy2015; @sprous2010].
+Tasks as, e.g., building predictive models, performing virtual screening, or predicting compound activities are potential use cases for such ML applications [@li2021; @simm2018].
+Traditionally, ML models often rely on the quantitative structure-activity relationship (QSAR) that has been popularized by medicinal chemists and statisticians to relate bioactivities to specific functional group manipulations [@dudek2006; @verma2010].
 This QSAR approach decreases the dimensionality of the underlying problem and projects the molecular structure into a space spanned by the physicochemical features.
 While early approaches relied more on linear regression, modern approaches combine such features with non-linear ML algorithms.
 
 Chemoinformatic packages like RDKit [@landrum2006] enable the fast calculation of atomic/molecular features based on structural information like the molecular graph, while recently an extended Hueckel package has been added as well [@landrum2019].
 However, frequently we want to go beyond a structure-only approach thus incorporating electronic structure effects as obtained, e.g., by a (higher-level) quantum mechanical (QM) treatment.
-The calculation of QM-based features relies often on well-established quantum chemistry methods like Kohn-Sham density functional theory (DFT) that is currently the workhorse of computational chemistry [@parr1980] [@kohn1999].
+The calculation of QM-based features relies often on well-established quantum chemistry methods like Kohn-Sham density functional theory (DFT) that is currently the workhorse of computational chemistry [@parr1980; @kohn1999].
 However, generating the feature space by DFT is computationally demanding and can become the computational bottleneck especially when aiming for high-throughput experiments with several hundred to thousands of molecules.
 
 Since there exists a critical need for an efficient yet accurate featurizer, we developed the ``kallisto`` command-line interface that is able to calculate QM-based atomic features for atoms and molecules efficiently (whole periodic table up to Radon).
-The features are either interpolating high-level references (e.g., static/dynamic polarizabilitities with time-dependent [@dreuw2005] PBE0 [@adamo1999] / d-aug-def2-QZVP [@weigend2005] data) or are parametrized [@caldeweyher2019] to reproduce QM references (e.g., atomic partial charges with PBE0 [@adamo1999] / def2-TZVP [@weigend2005] Hirshfeld [@hirshfeld1977] data).
+The features are either interpolating high-level references (e.g., static/dynamic polarizabilities with time-dependent DFT data) or are parametrized [@caldeweyher2019] to reproduce QM references (e.g., DFT Hirshfeld [@hirshfeld1977] atomic partial charges).
 Molecular geometries need to have an [``xmol``](https://en.wikipedia.org/wiki/XYZ_file_format) or a [``Turbomole``](https://www.turbomole.org/wp-content/uploads/2019/11/Turbomole_Manual_7-4-1.pdf) like format to be processed by ``kallisto``.
 Besides, we implemented several computational modelling helpers to simplify the development of high-throughput procedures.
-Some of those modelling helpers depend on the open-source [xtb](https://github.com/grimme-lab/xtb) tight-binding scheme that has been developed by Stefan Grimme and co-wo
-rker [@bannwarth2020].
+Some of those modelling helpers depend on the open-source [xtb](https://github.com/grimme-lab/xtb) tight-binding scheme that has been developed by Stefan Grimme and co-worker [@bannwarth2020].
 The [online documentation](https://ehjc.gitbook.io/kallisto/) covers all high-level functionalizations of this software mostly in terms of copy-paste recipes.
 Furthermore, we cover bits of the underlying theory and compare to experimental data as well as to other modern deep learning models.
 
