@@ -4,7 +4,7 @@
 
 ##
 
-![Python](https://img.shields.io/badge/python-3.7-blue.svg)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/kallisto)
 [![Documentation](https://img.shields.io/badge/GitBook-Docu-lightgrey)](https://app.gitbook.com/@ehjc/s/kallisto/)
 [![Maturity Level](https://img.shields.io/badge/Maturity%20Level-ML--1-orange)](https://img.shields.io/badge/Maturity%20Level-ML--1-orange)
 [![Tests](https://github.com/AstraZeneca/kallisto/workflows/Tests/badge.svg)](https://github.com/AstraZeneca/kallisto/actions?workflow=Tests)

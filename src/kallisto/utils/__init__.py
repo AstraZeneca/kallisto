@@ -10,7 +10,7 @@ basestring = str
 
 
 def silentPrinter(silent: bool, message: str, out: click.File):
-    """Helper function to check for verbose mode."""
+    """Helper function to check for silent mode."""
     if not silent:
         click.echo(message, file=out)  # type: ignore
 
