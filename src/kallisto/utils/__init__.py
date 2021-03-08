@@ -7,12 +7,11 @@ import click
 __all__ = ["basestring", "gcd"]
 
 basestring = str
-# src/util.py
 
 
-def verbosePrinter(config: bool, message: str, out: click.File):
+def silentPrinter(silent: bool, message: str, out: click.File):
     """Helper function to check for verbose mode."""
-    if config:
+    if not silent:
         click.echo(message, file=out)  # type: ignore
 
 

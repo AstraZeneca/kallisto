@@ -32,14 +32,16 @@ def test_cli_print_help(runner):
 
 
 # test cli part for coordination number
-def test_cli_cns_exp_no_verbose(runner):
+def test_cli_cns_exp_silent(runner):
     with tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8") as f:
         f.write("$coord" + s)
         f.write("0.00000000000000 0.00000000000000 -1.06176434496059 c" + s)
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["cns", "--inp", f.name, "--cntype", "exp"])
+        result = runner.invoke(
+            cli, ["--silent", "cns", "--inp", f.name, "--cntype", "exp"]
+        )
         assert result.exit_code == 0
 
 
@@ -50,9 +52,7 @@ def test_cli_cns_exp(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(
-            cli, ["--verbose", "cns", "--inp", f.name, "--cntype", "exp"]
-        )
+        result = runner.invoke(cli, ["cns", "--inp", f.name, "--cntype", "exp"])
         assert result.exit_code == 0
         assert "0.98678927" in result.output
 
@@ -64,11 +64,9 @@ def test_cli_cns_cov(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(
-            cli, ["--verbose", "cns", "--inp", f.name, "--cntype", "cov"]
-        )
+        result = runner.invoke(cli, ["cns", "--inp", f.name, "--cntype", "cov"])
         assert result.exit_code == 0
-        assert "0.91894762" in result.output
+        assert "0.9189476" in result.output
 
 
 def test_cli_cns_erf(runner):
@@ -78,22 +76,20 @@ def test_cli_cns_erf(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(
-            cli, ["--verbose", "cns", "--inp", f.name, "--cntype", "erf"]
-        )
+        result = runner.invoke(cli, ["cns", "--inp", f.name, "--cntype", "erf"])
         assert result.exit_code == 0
-        assert "0.98784659" in result.output
+        assert "0.9878465" in result.output
 
 
 # test cli part for bonds
-def test_cli_bonds_no_verbose(runner):
+def test_cli_bonds_silent(runner):
     with tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8") as f:
         f.write("$coord" + s)
         f.write("0.00000000000000 0.00000000000000 -1.06176434496059 c" + s)
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["bonds", "--inp", f.name])
+        result = runner.invoke(cli, ["--silent", "bonds", "--inp", f.name])
         assert result.exit_code == 0
 
 
@@ -104,7 +100,7 @@ def test_cli_bonds(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["--verbose", "bonds", "--inp", f.name])
+        result = runner.invoke(cli, ["bonds", "--inp", f.name])
         assert result.exit_code == 0
 
 
@@ -115,9 +111,7 @@ def test_cli_bonds_partner(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(
-            cli, ["--verbose", "bonds", "--inp", f.name, "--partner", "0"]
-        )
+        result = runner.invoke(cli, ["bonds", "--inp", f.name, "--partner", "0"])
         assert result.exit_code == 0
 
 
@@ -131,9 +125,7 @@ def test_cli_bonds_constrain(runner):
         constrain = "constrain.inp"
         gotFile = os.path.isfile(constrain)
         assert gotFile is False
-        result = runner.invoke(
-            cli, ["--verbose", "bonds", "--inp", f.name, "--constrain"]
-        )
+        result = runner.invoke(cli, ["bonds", "--inp", f.name, "--constrain"])
         assert result.exit_code == 0
         gotFile = os.path.isfile(constrain)
         assert gotFile is True
@@ -158,7 +150,7 @@ def test_cli_sort(runner):
         f.write("H -2.4837 0.0011 0.0000" + s)
         f.write("H -1.1569 2.1657 0.0000" + s)
         f.flush()
-        result = runner.invoke(cli, ["--verbose", "sort", "--inp", f.name])
+        result = runner.invoke(cli, ["sort", "--inp", f.name])
         assert result.exit_code == 0
         assert "11" in result.output
         assert "kallisto" in result.output
@@ -180,23 +172,21 @@ def test_cli_sort_with_start(runner):
         f.write("H -2.4837 0.0011 0.0000" + s)
         f.write("H -1.1569 2.1657 0.0000" + s)
         f.flush()
-        result = runner.invoke(
-            cli, ["--verbose", "sort", "--inp", f.name, "--start", "5"]
-        )
+        result = runner.invoke(cli, ["sort", "--inp", f.name, "--start", "5"])
         assert result.exit_code == 0
         assert "11" in result.output
         assert "kallisto\nN      0.6816    1.1960    0.0000" in result.output
 
 
 # test cli part for eeq
-def test_cli_eeq_no_verbose(runner):
+def test_cli_eeq_silent(runner):
     with tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8") as f:
         f.write("$coord" + s)
         f.write("0.00000000000000 0.00000000000000 -1.06176434496059 c" + s)
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["eeq", "--inp", f.name])
+        result = runner.invoke(cli, ["--silent", "eeq", "--inp", f.name])
         assert result.exit_code == 0
 
 
@@ -207,7 +197,7 @@ def test_cli_eeq(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["--verbose", "eeq", "--inp", f.name])
+        result = runner.invoke(cli, ["eeq", "--inp", f.name])
         assert result.exit_code == 0
         assert "-0.17166856" and "0.17166856" in result.output
 
@@ -219,9 +209,7 @@ def test_cli_eeq_cation(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(
-            cli, ["--verbose", "eeq", "--inp", f.name, "--chrg", "1"]
-        )
+        result = runner.invoke(cli, ["eeq", "--inp", f.name, "--chrg", "1"])
         assert result.exit_code == 0
         assert "0.59769359" and "0.40230641" in result.output
 
@@ -233,22 +221,20 @@ def test_cli_eeq_anion(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(
-            cli, ["--verbose", "eeq", "--inp", f.name, "--chrg", "-1"]
-        )
+        result = runner.invoke(cli, ["eeq", "--inp", f.name, "--chrg", "-1"])
         assert result.exit_code == 0
         assert "-0.94103071" and "-0.058969287" in result.output
 
 
 # test cli part for alp
-def test_cli_alp_no_verbose(runner):
+def test_cli_alp_silent(runner):
     with tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8") as f:
         f.write("$coord" + s)
         f.write("0.00000000000000 0.00000000000000 -1.06176434496059 c" + s)
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["alp", "--inp", f.name])
+        result = runner.invoke(cli, ["--silent", "alp", "--inp", f.name])
         assert result.exit_code == 0
 
 
@@ -259,7 +245,7 @@ def test_cli_alp(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["--verbose", "alp", "--inp", f.name])
+        result = runner.invoke(cli, ["alp", "--inp", f.name])
         assert result.exit_code == 0
         assert "6.5655467" and "1.7519379" in result.output
 
@@ -271,9 +257,7 @@ def test_cli_alp_cation(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(
-            cli, ["--verbose", "alp", "--inp", f.name, "--chrg", "1"]
-        )
+        result = runner.invoke(cli, ["alp", "--inp", f.name, "--chrg", "1"])
         assert result.exit_code == 0
         assert "4.8142762" and "1.0744963" in result.output
 
@@ -285,9 +269,7 @@ def test_cli_alp_anion(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(
-            cli, ["--verbose", "alp", "--inp", f.name, "--chrg", "-1"]
-        )
+        result = runner.invoke(cli, ["alp", "--inp", f.name, "--chrg", "-1"])
         assert result.exit_code == 0
         assert "9.4232394" and "3.2506322" in result.output
 
@@ -299,22 +281,20 @@ def test_cli_alp_molecular(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(
-            cli, ["--verbose", "alp", "--inp", f.name, "--molecular"]
-        )
+        result = runner.invoke(cli, ["alp", "--inp", f.name, "--molecular"])
         assert result.exit_code == 0
         assert "8.317" in result.output
 
 
 # test cli part for vdw
-def test_cli_vdw_no_verbose(runner):
+def test_cli_vdw_silent(runner):
     with tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8") as f:
         f.write("$coord" + s)
         f.write("0.00000000000000 0.00000000000000 -1.06176434496059 c" + s)
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["vdw", "--inp", f.name])
+        result = runner.invoke(cli, ["--silent", "vdw", "--inp", f.name])
         assert result.exit_code == 0
 
 
@@ -325,7 +305,7 @@ def test_cli_vdw(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["--verbose", "vdw", "--inp", f.name])
+        result = runner.invoke(cli, ["vdw", "--inp", f.name])
         assert result.exit_code == 0
         assert "3.29019696" and "2.5041682" in result.output
 
@@ -337,7 +317,7 @@ def test_cli_vdw_angstrom(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["--verbose", "vdw", "--inp", f.name, "--angstrom"])
+        result = runner.invoke(cli, ["vdw", "--inp", f.name, "--angstrom"])
         assert result.exit_code == 0
         assert "1.74109" and "1.32514" in result.output
 
@@ -350,8 +330,7 @@ def test_cli_vdw_angstrom_truhlar(runner):
         f.write("$end")
         f.flush()
         result = runner.invoke(
-            cli,
-            ["--verbose", "vdw", "--inp", f.name, "--angstrom", "--vdwtype", "truhlar"],
+            cli, ["vdw", "--inp", f.name, "--angstrom", "--vdwtype", "truhlar"],
         )
         assert result.exit_code == 0
         assert "1.565228" and "0.946534" in result.output
@@ -365,8 +344,7 @@ def test_cli_vdw_angstrom_rahm(runner):
         f.write("$end")
         f.flush()
         result = runner.invoke(
-            cli,
-            ["--verbose", "vdw", "--inp", f.name, "--angstrom", "--vdwtype", "rahm"],
+            cli, ["vdw", "--inp", f.name, "--angstrom", "--vdwtype", "rahm"],
         )
         assert result.exit_code == 0
         assert "1.741096" and "1.325148" in result.output
@@ -380,7 +358,7 @@ def test_cli_vdw_angstrom_cation(runner):
         f.write("$end")
         f.flush()
         result = runner.invoke(
-            cli, ["--verbose", "vdw", "--inp", f.name, "--angstrom", "--chrg", "1"]
+            cli, ["vdw", "--inp", f.name, "--angstrom", "--chrg", "1"]
         )
         assert result.exit_code == 0
         assert "1.665613" and "1.235759" in result.output
@@ -394,14 +372,14 @@ def test_cli_vdw_angstrom_anion(runner):
         f.write("$end")
         f.flush()
         result = runner.invoke(
-            cli, ["--verbose", "vdw", "--inp", f.name, "--angstrom", "--chrg", "-1"]
+            cli, ["vdw", "--inp", f.name, "--angstrom", "--chrg", "-1"]
         )
         assert result.exit_code == 0
         assert "1.833333" and "1.447486" in result.output
 
 
 # test cli part for rms
-def test_cli_rms_no_verbose(runner):
+def test_cli_rms_silent(runner):
     with tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8") as f1:
         f1.write("$coord" + s)
         f1.write("0 0 -1.06176 c" + s)
@@ -414,7 +392,7 @@ def test_cli_rms_no_verbose(runner):
         f2.write("1 1  2.06176 h" + s)
         f2.write("$end")
         f2.flush()
-        result = runner.invoke(cli, ["rms", "--compare", f1.name, f2.name])
+        result = runner.invoke(cli, ["--silent", "rms", "--compare", f1.name, f2.name])
         assert result.exit_code == 0
         f2.close()
 
@@ -450,21 +428,23 @@ def test_cli_rms(runner):
         f2.write("1 1  2.06176 h" + s)
         f2.write("$end")
         f2.flush()
-        result = runner.invoke(cli, ["--verbose", "rms", "--compare", f1.name, f2.name])
+        result = runner.invoke(cli, ["rms", "--compare", f1.name, f2.name])
         assert result.exit_code == 0
         assert "[1. 0. 0.]" and "[0. 1. 0.]" and "[0. 0. 1.]" in result.output
         f2.close()
 
 
 # test cli part for lig
-def test_cli_lig_no_verbose(runner):
+def test_cli_lig_silent(runner):
     with tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8") as f:
         f.write("$coord" + s)
         f.write("0 0 -1.06176 c" + s)
         f.write("0 0  1.06176 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["lig", "--inp", f.name, "--center", "1"])
+        result = runner.invoke(
+            cli, ["--silent", "lig", "--inp", f.name, "--center", "1"]
+        )
         assert result.exit_code == 0
 
 
@@ -475,9 +455,7 @@ def test_cli_lig_0(runner):
         f.write("0 0  1.06176 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(
-            cli, ["--verbose", "lig", "--inp", f.name, "--center", "0"]
-        )
+        result = runner.invoke(cli, ["lig", "--inp", f.name, "--center", "0"])
         assert result.exit_code == 0
         assert "Substructure" and "[1]" in result.output
 
@@ -489,15 +467,13 @@ def test_cli_lig_1(runner):
         f.write("0 0  1.06176 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(
-            cli, ["--verbose", "lig", "--inp", f.name, "--center", "1"]
-        )
+        result = runner.invoke(cli, ["lig", "--inp", f.name, "--center", "1"])
         assert result.exit_code == 0
         assert "Substructure" and "[0]" in result.output
 
 
 # test cli part for exs
-def test_cli_exs_no_verbose(runner):
+def test_cli_exs_silent(runner):
     with tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8", suffix=".xyz") as f1:
         f1.write("96" + s)
         f1.write(s)
@@ -613,13 +589,28 @@ def test_cli_exs_no_verbose(runner):
         f2.write("  H     -1.1569      2.1657      0.0000" + s)
         f2.flush()
         result = runner.invoke(
-            cli, ["exs", "--inp", f1.name, f2.name, "--center", "2", "--subnr", "2"]
+            cli,
+            [
+                "--silent",
+                "exs",
+                "--inp",
+                f1.name,
+                f2.name,
+                "--center",
+                "2",
+                "--subnr",
+                "2",
+            ],
         )
         assert result.exit_code == 0
         newstructure = "newstructure.xyz"
         gotFile = os.path.isfile(newstructure)
         if gotFile:
             os.remove(newstructure)
+        constrain = "constrain.inp"
+        gotFile = os.path.isfile(constrain)
+        if gotFile:
+            os.remove(constrain)
 
 
 def test_cli_exs(runner):
@@ -741,18 +732,7 @@ def test_cli_exs(runner):
         gotFile = os.path.isfile(newstructure)
         assert gotFile is False
         result = runner.invoke(
-            cli,
-            [
-                "--verbose",
-                "exs",
-                "--inp",
-                f1.name,
-                f2.name,
-                "--center",
-                "18",
-                "--subnr",
-                "2",
-            ],
+            cli, ["exs", "--inp", f1.name, f2.name, "--center", "18", "--subnr", "2"],
         )
         assert result.exit_code == 0
         gotFile = os.path.isfile(newstructure)
@@ -767,7 +747,7 @@ def test_cli_exs(runner):
 
 
 # test cli part for stm
-def test_cli_stm_no_verbose(runner):
+def test_cli_stm_silent(runner):
     with tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8", suffix=".xyz") as f:
         f.write("96" + s)
         f.write(s)
@@ -869,7 +849,8 @@ def test_cli_stm_no_verbose(runner):
         f.write("H    -4.0522996    3.5020997    1.5576998" + s)
         f.flush()
         result = runner.invoke(
-            cli, ["stm", "--inp", f.name, "--origin", "18", "--partner", "23"],
+            cli,
+            ["--silent", "stm", "--inp", f.name, "--origin", "18", "--partner", "23"],
         )
         assert result.exit_code == 0
 
@@ -976,8 +957,7 @@ def test_cli_stm(runner):
         f.write("H    -4.0522996    3.5020997    1.5576998" + s)
         f.flush()
         result = runner.invoke(
-            cli,
-            ["--verbose", "stm", "--inp", f.name, "--origin", "18", "--partner", "23"],
+            cli, ["stm", "--inp", f.name, "--origin", "18", "--partner", "23"],
         )
         assert result.exit_code == 0
         # L value in Bohr and Angstrom
@@ -989,7 +969,7 @@ def test_cli_stm(runner):
 
 
 # test cli part for cnsp
-def test_cli_cnsp_no_verbose(runner):
+def test_cli_cnsp_silent(runner):
     with tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8", suffix=".xyz") as f:
         f.write("15" + s)
         f.write("toluene" + s)
@@ -1009,7 +989,7 @@ def test_cli_cnsp_no_verbose(runner):
         f.write("h 1.2994 2.6647 0.5466" + s)
         f.write("h -0.4475 2.9470 0.4506" + s)
         f.flush()
-        result = runner.invoke(cli, ["cnsp", "--inp", f.name])
+        result = runner.invoke(cli, ["--silent", "cnsp", "--inp", f.name])
         assert result.exit_code == 0
 
 
@@ -1033,6 +1013,6 @@ def test_cli_cnsp(runner):
         f.write("h 1.2994 2.6647 0.5466" + s)
         f.write("h -0.4475 2.9470 0.4506" + s)
         f.flush()
-        result = runner.invoke(cli, ["--verbose", "cnsp", "--inp", f.name])
+        result = runner.invoke(cli, ["cnsp", "--inp", f.name])
         assert result.exit_code == 0
         assert "4.38" and "3.36" in result.output

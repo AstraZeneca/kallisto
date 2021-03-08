@@ -6,14 +6,14 @@ import click
 import numpy as np
 
 import kallisto.reader.strucreader as ksr
-from kallisto.utils import errorbye, verbosePrinter
+from kallisto.utils import errorbye, silentPrinter
 
 
 class Config(object):
     """Define global config file for click."""
 
     def __init__(self):
-        self.verbose = False
+        self.silent = False
         self.context = click.get_current_context()
         self.shift = 0
 
@@ -22,17 +22,17 @@ pass_config = click.make_pass_decorator(Config, ensure=True)
 
 
 @click.group(chain=True)
-@click.option("--verbose", is_flag=True)
+@click.option("--silent", is_flag=True)
 @click.option("--shift", default=0, type=int, required=False)
 @pass_config
-def cli(config, verbose: bool, shift: int):
+def cli(config, silent: bool, shift: int):
     """kallisto calculates quantum mechanically derived atomic features.\n
 
     Please check out the documentation.
     """
 
     config.shift = shift
-    config.verbose = verbose
+    config.silent = silent
 
 
 @cli.command("cns")
@@ -58,7 +58,9 @@ def cns(config, inp: str, out: click.File, cntype: str):
 
     molecule = ksr.constructMolecule(geometry=inp, out=out)
     cns = molecule.get_cns(cntype)
-    verbosePrinter(config.verbose, cns, out)
+    nat = molecule.get_number_of_atoms()
+    for i in range(nat):
+        silentPrinter(config.silent, cns[i], out)
 
     return cns
 
@@ -88,7 +90,7 @@ def cnsp(config, inp: str, out: click.File, cntype: str):
     nat = molecule.get_number_of_atoms()
     cnsp = molecule.get_cnspheres(cntype)
     for i in range(nat):
-        verbosePrinter(config.verbose, cnsp[i], out)
+        silentPrinter(config.silent, cnsp[i], out)
 
     return cnsp
 
@@ -220,7 +222,7 @@ def eeq(config, inp: str, out: click.File, chrg: int):
     nat = molecule.get_number_of_atoms()
     eeq = molecule.get_eeq(chrg)
     for i in range(nat):
-        verbosePrinter(config.verbose, eeq[i], out)
+        silentPrinter(config.silent, eeq[i], out)
 
     return eeq
 
@@ -250,10 +252,10 @@ def alp(config, inp: str, out: click.File, chrg: int, molecular: bool):
     nat = molecule.get_number_of_atoms()
     alp = molecule.get_alp(charge=chrg)
     if molecular:
-        verbosePrinter(config.verbose, np.sum(alp), out)
+        silentPrinter(config.silent, np.sum(alp), out)
     else:
         for i in range(nat):
-            verbosePrinter(config.verbose, alp[i], out)
+            silentPrinter(config.silent, alp[i], out)
 
     return alp
 
@@ -301,7 +303,7 @@ def vdw(config, inp: str, out: click.File, chrg: int, vdwtype: str, angstrom: bo
 
     vdw = molecule.get_vdw(chrg, vdwtype, scale)
     for i in range(nat):
-        verbosePrinter(config.verbose, vdw[i], out)
+        silentPrinter(config.silent, vdw[i], out)
 
     return vdw
 
@@ -343,8 +345,8 @@ def rms(config, compare: Tuple[str, str], out: click.File):
     # get RMSD error and rotation matrix u
     error, u = rmsd(nat1, coord1, coord2)
 
-    verbosePrinter(config.verbose, "RMSD {} Angstrom".format(error), out)
-    verbosePrinter(config.verbose, "Rotation Matrix", out)
+    silentPrinter(config.silent, "RMSD {} Angstrom".format(error), out)
+    silentPrinter(config.silent, "Rotation Matrix", out)
     click.echo(u, file=out)  # type: ignore
 
     return error, u
@@ -380,17 +382,16 @@ def lig(config, inp: str, center: int, out: click.File):
 
     from kallisto.rmsd import recursiveGetSubstructures
 
-    verbosePrinter(config.verbose, "Write out substructures for {}".format(center), out)
+    silentPrinter(config.silent, "Write out substructures for {}".format(center), out)
 
     substructures = recursiveGetSubstructures(nat, covbonds, center)
 
-    if config.verbose:
-        k = 0
-        for path in substructures:
-            verbosePrinter(
-                config.verbose, "Substructure {}: {}".format(k, path), out,
-            )
-            k += 1
+    k = 0
+    for path in substructures:
+        silentPrinter(
+            config.silent, "Substructure {}: {}".format(k, path), out,
+        )
+        k += 1
 
 
 @cli.command("exs")
@@ -513,23 +514,22 @@ def stm(config, inp: str, origin: int, partner: int, out: click.File):
 
     L, bmin, bmax = getClassicalSterimol(mol, origin, partner)
 
-    if config.verbose:
-        # print values in Bohr
-        verbosePrinter(
-            config.verbose,
-            "L, Bmin, Bmax / au: {:5.2f} {:5.2f} {:5.2f}".format(L, bmin, bmax),
-            out,
-        )
+    # print values in Bohr
+    silentPrinter(
+        config.silent,
+        "L, Bmin, Bmax / au: {:5.2f} {:5.2f} {:5.2f}".format(L, bmin, bmax),
+        out,
+    )
 
-        # print values in Angstrom
-        from kallisto.units import Bohr
+    # print values in Angstrom
+    from kallisto.units import Bohr
 
-        verbosePrinter(
-            config.verbose,
-            "L, Bmin, Bmax / A: {:5.2f} {:5.2f} {:5.2f}".format(
-                L * Bohr, bmin * Bohr, bmax * Bohr
-            ),
-            out,
-        )
+    silentPrinter(
+        config.silent,
+        "L, Bmin, Bmax / A: {:5.2f} {:5.2f} {:5.2f}".format(
+            L * Bohr, bmin * Bohr, bmax * Bohr
+        ),
+        out,
+    )
 
     return L, bmin, bmax
