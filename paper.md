@@ -23,25 +23,6 @@ bibliography: paper.bib
 
 ---
 
-# Atomic Features
-
-The ``kallisto`` software gives you access to the following atomic features (all atoms up to Radon)
-
-- Coordination numbers [@grimme2010; @caldeweyher2019]
-- Electronegativity equlibration atomic partial charges [@caldeweyher2019]
-- Dynamic polarizabilities [@grimme2010; @caldeweyher2019]
-- Van-der-Waals radii [@fedorov2018; @rahm2017; @mantina2009]
-- Sterimol descriptors (L, Bmin, Bmax) [@brethome2019]
-
-# Modelling Helpers
-
-The ``kallisto`` software gives you access to the following modelling helper
-
-- Breadth first sorting of molecules
-- Root mean squared deviation between molecules
-- Substructure identifier for molecules
-- Substructure exchanger 
-
 # Statement of Need
 
 Machine learning (ML) has recently become very popular within pharmaceutical industry [@roy2015; @sprous2010].
@@ -62,6 +43,25 @@ Besides, we implemented several computational modelling helpers to simplify the 
 Some of those modelling helpers depend on the open-source [xtb](https://github.com/grimme-lab/xtb) tight-binding scheme that has been developed by Stefan Grimme and co-worker [@bannwarth2020].
 The [online documentation](https://ehjc.gitbook.io/kallisto/) covers all high-level functionalizations of this software mostly in terms of copy-paste recipes.
 Furthermore, we cover bits of the underlying theory and compare to experimental data as well as to other modern deep learning models.
+
+# Atomic Features
+
+The ``kallisto`` software gives you access to the following atomic features (all atoms up to Radon)
+
+- Coordination numbers [@grimme2010; @caldeweyher2019]
+- Electronegativity equlibration atomic partial charges [@caldeweyher2019]
+- Dynamic polarizabilities [@grimme2010; @caldeweyher2019]
+- Van-der-Waals radii [@fedorov2018; @rahm2017; @mantina2009]
+- Sterimol descriptors (L, Bmin, Bmax) [@brethome2019]
+
+# Modelling Helpers
+
+The ``kallisto`` software gives you access to the following modelling helper
+
+- Breadth first sorting
+- Root mean squared deviation (quaternions) [@coutsias2004]
+- Substructure identifier
+- Substructure exchanger 
 
 # Acknowledgements
 
