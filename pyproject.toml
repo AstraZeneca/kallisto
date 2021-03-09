@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "kallisto"
-version = "1.0.4"
+version = "1.0.5"
 description = "The Kallisto software enables the efficient calculation of atomic features that can be used within a quantitative structure-activity relationship (QSAR) approach. Furthermore, several modelling helpers are implemented."
 license = "Apache 2.0"
 readme = "README.md"
