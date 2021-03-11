@@ -8,7 +8,11 @@ from kallisto.molecule import Molecule
 
 def getClassicalSterimol(mol: Molecule, origin: int, partner: int):
     """Verloop definitions for L, B1, and B5 steric parameter.
-    We apply kallisto van der Waals radii."""
+    We apply kallisto van der Waals radii.
+
+    Initial implementation in Morfeus
+    (https://kjelljorner.github.io/morfeus/sterimol.html)
+    integrated by permission of Kjell Jorner."""
 
     # initialize coordinates
     coords = mol.get_positions()
