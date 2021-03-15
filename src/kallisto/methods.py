@@ -416,7 +416,7 @@ def getCovalentBondingPartner(
 
 
 def getVanDerWaalsRadii(
-    nat: int, at: np.ndarray, aw: np.ndarray, charge: int, vdwtype: str, scale: float
+    nat: int, at: np.ndarray, aw: np.ndarray, vdwtype: str, scale: float
 ):
     """A method to compute atomic-charge dependent dynamic atomic polarizabilities (alps).
 
@@ -424,23 +424,31 @@ def getVanDerWaalsRadii(
         array. For the charge dependency EEQ atomic partial charges are used
         in an empirical scaling function as used in the dftd4 program."""
 
+    from kallisto.data import chemical_symbols
     from kallisto.data.vdw import rahm, truhlar
 
     vdw = np.zeros(shape=(nat,), dtype=np.float64)
 
     osev = 1.0 / 7.0
+    # Empirical scaling and theta_a value from DOI:
+    # 10.1103/PhysRevLett.121.183401
+    theta_a = 2.54
 
     if vdwtype == "truhlar":
-        # empirical scaling from DOI: 10.1103/PhysRevLett.121.183401
-        # Scaled to match radii from J. Phys. Chem. A, Vol. 113, No. 19, 2009
+        # Truhlar: theta_b fitted to match radii from DOI:
+        # 10.1021/jp8111556
         for i in range(nat):
-            ia = at[i] - 1
-            vdw[i] = scale * truhlar[ia] * 2.54 * np.power(aw[i], osev)
+            ia = at[i]
+            isym = chemical_symbols[ia]
+            theta_b = truhlar[isym]
+            vdw[i] = scale * theta_b * theta_a * np.power(aw[i], osev)
     elif vdwtype == "rahm":
-        # empirical scaling from DOI: 10.1103/PhysRevLett.121.183401
-        # Scaled to match radii from Chem. Eur. J. 2017, 23, 4017
+        # Rahm: theta_b fitted to match radii from DOI:
+        # 10.1002/chem.201700610
         for i in range(nat):
-            ia = at[i] - 1
-            vdw[i] = scale * rahm[ia] * 2.54 * np.power(aw[i], osev)
+            ia = at[i]
+            isym = chemical_symbols[ia]
+            theta_b = rahm[isym]
+            vdw[i] = scale * theta_b * theta_a * np.power(aw[i], osev)
 
     return vdw

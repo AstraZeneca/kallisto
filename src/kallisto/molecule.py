@@ -199,7 +199,7 @@ class Molecule(object):
         at = self.get_atomic_numbers()
         nat = self.get_number_of_atoms()
         aiw = self.get_alp(charge=charge)
-        return getVanDerWaalsRadii(nat, at, aiw, charge, vdwtype, scale)
+        return getVanDerWaalsRadii(nat, at, aiw, vdwtype, scale)
 
     def get_alp(self, charge: int):
         """Get atomic-charge dependent dynamic atomic polarizabilities (alps).
