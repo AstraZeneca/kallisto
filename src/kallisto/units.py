@@ -2,7 +2,9 @@
 
 from math import pi, sqrt
 
-version = "arxiv2014"
+from scipy.constants import c, e, G, h, k, m_e, m_p, m_u, mu_0, N_A
+
+version = "2018"
 
 
 class Units(dict):
@@ -15,7 +17,7 @@ class Units(dict):
 
 codata = {
     # Reference: http://arxiv.org/pdf/1507.07956.pdf
-    "arxiv2014": {
+    "2014": {
         "_c": 299792458.0,
         "_mu0": 4.0e-7 * pi,
         "_Grav": 6.67408e-11,
@@ -26,6 +28,19 @@ codata = {
         "_Nav": 6.022140857e23,
         "_k": 1.38064852e-23,
         "_amu": 1.660539040e-27,
+    },
+    # Reference: https://docs.scipy.org/doc/scipy/reference/constants.html
+    "2018": {
+        "_c": c,
+        "_mu0": mu_0,
+        "_Grav": G,
+        "_hplanck": h,
+        "_e": e,
+        "_me": m_e,
+        "_mp": m_p,
+        "_Nav": N_A,
+        "_k": k,
+        "_amu": m_u,
     },
 }
 
