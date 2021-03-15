@@ -49,7 +49,7 @@ class Atom(object):
         Atomic charge.
     """
 
-    __slots__ = ["data", "molecule", "index"]
+    __slots__ = ("data", "molecule", "index")
 
     def __init__(self, symbol="X", position=(0, 0, 0), charge=0, molecule=None):
 
