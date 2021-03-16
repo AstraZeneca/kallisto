@@ -4,6 +4,8 @@ from collections import Counter
 from typing import Tuple
 
 import numpy as np
+from scipy.spatial import distance
+from scipy.spatial.transform import Rotation as R
 
 from kallisto.atom import Atom
 from kallisto.molecule import Molecule
@@ -268,6 +270,7 @@ def givens4(A: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
 
 
 def pythag(a: np.ndarray, b: np.ndarray) -> float:
+    """Calculate Pythogoras between a and b."""
 
     aAbs = abs(a)
     bAbs = abs(b)
@@ -435,59 +438,15 @@ def getRodriguezRotation(
     (vector rejection) to the axis 'unit'."""
 
     # Define vector of covalent bond and normalize
-    unit = origin + partner
+    unit = origin - partner
     unit /= np.linalg.norm(unit)
 
-    # Cross product between vector and point
-    vecCrossPoint = np.cross(unit, point)
-
-    # Dot product between vector and point
-    vecDotPoint = np.dot(unit, point)
-
     # Transform degrees to radians
     theta = np.radians(theta)
 
-    vnew = np.zeros(shape=(3,), dtype=np.float64)
-    for i in range(3):
-        vnew[i] = point[i] * np.cos(theta)
-        vnew[i] += vecCrossPoint[i] * np.sin(theta)
-        vnew[i] += unit[i] * vecDotPoint * (1 - np.cos(theta))
-
-    return vnew
-
-
-def getRotationMatrix(
-    origin: np.ndarray, partner: np.ndarray, theta: float
-) -> np.ndarray:
-    """Calculate a rotation matrix for rotation along
-    vector pointing from partner -> origin."""
-
-    # get vector and normalize
-    n = partner - origin
-    n /= np.linalg.norm(n)
-
-    # Transform degrees to radians
-    theta = np.radians(theta)
-
-    # setup rotation matrix
-    omcost = 1 - np.cos(theta)
-    sint = np.sin(theta)
-    cost = np.cos(theta)
-
-    u = np.zeros(shape=(3, 3), dtype=np.float64)
-    u[0][0] = cost + np.power(n[0], 2) * omcost
-    u[0][1] = n[0] * n[1] * omcost - n[2] * sint
-    u[0][2] = n[0] * n[2] * omcost + n[1] * sint
-
-    u[1][0] = n[1] * n[0] * omcost + n[2] * sint
-    u[1][1] = cost + np.power(n[1], 2) * omcost
-    u[1][2] = n[1] * n[2] * omcost - n[2] * sint
-
-    u[2][0] = n[2] * n[0] * omcost - n[1] * sint
-    u[2][1] = n[2] * n[1] * omcost + n[0] * sint
-    u[2][2] = cost + np.power(n[2], 2) * omcost
-
-    return u
+    # define rotation and apply
+    r = R.from_rotvec(theta * unit)
+    return r.apply(point)
 
 
 def getSubstructureFromPath(refmol: Molecule, path: np.ndarray) -> Molecule:
@@ -610,7 +569,7 @@ def matchSubstrates(
         indexNew = covNew - 1
         shiftOldSub[indexOld, :] = center - oldShift
         shiftNewSub[indexNew][:] = 0
-        distRef = getDist(shiftOldSub[0, :], shiftOldSub[indexOld, :])
+        distRef = distance.euclidean(shiftOldSub[0, :], shiftOldSub[indexOld, :])
         shift = getNewSubstrateCenter(indexNew, shiftNewSub, distRef)
 
     bdim = np.minimum(covOld, covNew)
@@ -667,7 +626,7 @@ def getNewSubstrateCenter(index: int, shift: np.ndarray, distRef: float):
 
     if n > 0:
         center = np.sum(shift, axis=0)
-        distCenter = getDist(shift[0][:], center)
+        distCenter = distance.euclidean(shift[0][:], center)
         distRel = distRef / distCenter
         center *= -distRel
         shift[index][:] = center
@@ -677,20 +636,3 @@ def getNewSubstrateCenter(index: int, shift: np.ndarray, distRef: float):
         shift[index][2:] = 0.0
 
     return shift[index][:]
-
-
-def getDist(a: np.ndarray, b: np.ndarray) -> float:
-    """Calculate euclidean distance between a and b."""
-
-    dist = 0.0
-
-    # sanity check for dimensions
-    if len(a) == len(b):
-        for i in range(3):
-            dist += np.power(a[i] - b[i], 2)
-
-        dist = np.sqrt(dist)
-    else:
-        raise RuntimeError
-
-    return dist
