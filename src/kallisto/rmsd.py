@@ -610,6 +610,8 @@ def matchSubstrates(
         indexNew = covNew - 1
         shiftOldSub[indexOld, :] = center - oldShift
         shiftNewSub[indexNew][:] = 0
+        distRef = getDist(shiftOldSub[0, :], shiftOldSub[indexOld, :])
+        shift = getNewSubstrateCenter(indexNew, shiftNewSub, distRef)
 
     bdim = np.minimum(covOld, covNew)
 
