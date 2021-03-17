@@ -4,6 +4,7 @@ from collections import Counter
 from typing import Tuple
 
 import numpy as np
+from scipy.sparse.linalg.eigen.arpack import eigsh
 from scipy.spatial import distance
 from scipy.spatial.transform import Rotation as R
 
@@ -53,6 +54,7 @@ def rmsd(n: int, coord1: np.ndarray, coord2: np.ndarray) -> Tuple[float, np.ndar
             rmat[i, j] = np.dot(x[:, i], y[:, j])
 
     # calculate the S matrix (quaternions)
+    # use fac = -1 instead of u.T below
     fac = -1
     smat = np.zeros(shape=(4, 4), dtype=np.float64)
     smat[0, 0] = rmat[0, 0] + rmat[1, 1] + rmat[2, 2]
@@ -76,7 +78,8 @@ def rmsd(n: int, coord1: np.ndarray, coord2: np.ndarray) -> Tuple[float, np.ndar
     smat[3, 3] = -rmat[0, 0] - rmat[1, 1] + rmat[2, 2]
 
     # calculate largest eigenvalue and eigenvector
-    eigenval, eigenvec = dstmev(smat)
+    eigenval, eigenvec = eigsh(smat, 1, which="LA")
+    eigenvec = eigenvec.squeeze()
 
     # convert quaternion eigenvec to rotation matrix U
     u = rotationMatrix(eigenvec)
@@ -128,164 +131,6 @@ def rotationMatrix(q: np.ndarray) -> np.ndarray:
     u[2, 2] = q00 + q33
 
     return u
-
-
-def dstmev(smat: np.ndarray):
-    """Compute the leading eigenvalue and eigenvector of a symmetric,
-    traceless 4x4 matrix A by an inverse power iteration:
-    1) convert matrix to tridiagonal form by rotations
-     V*A*V' = T
-    2) use Gershgorin's theorem to estimate a lower bound
-    for the leading negative eigenvalue:
-     lambda > g=min(T00-t01,-t10+T11-t12,-t21+T22-t23,-t23+T33)
-     where tij=abs(Tij)
-    3) create positive definite matrix
-     B = T-gI
-    4) apply single value decomposition to compute eigenvalues and
-    eigenvectors for SPD matrix B
-    5) shift the spectrum back and keep leading singular vector and largest
-    eigenvalue
-    6) convert eigenvalue to original matrix A by multiplication with V'"""
-
-    # convert triogonal form
-    tmat, vmat = givens4(smat)
-
-    # 2) estimate lower bond of smallest eigenvalue by Gershgorin's theorem
-    eigenval = np.amin(
-        [
-            tmat[0, 0] - abs(tmat[0, 1]),
-            -abs(tmat[1, 0]) + tmat[1, 1] - abs(tmat[1, 2]),
-            -abs(tmat[2, 1]) + tmat[2, 2] - abs(tmat[2, 3]),
-            -abs(tmat[3, 2]) + tmat[3, 3],
-        ]
-    )
-
-    # 3) form positive definite matrix
-    #    T = lambda * I - T
-    for i in range(4):
-        tmat[i, i] = tmat[i, i] - eigenval
-
-    # 4) compute singular values/vectors of SPD matrix
-    from scipy import linalg
-
-    U, s, Vh = linalg.svd(tmat)
-
-    # 5) get maximum eigenvalue and shift spectrum back
-    max_loc = np.argmax(s)
-    eigenval += s[max_loc]
-
-    # 6) convert eigenvalue to original matrix A
-    eigenvec = np.matmul(vmat, Vh[max_loc])
-
-    return eigenval, eigenvec
-
-
-def givens4(A: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
-    """Perform givens rotations to reduce the
-    symmetric 4x4 matrix to tridiagonal form."""
-
-    vmat = np.zeros(shape=(4, 4), dtype=np.float64)
-
-    # initialize
-    tmat = A
-
-    # zero out entries [3,0] and [0,3]
-    # compute cos and sin of rotation angle in the 3-4 plane
-    r1 = pythag(tmat[2, 0], tmat[3, 0])
-    if r1 != 0.0:
-        c1 = tmat[2, 0] / r1
-        s1 = tmat[3, 0] / r1
-        vmat[2, 2] = c1
-        vmat[2, 3] = s1
-        vmat[3, 2] = -s1
-        vmat[3, 3] = c1
-        tmat[2, 0] = r1
-        tmat[3, 0] = 0.0
-        tmat[2:, 1:] = np.matmul(vmat[2:, 2:], tmat[2:, 1:])
-        tmat[0:2, 2:] = np.transpose(tmat[2:, 0:2])
-        tmat[2:, 2:] = np.matmul(tmat[2:, 2:], np.transpose(vmat[2:, 2:]))
-    else:
-        c1 = 1.0
-        s1 = 0.0
-
-    # zero out entries [2,0] and [0,2]
-    # compute cos and sin of rotation angle in the 2-3 plane
-    r2 = pythag(tmat[2, 0], tmat[1, 0])
-    if r2 != 0.0:
-        c2 = tmat[1, 0] / r2
-        s2 = tmat[2, 0] / r2
-        vmat[1, 1] = c2
-        vmat[1, 2] = s2
-        vmat[2, 1] = -s2
-        vmat[2, 2] = c2
-        tmat[1, 0] = r2
-        tmat[2, 0] = 0.0
-        tmat[1:3, 1:4] = np.matmul(vmat[1:3, 1:3], tmat[1:3, 1:4])
-        tmat[0, 1:3] = tmat[1:3, 0]
-        tmat[3, 1:3] = tmat[1:3, 3]
-        tmat[1:3, 1:3] = np.matmul(tmat[1:3, 1:3], np.transpose(vmat[1:3, 1:3]))
-    else:
-        c2 = 1.0
-        s2 = 0.0
-
-    # zero out entries [3,1] and [1,3]
-    # compute cos and sin of rotation angle in the 3-4 plane
-    r3 = pythag(tmat[3, 1], tmat[2, 1])
-    if r3 != 0.0:
-        c3 = tmat[2, 1] / r3
-        s3 = tmat[3, 1] / r3
-        vmat[2, 2] = c3
-        vmat[2, 3] = s3
-        vmat[3, 2] = -s3
-        vmat[3, 3] = c3
-        tmat[2, 1] = r3
-        tmat[3, 1] = 0.0
-        tmat[2:, 2:] = np.matmul(vmat[2:, 2:], tmat[2:, 2:])
-        tmat[0:3, 2:] = np.transpose(tmat[2:, 0:3])
-        tmat[2:, 2:] = np.matmul(tmat[2:, 2:], np.transpose(vmat[2:, 2:]))
-    else:
-        c3 = 1.0
-        s3 = 0.0
-
-    # compute net rotation matrix (accumulate similarity for evec. computation)
-    # to save transposing later, This is the transpose!
-    vmat[0, 0] = 1.0
-    vmat[0, 1:] = 0.0
-    vmat[1:, 0] = 0.0
-    vmat[1, 1] = c2
-    vmat[2, 1] = c1 * s2
-    vmat[3, 1] = s1 * s2
-
-    c1c2 = c1 * c2
-    s1c2 = s1 * c2
-
-    vmat[1, 2] = -s2 * c3
-    vmat[2, 2] = c1c2 * c3 - s1 * s3
-    vmat[3, 2] = s1c2 * c3 + c1 * s3
-    vmat[1, 3] = s2 * s3
-    vmat[2, 3] = -c1c2 * s3 - s1 * c3
-    vmat[3, 3] = -s1c2 * s3 + c1 * c3
-
-    return tmat, vmat
-
-
-def pythag(a: np.ndarray, b: np.ndarray) -> float:
-    """Calculate Pythogoras between a and b."""
-
-    aAbs = abs(a)
-    bAbs = abs(b)
-
-    if aAbs > bAbs:
-        frac = bAbs / aAbs
-        result = aAbs * np.sqrt(1 + np.power(frac, 2))
-    else:
-        if bAbs == 0.0:
-            result = 0.0
-        else:
-            frac = aAbs / bAbs
-            result = bAbs * np.sqrt(1 + np.power(frac, 2))
-
-    return result
 
 
 def recursiveGetSubstructures(n: int, bonds: np.ndarray, center: int):

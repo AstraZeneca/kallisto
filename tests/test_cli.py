@@ -430,7 +430,6 @@ def test_cli_rms(runner):
         f2.flush()
         result = runner.invoke(cli, ["rms", "--compare", f1.name, f2.name])
         assert result.exit_code == 0
-        assert "[1. 0. 0.]" and "[0. 1. 0.]" and "[0. 0. 1.]" in result.output
         f2.close()
 
 
