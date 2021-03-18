@@ -745,6 +745,225 @@ def test_cli_exs(runner):
             os.remove(constrain)
 
 
+def test_cli_exs_works_on_structures(runner):
+    with tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8", suffix=".xyz") as f1:
+        f1.write("23" + s)
+        f1.write(s)
+        f1.write("C  1.02585 -1.41819  0.10735" + s)
+        f1.write("C  2.19641 -0.65325  0.04371" + s)
+        f1.write("C  2.14922  0.73805 -0.07490" + s)
+        f1.write("C  0.92303  1.41303 -0.14372" + s)
+        f1.write("C -0.26080  0.66414 -0.08355" + s)
+        f1.write("N -1.57019  1.07797 -0.13272" + s)
+        f1.write("C -2.29213 -0.01844 -0.01109" + s)
+        f1.write("C -3.77721 -0.06325  0.01110" + s)
+        f1.write("C -4.61835 -1.18453  0.21920" + s)
+        f1.write("C -5.92028 -0.73409  0.16230" + s)
+        f1.write("N -5.89155  0.61525 -0.08364" + s)
+        f1.write("C -4.59004  1.03318 -0.17187" + s)
+        f1.write("N -1.48774 -1.12334  0.09802" + s)
+        f1.write("C -0.18033 -0.71825  0.04754" + s)
+        f1.write("H  1.06181 -2.49771  0.20128" + s)
+        f1.write("H  3.16184 -1.15317  0.08951" + s)
+        f1.write("H  3.07465  1.30761 -0.11522" + s)
+        f1.write("H  0.87864  2.49164 -0.23712" + s)
+        f1.write("H -4.32389 -2.20831  0.40453" + s)
+        f1.write("H -6.86176 -1.25464  0.27676" + s)
+        f1.write("H -6.70335  1.21181 -0.18081" + s)
+        f1.write("H -4.34671  2.07070 -0.36139" + s)
+        f1.write("H -1.81331 -2.07200  0.19487" + s)
+        f1.flush()
+        f2 = tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8", suffix=".xyz")
+        f2.write("4" + s)
+        f2.write(s)
+        f2.write("C -1.10  0.00  0.00" + s)
+        f2.write("H -1.47  0.73  0.73" + s)
+        f2.write("H -1.47  0.27 -1.00" + s)
+        f2.write("H -1.47 -1.00  0.27" + s)
+        f2.flush()
+        newstructure = "newstructure.xyz"
+        gotFile = os.path.isfile(newstructure)
+        assert gotFile is False
+        result = runner.invoke(
+            cli, ["exs", "--inp", f1.name, f2.name, "--center", "10", "--subnr", "2"],
+        )
+        assert result.exit_code == 0
+        # check Carbon position
+        lookup = "C     -6.7034    1.2118   -0.1808"
+        got = 0
+        want = 25
+        with open(newstructure) as tmpFile:
+            for num, line in enumerate(tmpFile, 1):
+                if lookup in line:
+                    got = num
+        assert got != 0
+        assert got == want
+        gotFile = os.path.isfile(newstructure)
+        assert gotFile is True
+        if gotFile:
+            os.remove(newstructure)
+        constrain = "constrain.inp"
+        gotFile = os.path.isfile(constrain)
+        assert gotFile is True
+        if gotFile:
+            os.remove(constrain)
+
+
+def test_cli_exs_with_rotation(runner):
+    with tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8", suffix=".xyz") as f1:
+        f1.write("96" + s)
+        f1.write(s)
+        f1.write("N    -1.3672999   -1.4398999    0.1359000" + s)
+        f1.write("C    -2.4911998   -0.6808999    0.1396000" + s)
+        f1.write("C    -3.6534996   -1.1211999   -0.5090000" + s)
+        f1.write("C    -3.6468996   -2.3434998   -1.1725999" + s)
+        f1.write("C    -2.4848998   -3.1187997   -1.1555999" + s)
+        f1.write("C    -1.3670999   -2.6316997   -0.4883000" + s)
+        f1.write("H    -0.4373000   -3.1872997   -0.4306000" + s)
+        f1.write("H    -2.4432998   -4.0866996   -1.6463998" + s)
+        f1.write("H    -4.5575996   -0.5223999   -0.4887000" + s)
+        f1.write("C    -2.4206998    0.5908999    0.8954999" + s)
+        f1.write("N    -1.2879999    0.7903999    1.6181998" + s)
+        f1.write("C    -1.1378999    1.9348998    2.3084998" + s)
+        f1.write("C    -2.1077998    2.9319997    2.3219998" + s)
+        f1.write("C    -3.2770997    2.7402997    1.5819998" + s)
+        f1.write("C    -3.4330997    1.5600998    0.8608999" + s)
+        f1.write("H    -4.3267996    1.4057999    0.2659000" + s)
+        f1.write("H    -1.9411998    3.8419996    2.8913997" + s)
+        f1.write("H    -0.1872000    2.0459998    2.8181997" + s)
+        f1.write("Ir    0.4009000   -0.6061999    1.1172999" + s)
+        f1.write("C    -1.2690999   -3.8143996    3.7856996" + s)
+        f1.write("C    -0.1664000   -4.5494996    4.2269996" + s)
+        f1.write("C     1.1218999   -4.0950996    3.9273996" + s)
+        f1.write("C     1.2993999   -2.9384997    3.1675997" + s)
+        f1.write("C     0.2001000   -2.2075998    2.6786997" + s)
+        f1.write("C    -1.0849999   -2.6466997    3.0382997" + s)
+        f1.write("H    -1.9573998   -2.0870998    2.7090997" + s)
+        f1.write("H     0.8509999   -0.7173999    2.6636997" + s)
+        f1.write("H     2.3007998   -2.5989997    2.9226997" + s)
+        f1.write("H    -0.3087000   -5.4547995    4.8119995" + s)
+        f1.write("B     0.6392999    0.6220999   -0.5923999" + s)
+        f1.write("O    -0.0586000    0.3754000   -1.7751998" + s)
+        f1.write("C     0.0637000    1.5387999   -2.6275997" + s)
+        f1.write("C     0.0955000    1.0794999   -4.0821996" + s)
+        f1.write("H     0.8716999    0.3276000   -4.2397996" + s)
+        f1.write("H     0.2802000    1.9248998   -4.7547995" + s)
+        f1.write("H    -0.8681999    0.6330999   -4.3491996" + s)
+        f1.write("C    -1.1760999    2.4077998   -2.3666998" + s)
+        f1.write("H    -1.2042999    3.2867997   -3.0193997" + s)
+        f1.write("H    -2.0717998    1.8058998   -2.5499998" + s)
+        f1.write("H    -1.2019999    2.7410997   -1.3247999" + s)
+        f1.write("C     1.3891999    2.1923998   -2.1029998" + s)
+        f1.write("O     1.3915999    1.7859998   -0.7128999" + s)
+        f1.write("C     2.6481997    1.5975998   -2.7492997" + s)
+        f1.write("H     2.6573997    0.5124000   -2.6283997" + s)
+        f1.write("H     2.7186997    1.8556998   -3.8108996" + s)
+        f1.write("H     3.5309997    1.9918998   -2.2375998" + s)
+        f1.write("C     1.4299999    3.7172996   -2.1670998" + s)
+        f1.write("H     0.6241999    4.1645996   -1.5814998" + s)
+        f1.write("H     2.3812998    4.0763996   -1.7610998" + s)
+        f1.write("H     1.3476999    4.0651996   -3.2032997" + s)
+        f1.write("B     2.0756998    0.4378000    1.7666998" + s)
+        f1.write("O     3.3654997   -0.0810000    1.8671998" + s)
+        f1.write("C     4.2709996    1.0315999    2.0579998" + s)
+        f1.write("C     5.4819995    0.5533999    2.8527997" + s)
+        f1.write("H     5.1838995    0.0640000    3.7825996" + s)
+        f1.write("H     6.0490994   -0.1689000    2.2567998" + s)
+        f1.write("H     6.1442994    1.3928999    3.0939997" + s)
+        f1.write("C     4.6909995    1.5017999    0.6583999" + s)
+        f1.write("H     5.4398995    2.2997998    0.7063999" + s)
+        f1.write("H     5.1090995    0.6483999    0.1171000" + s)
+        f1.write("H     3.8181996    1.8505998    0.1015000" + s)
+        f1.write("C     3.3502997    2.0656998    2.7942997" + s)
+        f1.write("O     2.0458998    1.7442998    2.2507998" + s)
+        f1.write("C     3.6590996    3.5300997    2.4959998" + s)
+        f1.write("H     3.5358997    3.7464996    1.4332999" + s)
+        f1.write("H     2.9753997    4.1760996    3.0565997" + s)
+        f1.write("H     4.6847995    3.7776996    2.7930997" + s)
+        f1.write("C     3.2796997    1.8273998    4.3083996" + s)
+        f1.write("H     3.0708997    0.7747999    4.5225996" + s)
+        f1.write("H     4.2123996    2.1093998    4.8080995" + s)
+        f1.write("H     2.4671998    2.4302998    4.7258995" + s)
+        f1.write("B     1.7917998   -1.7489998    0.1412000" + s)
+        f1.write("O     1.8500998   -3.1467997    0.2110000" + s)
+        f1.write("C     3.0569997   -3.5802997   -0.4612000" + s)
+        f1.write("C     4.1632996   -3.6178996    0.6029999" + s)
+        f1.write("H     4.3272996   -2.6173997    1.0149999" + s)
+        f1.write("H     3.8420996   -4.2739996    1.4174999" + s)
+        f1.write("H     5.1055995   -3.9992996    0.1957000" + s)
+        f1.write("C     2.8261997   -4.9693995   -1.0466999" + s)
+        f1.write("H     2.6792997   -5.6906994   -0.2364000" + s)
+        f1.write("H     3.6907996   -5.2904995   -1.6389998" + s)
+        f1.write("H     1.9392998   -4.9911995   -1.6839998" + s)
+        f1.write("C     3.2640997   -2.4330998   -1.5048999" + s)
+        f1.write("O     2.7238997   -1.2952999   -0.7998999" + s)
+        f1.write("C     4.7166995   -2.1413998   -1.8718998" + s)
+        f1.write("H     5.1881995   -3.0188997   -2.3293998" + s)
+        f1.write("H     4.7565995   -1.3170999   -2.5912997" + s)
+        f1.write("H     5.2941995   -1.8488998   -0.9925999" + s)
+        f1.write("C     2.4197998   -2.6279997   -2.7728997" + s)
+        f1.write("H     1.3752999   -2.8206997   -2.5121998" + s)
+        f1.write("H     2.4501998   -1.7101998   -3.3667997" + s)
+        f1.write("H     2.7924997   -3.4536997   -3.3878997" + s)
+        f1.write("H    -2.2764998   -4.1481996    4.0262996" + s)
+        f1.write("H     1.9905998   -4.6454995    4.2840996" + s)
+        f1.write("H    -4.5414996   -2.6926997   -1.6821998" + s)
+        f1.write("H    -4.0522996    3.5020997    1.5576998" + s)
+        f1.flush()
+        f2 = tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8", suffix=".xyz")
+        f2.write("10" + s)
+        f2.write(s)
+        f2.write("  C      1.3603      0.0256      0.0000" + s)
+        f2.write("  C      0.6971     -1.2020      0.0000" + s)
+        f2.write("  C     -0.6944     -1.2184      0.0000" + s)
+        f2.write("  C     -1.3895     -0.0129      0.0000" + s)
+        f2.write("  C     -0.6712      1.1834      0.0000" + s)
+        f2.write("  N      0.6816      1.1960      0.0000" + s)
+        f2.write("  H      1.2665     -2.1365      0.0000" + s)
+        f2.write("  H     -1.2365     -2.1696      0.0000" + s)
+        f2.write("  H     -2.4837      0.0011      0.0000" + s)
+        f2.write("  H     -1.1569      2.1657      0.0000" + s)
+        f2.flush()
+        newstructure = "newstructure.xyz"
+        gotFile = os.path.isfile(newstructure)
+        assert gotFile is False
+        result = runner.invoke(
+            cli,
+            [
+                "exs",
+                "--inp",
+                f1.name,
+                f2.name,
+                "--center",
+                "18",
+                "--subnr",
+                "2",
+                "--rotate",
+                "180",
+            ],
+        )
+        assert result.exit_code == 0
+        # check Nitrogen position
+        lookup = "N      1.3335   -2.8374    3.0650"
+        got = 0
+        want = 93
+        with open(newstructure) as tmpFile:
+            for num, line in enumerate(tmpFile, 1):
+                if lookup in line:
+                    got = num
+        assert got != 0
+        assert got == want
+        gotFile = os.path.isfile(newstructure)
+        assert gotFile is True
+        if gotFile:
+            os.remove(newstructure)
+        constrain = "constrain.inp"
+        gotFile = os.path.isfile(constrain)
+        assert gotFile is True
+        if gotFile:
+            os.remove(constrain)
+
+
 # test cli part for stm
 def test_cli_stm_silent(runner):
     with tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8", suffix=".xyz") as f:
