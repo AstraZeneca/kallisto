@@ -65,7 +65,7 @@ def cns(config, inp: str, out: click.File, cntype: str):
     return cns
 
 
-@cli.command("cnsp")
+@cli.command("prox")
 @pass_config
 @click.option(
     "--inp",
@@ -76,23 +76,24 @@ def cns(config, inp: str, out: click.File, cntype: str):
     help="Geometry file in xyz or turbomole format.",
 )
 @click.option(
-    "--cntype",
-    default="erf",
-    type=str,
+    "--size",
+    type=(int, int),
+    default=(2, 3),
     show_default=True,
-    help="Coordination number type (exp, cov, err).",
+    required=False,
+    help="Size that defines the proximity shells.",
 )
 @click.argument("out", type=click.File("w"), default="-", required=False)
-def cnsp(config, inp: str, out: click.File, cntype: str):
-    """Atomic coordination number spheres."""
+def prox(config, inp: str, size: Tuple[int, int], out: click.File):
+    """Atomic proximity shells."""
 
     molecule = ksr.constructMolecule(geometry=inp, out=out)
     nat = molecule.get_number_of_atoms()
-    cnsp = molecule.get_cnspheres(cntype)
+    prox = molecule.get_prox(size)
     for i in range(nat):
-        silentPrinter(config.silent, cnsp[i], out)
+        silentPrinter(config.silent, prox[i], out)
 
-    return cnsp
+    return prox
 
 
 @cli.command("bonds")

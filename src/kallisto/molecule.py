@@ -1,5 +1,7 @@
 # src/kallisto/molecule.py
 
+from typing import Tuple
+
 import numpy as np
 
 from kallisto.atom import Atom
@@ -178,14 +180,14 @@ class Molecule(object):
         coords = self.get_positions()
         return getCoordinationNumbers(at, coords, cntype, threshold)
 
-    def get_cnspheres(self, cntype: str, threshold=800.0):
-        """Get coordination number spheres (cnsp)."""
+    def get_prox(self, size: Tuple[int, int], threshold=800.0):
+        """Get atomic proximity shells (prox)."""
 
-        from kallisto.methods import getCoordinationNumberSpheres
+        from kallisto.methods import getProximityShells
 
         at = self.get_atomic_numbers()
         coords = self.get_positions()
-        return getCoordinationNumberSpheres(at, coords, cntype, threshold)
+        return getProximityShells(at, coords, size, threshold)
 
     def get_vdw(self, charge: int, vdwtype: str, scale: float):
         """Get atomic-charge dependent van der Waals radii (vdws).

@@ -1,5 +1,7 @@
 # src/kallisto/methods.py
 
+from typing import Tuple
+
 import numpy as np
 
 
@@ -89,19 +91,18 @@ def getCoordinationNumbers(
     return cns
 
 
-def getCoordinationNumberSpheres(
-    at: np.ndarray, coords: np.ndarray, cntype: str, threshold: float
+def getProximityShells(
+    at: np.ndarray, coords: np.ndarray, size: Tuple[int, int], threshold: float
 ):
-    """A method to compute coordination number spheres (cnsp)."""
+    """A method to compute atomic proximity shells (prox)."""
 
     from kallisto.data import covalent_radius as rcov
     from kallisto.data import pauling_en
     from scipy import special
 
     nat = len(at)
-    cnsp = np.zeros(shape=(nat,), dtype=np.float64)
-    cnsp2 = np.zeros(shape=(nat,), dtype=np.float64)
-    cnsp3 = np.zeros(shape=(nat,), dtype=np.float64)
+    prox1 = np.zeros(shape=(nat,), dtype=np.float64)
+    prox2 = np.zeros(shape=(nat,), dtype=np.float64)
 
     # Fitted to match Wiberg bond orders of diatomic molecules
     k4 = 4.10451
@@ -111,7 +112,9 @@ def getCoordinationNumberSpheres(
     kn = 7.50
     threshold = 800.0
 
-    scale = 1
+    # unpack tuple in sizes
+    scale1, scale2 = size
+
     for i in range(nat):
         ia = at[i] - 1
         for j in range(nat):
@@ -125,58 +128,20 @@ def getCoordinationNumberSpheres(
             if rSquared > threshold:
                 continue
             r = np.sqrt(rSquared)
-            rco = scale * (rcov[ia] + rcov[ja])
             eni = pauling_en[ia]
             enj = pauling_en[ja]
             den = k4 * np.exp(-((np.abs(eni - enj) + k5) ** 2) / k6)
+
+            # smaller border
+            rco = scale1 * (rcov[ia] + rcov[ja])
             damp = den * 0.5 * (1 + special.erf(-kn * (r - rco) / rco))
-            cnsp[i] += damp
-
-    scale = 2
-    for i in range(nat):
-        ia = at[i] - 1
-        for j in range(nat):
-            if i is j:
-                continue
-            ja = at[j] - 1
-            dx = coords[j][0] - coords[i][0]
-            dy = coords[j][1] - coords[i][1]
-            dz = coords[j][2] - coords[i][2]
-            rSquared = dx * dx + dy * dy + dz * dz
-            if rSquared > threshold:
-                continue
-            r = np.sqrt(rSquared)
-            rco = scale * (rcov[ia] + rcov[ja])
-            eni = pauling_en[ia]
-            enj = pauling_en[ja]
-            den = k4 * np.exp(-((np.abs(eni - enj) + k5) ** 2) / k6)
+            prox1[i] += damp
+            # larger border
+            rco = scale2 * (rcov[ia] + rcov[ja])
             damp = den * 0.5 * (1 + special.erf(-kn * (r - rco) / rco))
-            cnsp2[i] += damp
+            prox2[i] += damp
 
-    scale = 3
-    for i in range(nat):
-        ia = at[i] - 1
-        for j in range(nat):
-            if i is j:
-                continue
-            ja = at[j] - 1
-            dx = coords[j][0] - coords[i][0]
-            dy = coords[j][1] - coords[i][1]
-            dz = coords[j][2] - coords[i][2]
-            rSquared = dx * dx + dy * dy + dz * dz
-            if rSquared > threshold:
-                continue
-            r = np.sqrt(rSquared)
-            rco = scale * (rcov[ia] + rcov[ja])
-            eni = pauling_en[ia]
-            enj = pauling_en[ja]
-            den = k4 * np.exp(-((np.abs(eni - enj) + k5) ** 2) / k6)
-            damp = den * 0.5 * (1 + special.erf(-kn * (r - rco) / rco))
-            cnsp3[i] += damp
-
-    cnSphere32 = cnsp3 - cnsp2
-
-    return cnSphere32
+    return prox2 - prox1
 
 
 def getAtomicPartialCharges(

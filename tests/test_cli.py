@@ -1186,8 +1186,8 @@ def test_cli_stm(runner):
         assert "14.62" and "7.74" in result.output
 
 
-# test cli part for cnsp
-def test_cli_cnsp_silent(runner):
+# test cli part for prox
+def test_cli_prox_silent(runner):
     with tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8", suffix=".xyz") as f:
         f.write("15" + s)
         f.write("toluene" + s)
@@ -1207,11 +1207,11 @@ def test_cli_cnsp_silent(runner):
         f.write("h 1.2994 2.6647 0.5466" + s)
         f.write("h -0.4475 2.9470 0.4506" + s)
         f.flush()
-        result = runner.invoke(cli, ["--silent", "cnsp", "--inp", f.name])
+        result = runner.invoke(cli, ["--silent", "prox", "--inp", f.name])
         assert result.exit_code == 0
 
 
-def test_cli_cnsp(runner):
+def test_cli_prox(runner):
     with tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8", suffix=".xyz") as f:
         f.write("15" + s)
         f.write("toluene" + s)
@@ -1231,6 +1231,6 @@ def test_cli_cnsp(runner):
         f.write("h 1.2994 2.6647 0.5466" + s)
         f.write("h -0.4475 2.9470 0.4506" + s)
         f.flush()
-        result = runner.invoke(cli, ["cnsp", "--inp", f.name])
+        result = runner.invoke(cli, ["prox", "--inp", f.name])
         assert result.exit_code == 0
         assert "4.38" and "3.36" in result.output
