@@ -498,7 +498,7 @@ def exs(
 @click.option(
     "--partner",
     type=int,
-    default=0,
+    default=1,
     show_default=True,
     required=True,
     help="Partner atom.",
@@ -514,6 +514,15 @@ def stm(config, inp: str, origin: int, partner: int, out: click.File):
     from kallisto.sterics import getClassicalSterimol
 
     L, bmin, bmax = getClassicalSterimol(mol, origin, partner)
+
+    # print values in Bohr
+    silentPrinter(
+        config.silent,
+        "Calculated for atom {0} (origin) and atom {1} (partner)".format(
+            origin, partner
+        ),
+        out,
+    )
 
     # print values in Bohr
     silentPrinter(
