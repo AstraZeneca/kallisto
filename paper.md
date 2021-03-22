@@ -41,6 +41,7 @@ The features are either interpolating high-level references (e.g., static/dynami
 Molecular geometries need to have an [``xmol``](https://en.wikipedia.org/wiki/XYZ_file_format) or a [``Turbomole``](https://www.turbomole.org/wp-content/uploads/2019/11/Turbomole_Manual_7-4-1.pdf) like format to be processed by ``kallisto``.
 Besides, we implemented several computational modelling helpers to simplify the development of high-throughput procedures.
 Some of those modelling helpers depend on the open-source [xtb](https://github.com/grimme-lab/xtb) tight-binding scheme that has been developed by Stefan Grimme and co-worker [@bannwarth2020].
+The ``kallisto`` software depends on the scientific libraries Numpy [@harris2020] and SciPy [@virtanen2020].
 The [online documentation](https://ehjc.gitbook.io/kallisto/) covers all high-level functionalizations of this software mostly in terms of copy-paste recipes.
 Furthermore, we cover bits of the underlying theory and compare to experimental data as well as to other modern deep learning models.
 
