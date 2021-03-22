@@ -4,7 +4,7 @@ from kallisto.grid import getLebedevLaikovGrid, gridSize
 
 
 def test_user_can_create_grid_sizes():
-    for n in range(11):
+    for n in range(23):
         size = gridSize[n]
         grid, weights = getLebedevLaikovGrid(n)
         assert len(weights) == size
