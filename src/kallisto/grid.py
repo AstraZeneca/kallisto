@@ -48,9 +48,21 @@ gridSize = dict(
 z = 0.0
 
 
-def getGridFromInt(n: int, grid: np.ndarray, weights: np.ndarray, count: Counter):
-    """Returns Lebedev-Laikov grid, weights, and count depending on requested
-    gridSize integer."""
+def getGridFromInt(n: int):
+    """Returns Lebedev-Laikov grid, weights, and count depending on input.
+
+    Parameter:
+     n - size of grid
+     grid - grid points
+     weights - point weights"""
+
+    # initialize count
+    count = Counter()  # type: ignore
+    count["points"] = 0
+
+    size = gridSize[n]
+    grid = np.zeros(shape=(size, 3), dtype=np.float64)
+    weights = np.zeros(shape=(size,), dtype=np.float64)
 
     switcher = {
         0: lambda: ld0006(grid, weights, count),
@@ -85,20 +97,10 @@ def getLebedevLaikovGrid(n: int):
     """Generate angular Lebedev-Laikov grid.
 
     Parameter:
-     n - size of grid
-     grid - grid points
-     weights - point weights"""
-
-    # initialize count
-    count = Counter()  # type: ignore
-    count["points"] = 0
-
-    size = gridSize[n]
-    grid = np.zeros(shape=(size, 3), dtype=np.float64)
-    weights = np.zeros(shape=(size,), dtype=np.float64)
+     n - size of grid"""
 
     # input integer and get Lebedev-Laikov grid, weights, and count
-    grid, weights, count = getGridFromInt(n, grid, weights, count)
+    grid, weights, count = getGridFromInt(n)
 
     if count["points"] != gridSize[n]:
         raise RuntimeError(
