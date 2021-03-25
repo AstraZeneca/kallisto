@@ -207,12 +207,12 @@ def getAtomicPartialCharges(
 
     # X vector
     X = np.zeros(shape=(m,), dtype=np.float64)
-    X[:nat] = -xi + (kappa / (np.sqrt(cns) + 1e-14)) * cns
+    X[:nat] = -xi + kappa * np.sqrt(cns)
 
     # setup Lagragian constraints
     A[:, nat] = 1.0
     A[nat, :] = 1.0
-    A[nat][nat] = 0.0
+    A[nat, nat] = 0.0
     X[nat] = charge
 
     # get eeq charges
