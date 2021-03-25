@@ -159,22 +159,29 @@ def getAtomicPartialCharges(
 
     # parameter
     sqrt2pi = np.sqrt(2.0 / np.pi)
-
     nat = len(at)
 
     # Lagragian space is +1 in dimensionality
     m = nat + 1
 
-    # setup parameter
+    # convert lists to numpy arrays for vectorization
+    eeq_alp = np.array(eeq_alp)
+    eeq_cnfak = np.array(eeq_cnfak)
+    eeq_en = np.array(eeq_en)
+    eeq_gamm = np.array(eeq_gamm)
+
+    # initialize arrays
     xi = np.zeros(shape=(nat,), dtype=np.float64)
     gam = np.zeros(shape=(nat,), dtype=np.float64)
     kappa = np.zeros(shape=(nat,), dtype=np.float64)
     alpha = np.zeros(shape=(nat,), dtype=np.float64)
-    for i in range(nat):
-        xi[i] = eeq_en[at[i] - 1]
-        gam[i] = eeq_gamm[at[i] - 1]
-        kappa[i] = eeq_cnfak[at[i] - 1]
-        alpha[i] = pow(eeq_alp[at[i] - 1], 2)
+
+    # setup parameter arrays
+    z = at - 1
+    xi = eeq_en[z]
+    gam = eeq_gamm[z]
+    kappa = eeq_cnfak[z]
+    alpha = np.power(eeq_alp[z], 2)
 
     """Set up A matrix and X vector
 
@@ -200,20 +207,13 @@ def getAtomicPartialCharges(
 
     # X vector
     X = np.zeros(shape=(m,), dtype=np.float64)
-    for i in range(nat):
-        tmp = kappa[i] / (np.sqrt(cns[i]) + 1e-14)
-        X[i] = -xi[i] + tmp * cns[i]
+    X[:nat] = -xi + (kappa / (np.sqrt(cns) + 1e-14)) * cns
 
-    # set Lagragian constraints
-    for i in range(m):
-        A[i][nat] = 1.0
-        A[nat][i] = 1.0
-
+    # setup Lagragian constraints
+    A[:, nat] = 1.0
+    A[nat, :] = 1.0
     A[nat][nat] = 0.0
     X[nat] = charge
-
-    np.reshape(A, (m, m))
-    np.reshape(X, (m,))
 
     # get eeq charges
     qs = np.linalg.solve(A, X)
