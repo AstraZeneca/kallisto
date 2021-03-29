@@ -383,11 +383,10 @@ def getCovalentBondingPartner(
 def getVanDerWaalsRadii(
     nat: int, at: np.ndarray, aw: np.ndarray, vdwtype: str, scale: float
 ):
-    """A method to compute atomic-charge dependent dynamic atomic polarizabilities (alps).
+    """A method to compute environment and charge dependent van der Waals radii (vdws).
 
-        ALP values are calculated for a given structure and are returned as an
-        array. For the charge dependency EEQ atomic partial charges are used
-        in an empirical scaling function as used in the dftd4 program."""
+        VDW values are calculated from atomic polarizabilities for a given structure
+        and are returned as an array."""
 
     from kallisto.data import chemical_symbols
     from kallisto.data.vdw import rahm, truhlar
