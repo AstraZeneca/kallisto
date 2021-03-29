@@ -15,14 +15,13 @@ def silentPrinter(silent: bool, message: str, out: click.File):
         click.echo(message, file=out)  # type: ignore
 
 
-def errorbye(message: str, out: click.File):
+def errorbye(message: str):
     """Exit application due to error."""
-    click.echo("", file=out)  # type: ignore
-    click.echo(message)  # type: ignore
+    click.echo("", err=True)  # type: ignore
+    click.echo(message, err=True)  # type: ignore
+    click.echo("", err=True)  # type: ignore
     click.echo(
-        """-> kallisto was terminated due to an error.
-        Please check the output.""",
-        file=out,  # type: ignore
+        """- kallisto was terminated due to an error""", err=True,
     )
     exit()
 

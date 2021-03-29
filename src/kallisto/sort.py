@@ -16,6 +16,7 @@ class Graph:
     def __init__(self, inp: str, out: click.File):
 
         self.inp = inp
+        self.out = out
         self.graph = defaultdict(list)  # type: ignore
         self.molecule = ksr.constructMolecule(geometry=self.inp, out=out)
         self.nat = self.molecule.get_number_of_atoms()
@@ -39,21 +40,21 @@ class Graph:
         queue.append(s)
         visited[s] = True
 
-        print("{:5}".format(self.nat), end=" \n")
-        print("Created with kallisto")
+        click.echo("{:5}".format(self.nat), file=self.out)  # type: ignore
+        click.echo("Created with kallisto", file=self.out)  # type: ignore
         while queue:
 
             # dequeue a vertex from queue
             # and print it
             s = queue.pop(0)
-            print(
+            click.echo(
                 "{:3} {:9.4f} {:9.4f} {:9.4f}".format(
                     chemical_symbols[self.at[s]],
                     self.coordinates[s][0] * Bohr,
                     self.coordinates[s][1] * Bohr,
                     self.coordinates[s][2] * Bohr,
                 ),
-                end=" \n",
+                file=self.out,  # type: ignore
             )
 
             # get adjacent vertices of dequeued vertex s

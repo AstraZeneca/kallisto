@@ -17,7 +17,7 @@ def constructMolecule(geometry: str, out: click.File) -> Molecule:
             # create molecule from atoms
             molecule = Molecule(symbols=atoms)
     except FileNotFoundError:
-        errorbye('Error: Inpt file "{0}" not found.'.format(geometry), out)
+        errorbye("Input file not found.")
 
     return molecule
 
@@ -53,8 +53,7 @@ def read(fileObject):
     elif filetp == "xyz":
         atoms = xyz.read(newfile)
     else:
-        print('Error: file type of input "{0}" not recognized'.format(fname))
-        exit(1)
+        errorbye("Input format erroneous or not implemented.")
 
     newfile.close()
 

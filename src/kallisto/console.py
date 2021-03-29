@@ -28,7 +28,7 @@ pass_config = click.make_pass_decorator(Config, ensure=True)
 def cli(config, silent: bool, shift: int):
     """kallisto calculates quantum mechanically derived atomic features.\n
 
-    Please check out the documentation.
+    Please check out the documentation (https://ehjc.gitbook.io/kallisto/).
     """
 
     config.shift = shift
@@ -38,21 +38,21 @@ def cli(config, silent: bool, shift: int):
 @cli.command("cns")
 @pass_config
 @click.option(
-    "--inp",
-    default="coord",
-    type=str,
-    show_default=True,
-    required=True,
-    help="Geometry file in xyz or turbomole format.",
-)
-@click.option(
     "--cntype",
     default="erf",
     type=str,
     show_default=True,
     help="Coordination number type (exp, cov, err).",
 )
-@click.argument("out", type=click.File("w"), default="-", required=False)
+@click.option(
+    "--out",
+    default="-",
+    type=click.File("w"),
+    show_default=True,
+    required=False,
+    help="Write to output file.",
+)
+@click.argument("inp", type=str, default="coord", required=True)
 def cns(config, inp: str, out: click.File, cntype: str):
     """Atomic coordination numbers."""
 
@@ -68,14 +68,6 @@ def cns(config, inp: str, out: click.File, cntype: str):
 @cli.command("prox")
 @pass_config
 @click.option(
-    "--inp",
-    default="coord",
-    type=str,
-    show_default=True,
-    required=True,
-    help="Geometry file in xyz or turbomole format.",
-)
-@click.option(
     "--size",
     type=(int, int),
     default=(2, 3),
@@ -83,7 +75,15 @@ def cns(config, inp: str, out: click.File, cntype: str):
     required=False,
     help="Size that defines the proximity shells.",
 )
-@click.argument("out", type=click.File("w"), default="-", required=False)
+@click.option(
+    "--out",
+    default="-",
+    type=click.File("w"),
+    show_default=True,
+    required=False,
+    help="Write to output file.",
+)
+@click.argument("inp", type=str, default="coord", required=True)
 def prox(config, inp: str, size: Tuple[int, int], out: click.File):
     """Atomic proximity shells."""
 
@@ -99,14 +99,6 @@ def prox(config, inp: str, size: Tuple[int, int], out: click.File):
 @cli.command("bonds")
 @pass_config
 @click.option(
-    "--inp",
-    default="coord",
-    type=str,
-    show_default=True,
-    required=True,
-    help="Geometry file in xyz or turbomole format.",
-)
-@click.option(
     "--partner",
     type=str,
     default="X",
@@ -115,7 +107,15 @@ def prox(config, inp: str, size: Tuple[int, int], out: click.File):
     help="Get all partner of atom X.",
 )
 @click.option("--constrain", is_flag=True)
-@click.argument("out", type=click.File("w"), default="-", required=False)
+@click.option(
+    "--out",
+    default="-",
+    type=click.File("w"),
+    show_default=True,
+    required=False,
+    help="Write to output file.",
+)
+@click.argument("inp", type=str, default="coord", required=True)
 def bonds(config, inp: str, partner: int, constrain: bool, out: click.File):
     """Get information about covalent bonding partner."""
 
@@ -153,14 +153,6 @@ def bonds(config, inp: str, partner: int, constrain: bool, out: click.File):
 @cli.command("sort")
 @pass_config
 @click.option(
-    "--inp",
-    default="coord",
-    type=str,
-    show_default=True,
-    required=True,
-    help="Geometry file in xyz or turbomole format.",
-)
-@click.option(
     "--start",
     type=str,
     default="X",
@@ -168,7 +160,15 @@ def bonds(config, inp: str, partner: int, constrain: bool, out: click.File):
     required=True,
     help="Get all partner of atom X.",
 )
-@click.argument("out", type=click.File("w"), default="-", required=False)
+@click.option(
+    "--out",
+    default="-",
+    type=click.File("w"),
+    show_default=True,
+    required=False,
+    help="Write to output file.",
+)
+@click.argument("inp", type=str, default="coord", required=True)
 def sort(config, inp: str, start: str, out: click.File):
     """Sort input geoemtry according to connectivity.
 
@@ -201,21 +201,21 @@ def sort(config, inp: str, start: str, out: click.File):
 @cli.command("eeq")
 @pass_config
 @click.option(
-    "--inp",
-    default="coord",
-    type=str,
-    show_default=True,
-    required=True,
-    help="Geometry file in xyz or turbomole format.",
-)
-@click.option(
     "--chrg",
     default=0,
     type=int,
     show_default=True,
     help="Absolute charge of the system.",
 )
-@click.argument("out", type=click.File("w"), default="-", required=False)
+@click.option(
+    "--out",
+    default="-",
+    type=click.File("w"),
+    show_default=True,
+    required=False,
+    help="Write to output file.",
+)
+@click.argument("inp", type=str, default="coord", required=True)
 def eeq(config, inp: str, out: click.File, chrg: int):
     """Electronegativity equilibration atomic partial charges."""
 
@@ -231,13 +231,6 @@ def eeq(config, inp: str, out: click.File, chrg: int):
 @cli.command("alp")
 @pass_config
 @click.option(
-    "--inp",
-    default="coord",
-    type=str,
-    show_default=True,
-    help="Calculate atomic polarizabilities (static and dynamic) in Bohr^3.",
-)
-@click.option(
     "--chrg",
     default=0,
     type=int,
@@ -245,7 +238,15 @@ def eeq(config, inp: str, out: click.File, chrg: int):
     help="Absolute charge of the system.",
 )
 @click.option("--molecular", is_flag=True)
-@click.argument("out", type=click.File("w"), default="-", required=False)
+@click.option(
+    "--out",
+    default="-",
+    type=click.File("w"),
+    show_default=True,
+    required=False,
+    help="Write to output file.",
+)
+@click.argument("inp", type=str, default="coord", required=True)
 def alp(config, inp: str, out: click.File, chrg: int, molecular: bool):
     """Static atomic polarizabilities in Bohr^3."""
 
@@ -264,14 +265,6 @@ def alp(config, inp: str, out: click.File, chrg: int, molecular: bool):
 @cli.command("vdw")
 @pass_config
 @click.option(
-    "--inp",
-    default="coord",
-    type=str,
-    show_default=True,
-    required=True,
-    help="Calculate atomic van der Waals radii in Bohr.",
-)
-@click.option(
     "--chrg",
     default=0,
     type=int,
@@ -288,7 +281,15 @@ def alp(config, inp: str, out: click.File, chrg: int, molecular: bool):
     help="Scaling of van der Waals radii.",
 )
 @click.option("--angstrom", is_flag=True)
-@click.argument("out", type=click.File("w"), default="-", required=False)
+@click.option(
+    "--out",
+    default="-",
+    type=click.File("w"),
+    show_default=True,
+    required=False,
+    help="Write to output file.",
+)
+@click.argument("inp", type=str, default="coord", required=True)
 def vdw(config, inp: str, out: click.File, chrg: int, vdwtype: str, angstrom: bool):
     """Charge-dependent atomic van der Waals radii in Bohr."""
 
@@ -312,32 +313,32 @@ def vdw(config, inp: str, out: click.File, chrg: int, vdwtype: str, angstrom: bo
 @cli.command("rms")
 @pass_config
 @click.option(
-    "--compare",
-    type=(str, str),
+    "--out",
+    default="-",
+    type=click.File("w"),
     show_default=True,
-    help="Coordinates to be compared.",
-    required=True,
+    required=False,
+    help="Write to output file.",
 )
-@click.argument("out", type=click.File("w"), default="-", required=False)
-def rms(config, compare: Tuple[str, str], out: click.File):
+@click.argument("inp", type=(str, str), default=("coord1", "coord2"), required=True)
+def rms(config, inp: Tuple[str, str], out: click.File):
     """Calculate the root mean squared deviation between two structures using quaternions.
     Based on a Fortran implementation by Chaok Seok, Evangelos
     Coutsias, and Ken Dill."""
 
     from kallisto.rmsd import rmsd
 
-    mol1 = ksr.constructMolecule(geometry=compare[0], out=out)
+    mol1 = ksr.constructMolecule(geometry=inp[0], out=out)
     nat1 = mol1.get_number_of_atoms()
-    mol2 = ksr.constructMolecule(geometry=compare[1], out=out)
+    mol2 = ksr.constructMolecule(geometry=inp[1], out=out)
     nat2 = mol2.get_number_of_atoms()
 
     # for RMSD comparison both coordinates need the same atom count
     if nat1 != nat2:
         errorbye(
             "Error: number of atoms do not match in {} and in {}".format(
-                compare[0], compare[1]
+                inp[0], inp[1]
             ),
-            out,
         )
 
     coord1 = mol1.get_positions()
@@ -356,13 +357,6 @@ def rms(config, compare: Tuple[str, str], out: click.File):
 @cli.command("lig")
 @pass_config
 @click.option(
-    "--inp",
-    type=str,
-    show_default=True,
-    required=True,
-    help="Input structure to determine covalent substructures for center atom.",
-)
-@click.option(
     "--center",
     type=int,
     default=0,
@@ -370,7 +364,15 @@ def rms(config, compare: Tuple[str, str], out: click.File):
     required=True,
     help="Central atom for which all bonding partner (ligands) are defined.",
 )
-@click.argument("out", type=click.File("w"), default="-", required=False)
+@click.option(
+    "--out",
+    default="-",
+    type=click.File("w"),
+    show_default=True,
+    required=False,
+    help="Write to output file.",
+)
+@click.argument("inp", type=str, default="coord", required=True)
 def lig(config, inp: str, center: int, out: click.File):
     """Get all substructures (or ligands) that are bound to the center atom."""
 
@@ -397,13 +399,6 @@ def lig(config, inp: str, center: int, out: click.File):
 
 @cli.command("exs")
 @pass_config
-@click.option(
-    "--inp",
-    type=(str, str),
-    show_default=True,
-    required=True,
-    help="Reference structure and substrate.",
-)
 @click.option(
     "--center",
     type=int,
@@ -435,7 +430,15 @@ def lig(config, inp: str, center: int, out: click.File):
     help="Rotate new substrate around covalent bond to center around specified degree .",
 )
 @click.option("--exclude", is_flag=True)
-@click.argument("out", type=click.File("w"), default="-", required=False)
+@click.option(
+    "--out",
+    default="-",
+    type=click.File("w"),
+    show_default=True,
+    required=False,
+    help="Write to output file.",
+)
+@click.argument("inp", type=(str, str), default=("coord1", "coord2"), required=True)
 def exs(
     config,
     inp: str,
@@ -481,13 +484,6 @@ def exs(
 @cli.command("stm")
 @pass_config
 @click.option(
-    "--inp",
-    type=str,
-    show_default=True,
-    required=True,
-    help="Reference structure and substrate.",
-)
-@click.option(
     "--origin",
     type=int,
     default=0,
@@ -503,7 +499,15 @@ def exs(
     required=True,
     help="Partner atom.",
 )
-@click.argument("out", type=click.File("w"), default="-", required=False)
+@click.option(
+    "--out",
+    default="-",
+    type=click.File("w"),
+    show_default=True,
+    required=False,
+    help="Write to output file.",
+)
+@click.argument("inp", type=str, default="coord", required=True)
 def stm(config, inp: str, origin: int, partner: int, out: click.File):
     """Calculate sterimol descriptors using kallisto van der Waals radii."""
 

@@ -3,8 +3,6 @@
 import os
 import tempfile
 
-import pytest
-
 from kallisto.atom import Atom
 import kallisto.reader.strucreader as ksr
 
@@ -28,16 +26,3 @@ def test_a_user_can_read_coord():
         got = type(atoms[0])
         want = Atom
         assert got is want
-
-
-def test_a_user_cannot_read_invalid_coord():
-    with tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8") as f:
-        f.write("$xoord" + s)
-        f.write("  1.87167924 -0.101043656  0.1596818582  c" + s)
-        f.write("$end")
-        f.flush()
-        fname = open(f.name, "r+")
-        with pytest.raises(SystemExit) as error:
-            ksr.read(fname)
-        assert error.value.args[0] == 1
-        fname.close()

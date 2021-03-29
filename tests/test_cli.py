@@ -39,9 +39,7 @@ def test_cli_cns_exp_silent(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(
-            cli, ["--silent", "cns", "--inp", f.name, "--cntype", "exp"]
-        )
+        result = runner.invoke(cli, ["--silent", "cns", "--cntype", "exp", f.name])
         assert result.exit_code == 0
 
 
@@ -52,7 +50,7 @@ def test_cli_cns_exp(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["cns", "--inp", f.name, "--cntype", "exp"])
+        result = runner.invoke(cli, ["cns", "--cntype", "exp", f.name])
         assert result.exit_code == 0
         assert "0.98678927" in result.output
 
@@ -64,7 +62,7 @@ def test_cli_cns_cov(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["cns", "--inp", f.name, "--cntype", "cov"])
+        result = runner.invoke(cli, ["cns", "--cntype", "cov", f.name])
         assert result.exit_code == 0
         assert "0.9189476" in result.output
 
@@ -76,7 +74,7 @@ def test_cli_cns_erf(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["cns", "--inp", f.name, "--cntype", "erf"])
+        result = runner.invoke(cli, ["cns", "--cntype", "erf", f.name])
         assert result.exit_code == 0
         assert "0.9878465" in result.output
 
@@ -89,7 +87,7 @@ def test_cli_bonds_silent(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["--silent", "bonds", "--inp", f.name])
+        result = runner.invoke(cli, ["--silent", "bonds", f.name])
         assert result.exit_code == 0
 
 
@@ -100,7 +98,7 @@ def test_cli_bonds(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["bonds", "--inp", f.name])
+        result = runner.invoke(cli, ["bonds", f.name])
         assert result.exit_code == 0
 
 
@@ -111,7 +109,7 @@ def test_cli_bonds_partner(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["bonds", "--inp", f.name, "--partner", "0"])
+        result = runner.invoke(cli, ["bonds", "--partner", "0", f.name])
         assert result.exit_code == 0
 
 
@@ -125,7 +123,7 @@ def test_cli_bonds_constrain(runner):
         constrain = "constrain.inp"
         gotFile = os.path.isfile(constrain)
         assert gotFile is False
-        result = runner.invoke(cli, ["bonds", "--inp", f.name, "--constrain"])
+        result = runner.invoke(cli, ["bonds", "--constrain", f.name])
         assert result.exit_code == 0
         gotFile = os.path.isfile(constrain)
         assert gotFile is True
@@ -150,7 +148,7 @@ def test_cli_sort(runner):
         f.write("H -2.4837 0.0011 0.0000" + s)
         f.write("H -1.1569 2.1657 0.0000" + s)
         f.flush()
-        result = runner.invoke(cli, ["sort", "--inp", f.name])
+        result = runner.invoke(cli, ["sort", f.name])
         assert result.exit_code == 0
         assert "11" in result.output
         assert "kallisto" in result.output
@@ -172,7 +170,7 @@ def test_cli_sort_with_start(runner):
         f.write("H -2.4837 0.0011 0.0000" + s)
         f.write("H -1.1569 2.1657 0.0000" + s)
         f.flush()
-        result = runner.invoke(cli, ["sort", "--inp", f.name, "--start", "5"])
+        result = runner.invoke(cli, ["sort", "--start", "5", f.name])
         assert result.exit_code == 0
         assert "11" in result.output
         assert "kallisto\nN      0.6816    1.1960    0.0000" in result.output
@@ -186,7 +184,7 @@ def test_cli_eeq_silent(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["--silent", "eeq", "--inp", f.name])
+        result = runner.invoke(cli, ["--silent", "eeq", f.name])
         assert result.exit_code == 0
 
 
@@ -197,7 +195,7 @@ def test_cli_eeq(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["eeq", "--inp", f.name])
+        result = runner.invoke(cli, ["eeq", f.name])
         assert result.exit_code == 0
         assert "-0.17166856" and "0.17166856" in result.output
 
@@ -209,7 +207,7 @@ def test_cli_eeq_cation(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["eeq", "--inp", f.name, "--chrg", "1"])
+        result = runner.invoke(cli, ["eeq", "--chrg", "1", f.name])
         assert result.exit_code == 0
         assert "0.59769359" and "0.40230641" in result.output
 
@@ -221,7 +219,7 @@ def test_cli_eeq_anion(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["eeq", "--inp", f.name, "--chrg", "-1"])
+        result = runner.invoke(cli, ["eeq", "--chrg", "-1", f.name])
         assert result.exit_code == 0
         assert "-0.94103071" and "-0.058969287" in result.output
 
@@ -234,7 +232,7 @@ def test_cli_alp_silent(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["--silent", "alp", "--inp", f.name])
+        result = runner.invoke(cli, ["--silent", "alp", f.name])
         assert result.exit_code == 0
 
 
@@ -245,7 +243,7 @@ def test_cli_alp(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["alp", "--inp", f.name])
+        result = runner.invoke(cli, ["alp", f.name])
         assert result.exit_code == 0
         assert "6.5655467" and "1.7519379" in result.output
 
@@ -257,7 +255,7 @@ def test_cli_alp_cation(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["alp", "--inp", f.name, "--chrg", "1"])
+        result = runner.invoke(cli, ["alp", "--chrg", "1", f.name])
         assert result.exit_code == 0
         assert "4.8142762" and "1.0744963" in result.output
 
@@ -269,7 +267,7 @@ def test_cli_alp_anion(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["alp", "--inp", f.name, "--chrg", "-1"])
+        result = runner.invoke(cli, ["alp", "--chrg", "-1", f.name])
         assert result.exit_code == 0
         assert "9.4232394" and "3.2506322" in result.output
 
@@ -281,7 +279,7 @@ def test_cli_alp_molecular(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["alp", "--inp", f.name, "--molecular"])
+        result = runner.invoke(cli, ["alp", "--molecular", f.name])
         assert result.exit_code == 0
         assert "8.317" in result.output
 
@@ -294,7 +292,7 @@ def test_cli_vdw_silent(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["--silent", "vdw", "--inp", f.name])
+        result = runner.invoke(cli, ["--silent", "vdw", f.name])
         assert result.exit_code == 0
 
 
@@ -305,7 +303,7 @@ def test_cli_vdw(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["vdw", "--inp", f.name])
+        result = runner.invoke(cli, ["vdw", f.name])
         assert result.exit_code == 0
         assert "3.29019696" and "2.5041682" in result.output
 
@@ -317,7 +315,7 @@ def test_cli_vdw_angstrom(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["vdw", "--inp", f.name, "--angstrom"])
+        result = runner.invoke(cli, ["vdw", "--angstrom", f.name])
         assert result.exit_code == 0
         assert "1.74109" and "1.32514" in result.output
 
@@ -330,7 +328,7 @@ def test_cli_vdw_angstrom_truhlar(runner):
         f.write("$end")
         f.flush()
         result = runner.invoke(
-            cli, ["vdw", "--inp", f.name, "--angstrom", "--vdwtype", "truhlar"],
+            cli, ["vdw", "--angstrom", "--vdwtype", "truhlar", f.name],
         )
         assert result.exit_code == 0
         assert "1.565228" and "0.946534" in result.output
@@ -343,9 +341,7 @@ def test_cli_vdw_angstrom_rahm(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(
-            cli, ["vdw", "--inp", f.name, "--angstrom", "--vdwtype", "rahm"],
-        )
+        result = runner.invoke(cli, ["vdw", "--angstrom", "--vdwtype", "rahm", f.name],)
         assert result.exit_code == 0
         assert "1.741096" and "1.325148" in result.output
 
@@ -357,9 +353,7 @@ def test_cli_vdw_angstrom_cation(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(
-            cli, ["vdw", "--inp", f.name, "--angstrom", "--chrg", "1"]
-        )
+        result = runner.invoke(cli, ["vdw", "--angstrom", "--chrg", "1", f.name])
         assert result.exit_code == 0
         assert "1.665613" and "1.235759" in result.output
 
@@ -371,9 +365,7 @@ def test_cli_vdw_angstrom_anion(runner):
         f.write("0.00000000000000 0.00000000000000  1.06176434496059 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(
-            cli, ["vdw", "--inp", f.name, "--angstrom", "--chrg", "-1"]
-        )
+        result = runner.invoke(cli, ["vdw", "--angstrom", "--chrg", "-1", f.name])
         assert result.exit_code == 0
         assert "1.833333" and "1.447486" in result.output
 
@@ -392,7 +384,7 @@ def test_cli_rms_silent(runner):
         f2.write("1 1  2.06176 h" + s)
         f2.write("$end")
         f2.flush()
-        result = runner.invoke(cli, ["--silent", "rms", "--compare", f1.name, f2.name])
+        result = runner.invoke(cli, ["--silent", "rms", f1.name, f2.name])
         assert result.exit_code == 0
         f2.close()
 
@@ -409,7 +401,7 @@ def test_cli_rms_nats_not_equal(runner):
         f2.write("1 1 -0.06176 c" + s)
         f2.write("$end")
         f2.flush()
-        result = runner.invoke(cli, ["rms", "--compare", f1.name, f2.name])
+        result = runner.invoke(cli, ["rms", f1.name, f2.name])
         assert result.exit_code == 0
         assert "Error" in result.output
         f2.close()
@@ -428,7 +420,7 @@ def test_cli_rms(runner):
         f2.write("1 1  2.06176 h" + s)
         f2.write("$end")
         f2.flush()
-        result = runner.invoke(cli, ["rms", "--compare", f1.name, f2.name])
+        result = runner.invoke(cli, ["rms", f1.name, f2.name])
         assert result.exit_code == 0
         f2.close()
 
@@ -441,9 +433,7 @@ def test_cli_lig_silent(runner):
         f.write("0 0  1.06176 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(
-            cli, ["--silent", "lig", "--inp", f.name, "--center", "1"]
-        )
+        result = runner.invoke(cli, ["--silent", "lig", "--center", "1", f.name])
         assert result.exit_code == 0
 
 
@@ -454,7 +444,7 @@ def test_cli_lig_0(runner):
         f.write("0 0  1.06176 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["lig", "--inp", f.name, "--center", "0"])
+        result = runner.invoke(cli, ["lig", "--center", "0", f.name])
         assert result.exit_code == 0
         assert "Substructure" and "[1]" in result.output
 
@@ -466,7 +456,7 @@ def test_cli_lig_1(runner):
         f.write("0 0  1.06176 h" + s)
         f.write("$end")
         f.flush()
-        result = runner.invoke(cli, ["lig", "--inp", f.name, "--center", "1"])
+        result = runner.invoke(cli, ["lig", "--center", "1", f.name])
         assert result.exit_code == 0
         assert "Substructure" and "[0]" in result.output
 
@@ -588,18 +578,7 @@ def test_cli_exs_silent(runner):
         f2.write("  H     -1.1569      2.1657      0.0000" + s)
         f2.flush()
         result = runner.invoke(
-            cli,
-            [
-                "--silent",
-                "exs",
-                "--inp",
-                f1.name,
-                f2.name,
-                "--center",
-                "2",
-                "--subnr",
-                "2",
-            ],
+            cli, ["--silent", "exs", "--center", "2", "--subnr", "2", f1.name, f2.name],
         )
         assert result.exit_code == 0
         newstructure = "newstructure.xyz"
@@ -731,7 +710,7 @@ def test_cli_exs(runner):
         gotFile = os.path.isfile(newstructure)
         assert gotFile is False
         result = runner.invoke(
-            cli, ["exs", "--inp", f1.name, f2.name, "--center", "18", "--subnr", "2"],
+            cli, ["exs", "--center", "18", "--subnr", "2", f1.name, f2.name],
         )
         assert result.exit_code == 0
         gotFile = os.path.isfile(newstructure)
@@ -785,7 +764,7 @@ def test_cli_exs_works_on_structures(runner):
         gotFile = os.path.isfile(newstructure)
         assert gotFile is False
         result = runner.invoke(
-            cli, ["exs", "--inp", f1.name, f2.name, "--center", "10", "--subnr", "2"],
+            cli, ["exs", "--center", "10", "--subnr", "2", f1.name, f2.name],
         )
         assert result.exit_code == 0
         # check Carbon position
@@ -931,15 +910,14 @@ def test_cli_exs_with_rotation(runner):
             cli,
             [
                 "exs",
-                "--inp",
-                f1.name,
-                f2.name,
                 "--center",
                 "18",
                 "--subnr",
                 "2",
                 "--rotate",
                 "180",
+                f1.name,
+                f2.name,
             ],
         )
         assert result.exit_code == 0
@@ -1067,8 +1045,7 @@ def test_cli_stm_silent(runner):
         f.write("H    -4.0522996    3.5020997    1.5576998" + s)
         f.flush()
         result = runner.invoke(
-            cli,
-            ["--silent", "stm", "--inp", f.name, "--origin", "18", "--partner", "23"],
+            cli, ["--silent", "stm", "--origin", "18", "--partner", "23", f.name],
         )
         assert result.exit_code == 0
 
@@ -1175,7 +1152,7 @@ def test_cli_stm(runner):
         f.write("H    -4.0522996    3.5020997    1.5576998" + s)
         f.flush()
         result = runner.invoke(
-            cli, ["stm", "--inp", f.name, "--origin", "18", "--partner", "23"],
+            cli, ["stm", "--origin", "18", "--partner", "23", f.name],
         )
         assert result.exit_code == 0
         # L value in Bohr and Angstrom
@@ -1207,7 +1184,7 @@ def test_cli_prox_silent(runner):
         f.write("h 1.2994 2.6647 0.5466" + s)
         f.write("h -0.4475 2.9470 0.4506" + s)
         f.flush()
-        result = runner.invoke(cli, ["--silent", "prox", "--inp", f.name])
+        result = runner.invoke(cli, ["--silent", "prox", f.name])
         assert result.exit_code == 0
 
 
@@ -1231,6 +1208,6 @@ def test_cli_prox(runner):
         f.write("h 1.2994 2.6647 0.5466" + s)
         f.write("h -0.4475 2.9470 0.4506" + s)
         f.flush()
-        result = runner.invoke(cli, ["prox", "--inp", f.name])
+        result = runner.invoke(cli, ["prox", f.name])
         assert result.exit_code == 0
         assert "4.38" and "3.36" in result.output
