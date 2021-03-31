@@ -1,5 +1,5 @@
 ---
-title: 'kallisto: A command-line interface to simplify computational modelling and the generation of atomic features.'
+title: 'kallisto: A command-line interface to simplify computational modelling and the generation of atomic features'
 tags:
   - Python
   - Poetry
@@ -45,19 +45,20 @@ The ``kallisto`` software depends on the scientific libraries Numpy [@harris2020
 The [online documentation](https://ehjc.gitbook.io/kallisto/) covers all high-level functionalizations of this software mostly in terms of copy-paste recipes.
 Furthermore, we cover bits of the underlying theory and compare to experimental data as well as to other modern deep learning models.
 
-# Atomic Features
+# Atomic and Molecular Features
 
-The ``kallisto`` software gives you access to the following atomic features (all atoms up to Radon)
+The following atomic and molecular features are available for all atoms up to Radon
 
 - Coordination numbers [@grimme2010; @caldeweyher2019]
-- Electronegativity equlibration atomic partial charges [@caldeweyher2019]
-- Dynamic polarizabilities [@grimme2010; @caldeweyher2019]
-- Van-der-Waals radii [@fedorov2018; @rahm2017; @mantina2009]
+- Proximity shells 
+- Environment-dependent electronegativity equilibration partial charges [@caldeweyher2019]
+- Environment- and charge-dependent dynamic polarizabilities [@grimme2010; @caldeweyher2019]
+- Environment- and charge-dependent van-der-Waals radii [@fedorov2018; @rahm2017; @mantina2009]
 - Sterimol descriptors (L, Bmin, Bmax) [@brethome2019]
 
 # Modelling Helpers
 
-The ``kallisto`` software gives you access to the following modelling helper
+The following modelling helper are implemented
 
 - Breadth first sorting
 - Root mean squared deviation (quaternions) [@coutsias2004]
@@ -66,6 +67,6 @@ The ``kallisto`` software gives you access to the following modelling helper
 
 # Acknowledgements
 
-EC acknowledges contributions from Philipp Pracht (`@pprcht`).
+EC acknowledges contributions from Philipp Pracht (`@pprcht`) and thanks Kjell Jorner (`@kjelljorner`) for sharing his Sterimol algorithm.
 
 # References
