@@ -92,43 +92,16 @@ def rmsd(n: int, coord1: np.ndarray, coord2: np.ndarray) -> Tuple[float, np.ndar
 
 def rotationMatrix(q: np.ndarray) -> np.ndarray:
     """Constructs rotation matrix U from quaternion q."""
-    q0 = q[0]
-    q1 = q[1]
-    q2 = q[2]
-    q3 = q[3]
 
-    b0 = 2.0 * q0
-    b1 = 2.0 * q1
-    b2 = 2.0 * q2
-    b3 = 2.0 * q3
+    q = q.squeeze()
+    u = R.from_quat(q).as_matrix()
 
-    q00 = b0 * q0 - 1.0
-    q01 = b0 * q1
-    q02 = b0 * q2
-    q03 = b0 * q3
-
-    q11 = b1 * q1
-    q12 = b1 * q2
-    q13 = b1 * q3
-
-    q22 = b2 * q2
-    q23 = b2 * q3
-
-    q33 = b3 * q3
-
-    u = np.zeros(shape=(3, 3), dtype=np.float64)
-
-    u[0, 0] = q00 + q11
-    u[0, 1] = q12 - q03
-    u[0, 2] = q13 + q02
-
-    u[1, 0] = q12 + q03
-    u[1, 1] = q00 + q22
-    u[1, 2] = q23 - q01
-
-    u[2, 0] = q13 - q02
-    u[2, 1] = q23 + q01
-    u[2, 2] = q00 + q33
+    # anti-transpose, transpose, and fix signs
+    u = u[::-1, ::-1].T
+    u[0, 0] *= -1
+    u[1, 1] *= -1
+    u[1, 2] *= -1
+    u[2, 0] *= -1
 
     return u
 
