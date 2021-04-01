@@ -1,5 +1,6 @@
 # noxfile.py
 
+import os
 import tempfile
 
 import nox
@@ -45,7 +46,7 @@ def black(session: Session) -> None:
 
 @nox.session(python="3.8")
 def safety(session: Session) -> None:
-    with tempfile.NamedTemporaryFile(dir="./tmp") as requirements:
+    with tempfile.NamedTemporaryFile(dir=os.getcwd()) as requirements:
         session.run(
             "poetry",
             "export",
@@ -83,7 +84,7 @@ def coverage(session: Session) -> None:
 
 
 def install_with_constraints(session: Session, *args, **kwargs) -> None:
-    with tempfile.NamedTemporaryFile(dir="./tmp") as requirements:
+    with tempfile.NamedTemporaryFile(dir=os.getcwd()) as requirements:
         session.run(
             "poetry",
             "export",
