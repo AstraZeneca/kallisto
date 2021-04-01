@@ -47,18 +47,23 @@ def black(session: Session) -> None:
 
 @nox.session(python="3.8")
 def safety(session: Session) -> None:
-    with tempfile.NamedTemporaryFile(dir=os.getcwd()) as requirements:
+    with tempfile.TemporaryDirectory() as tmpdirname:
         session.run(
             "poetry",
             "export",
             "--dev",
             "--format=requirements.txt",
             "--without-hashes",
-            f"--output={requirements.name}",
+            f"--output={os.path.join(tmpdirname, 'poetry-export.out')}",
             external=True,
         )
         install_with_constraints(session, "safety")
-        session.run("safety", "check", f"--file={requirements.name}", "--full-report")
+        session.run(
+            "safety",
+            "check",
+            f"--file={os.path.join(tmpdirname, 'safety-check.out')}",
+            "--full-report",
+        )
 
 
 @nox.session(python=python_versions)
@@ -85,14 +90,18 @@ def coverage(session: Session) -> None:
 
 
 def install_with_constraints(session: Session, *args, **kwargs) -> None:
-    with tempfile.NamedTemporaryFile(dir=os.getcwd()) as requirements:
+    with tempfile.TemporaryDirectory() as tmpdirname:
         session.run(
             "poetry",
             "export",
             "--dev",
             "--format=requirements.txt",
             "--without-hashes",
-            f"--output={requirements.name}",
+            f"--output={os.path.join(tmpdirname, 'poetry-export.out')}",
             external=True,
         )
-        session.install(f"--constraint={requirements.name}", *args, **kwargs)
+        session.install(
+            f"--constraint={os.path.join(tmpdirname, 'poetry-export.out')}",
+            *args,
+            **kwargs,
+        )
