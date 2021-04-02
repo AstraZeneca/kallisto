@@ -106,7 +106,7 @@ def rotationMatrix(q: np.ndarray) -> np.ndarray:
     return u
 
 
-def recursiveGetSubstructures(n: int, bonds: np.ndarray, center: int):
+def recursiveGetSubstructures(n: int, bonds, center: int):
     """Recursively call getSubstructures to get all covalent substructres of center atom."""
 
     paths = []
@@ -159,14 +159,14 @@ def exchangeSubstructure(
     n: int,
     center: int,
     subnr: int,
-    bonds: np.ndarray,
+    bonds,
     ref: Molecule,
     newsub: Molecule,
-    newSubBonds: np.ndarray,
+    newSubBonds,
     name: str,
     rotate: int,
     exclude: bool,
-):
+) -> Molecule:
     """Exchange substructure (subnr) from ref with substrate."""
 
     # setup initial complex
@@ -181,6 +181,7 @@ def exchangeSubstructure(
     # extract coordinates of central atom
     centralAtom = refxyz[center, :]
 
+    mol = Molecule()
     for i in range(len(bonds[center])):
         if i == subnr:
             path = np.zeros(shape=(n,), dtype=np.int32)
@@ -244,6 +245,9 @@ def exchangeSubstructure(
             oldnat = oldsub.get_number_of_atoms()
             nat = refnat - oldnat
             writeTransitionMetalConstrains(nat, newnat, newSubBonds, exclude)
+            return mol
+
+    return mol
 
 
 def getRodriguezRotation(
