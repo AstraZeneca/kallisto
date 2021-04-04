@@ -1,10 +1,14 @@
 # src/kallisto/molecule.py
 
+import os
 from typing import Tuple
 
 import numpy as np
 
 from kallisto.atom import Atom
+
+# get cwd
+cwd = os.getcwd()
 
 
 class Molecule(object):
@@ -230,7 +234,7 @@ class Molecule(object):
         cns = self.get_cns(cntype="cov")
         return getAtomicPartialCharges(at, coords, cns, charge)
 
-    def writeMolecule(self, name: str):
+    def writeMolecule(self, name: str, path=cwd):
         """Write molecular structure."""
 
         import os
@@ -241,6 +245,8 @@ class Molecule(object):
         at = self.get_atomic_numbers()
         nat = self.get_number_of_atoms()
 
+        path += "/"
+        name = path + name
         f = open(name, "w")
         s = os.linesep
         f.write("{:5}".format(nat) + s)
