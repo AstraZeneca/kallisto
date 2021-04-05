@@ -2,7 +2,7 @@
 
 import pytest
 
-from tests.store import acetylene, iridiumCatalyst, pyridine, pyridine_mH
+from tests.store import acetylene, iridiumCatalyst, pyridine
 
 
 @pytest.fixture(scope="session")
@@ -15,21 +15,6 @@ def pyridine_xyz(tmpdir_factory):
     fn = str(fn)
 
     mol = pyridine()
-    mol.writeMolecule(name=name, path=dn)
-
-    return fn
-
-
-@pytest.fixture(scope="session")
-def pyridine_mH_xyz(tmpdir_factory):
-    """Write a pyridine molecule minus Hydrogen to a data file in a temporary directory."""
-    name = "pyridine_mH.xyz"
-    dn = tmpdir_factory.mktemp("test_pyridine_mH", numbered=True)
-    fn = dn.join(name)
-    dn = str(dn)
-    fn = str(fn)
-
-    mol = pyridine_mH()
     mol.writeMolecule(name=name, path=dn)
 
     return fn

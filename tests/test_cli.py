@@ -231,7 +231,7 @@ def test_cli_lig_0(runner, acetylene_xyz):
 
 
 # test cli part for exs
-def test_cli_exs_silent(runner, pyridine_xyz, pyridine_mH_xyz):
+def test_cli_exs_silent(runner, pyridine_xyz):
     result = runner.invoke(
         cli,
         [
@@ -242,7 +242,7 @@ def test_cli_exs_silent(runner, pyridine_xyz, pyridine_mH_xyz):
             "--subnr",
             "2",
             pyridine_xyz,
-            pyridine_mH_xyz,
+            pyridine_xyz,
         ],
     )
     assert result.exit_code == 0
@@ -256,9 +256,9 @@ def test_cli_exs_silent(runner, pyridine_xyz, pyridine_mH_xyz):
         os.remove(constrain)
 
 
-def test_cli_exs(runner, pyridine_xyz, pyridine_mH_xyz):
+def test_cli_exs(runner, pyridine_xyz):
     result = runner.invoke(
-        cli, ["exs", "--center", "0", "--subnr", "2", pyridine_xyz, pyridine_mH_xyz],
+        cli, ["exs", "--center", "0", "--subnr", "2", pyridine_xyz, pyridine_xyz],
     )
     assert result.exit_code == 0
     newstructure = "newstructure.xyz"
@@ -273,7 +273,7 @@ def test_cli_exs(runner, pyridine_xyz, pyridine_mH_xyz):
         os.remove(constrain)
 
 
-def test_cli_exs_with_rotation(runner, pyridine_xyz, pyridine_mH_xyz):
+def test_cli_exs_with_rotation(runner, pyridine_xyz):
     result = runner.invoke(
         cli,
         [
@@ -285,7 +285,7 @@ def test_cli_exs_with_rotation(runner, pyridine_xyz, pyridine_mH_xyz):
             "--rotate",
             "180",
             pyridine_xyz,
-            pyridine_mH_xyz,
+            pyridine_xyz,
         ],
     )
     assert result.exit_code == 0
