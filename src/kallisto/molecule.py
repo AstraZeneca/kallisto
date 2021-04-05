@@ -245,8 +245,7 @@ class Molecule(object):
         at = self.get_atomic_numbers()
         nat = self.get_number_of_atoms()
 
-        path += "/"
-        name = path + name
+        name = os.path.join(path, name)
         f = open(name, "w")
         s = os.linesep
         f.write("{:5}".format(nat) + s)

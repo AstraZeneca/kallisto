@@ -231,18 +231,18 @@ def test_cli_lig_0(runner, acetylene_xyz):
 
 
 # test cli part for exs
-def test_cli_exs_silent(runner, iridiumcat_xyz, pyridine_minusH_xyz):
+def test_cli_exs_silent(runner, pyridine_xyz, pyridine_mH_xyz):
     result = runner.invoke(
         cli,
         [
             "--silent",
             "exs",
             "--center",
-            "2",
+            "0",
             "--subnr",
             "2",
-            iridiumcat_xyz,
-            pyridine_minusH_xyz,
+            pyridine_xyz,
+            pyridine_mH_xyz,
         ],
     )
     assert result.exit_code == 0
@@ -256,15 +256,12 @@ def test_cli_exs_silent(runner, iridiumcat_xyz, pyridine_minusH_xyz):
         os.remove(constrain)
 
 
-def test_cli_exs(runner, iridiumcat_xyz, pyridine_minusH_xyz):
-    newstructure = "newstructure.xyz"
-    gotFile = os.path.isfile(newstructure)
-    assert gotFile is False
+def test_cli_exs(runner, pyridine_xyz, pyridine_mH_xyz):
     result = runner.invoke(
-        cli,
-        ["exs", "--center", "18", "--subnr", "2", iridiumcat_xyz, pyridine_minusH_xyz],
+        cli, ["exs", "--center", "0", "--subnr", "2", pyridine_xyz, pyridine_mH_xyz],
     )
     assert result.exit_code == 0
+    newstructure = "newstructure.xyz"
     gotFile = os.path.isfile(newstructure)
     assert gotFile is True
     if gotFile:
@@ -276,25 +273,23 @@ def test_cli_exs(runner, iridiumcat_xyz, pyridine_minusH_xyz):
         os.remove(constrain)
 
 
-def test_cli_exs_with_rotation(runner, iridiumcat_xyz, pyridine_minusH_xyz):
-    newstructure = "newstructure.xyz"
-    gotFile = os.path.isfile(newstructure)
-    assert gotFile is False
+def test_cli_exs_with_rotation(runner, pyridine_xyz, pyridine_mH_xyz):
     result = runner.invoke(
         cli,
         [
             "exs",
             "--center",
-            "18",
+            "0",
             "--subnr",
             "2",
             "--rotate",
             "180",
-            iridiumcat_xyz,
-            pyridine_minusH_xyz,
+            pyridine_xyz,
+            pyridine_mH_xyz,
         ],
     )
     assert result.exit_code == 0
+    newstructure = "newstructure.xyz"
     gotFile = os.path.isfile(newstructure)
     assert gotFile is True
     if gotFile:

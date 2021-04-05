@@ -4,7 +4,7 @@ import os
 
 from kallisto.rmsd import exchangeSubstructure
 from kallisto.units import Bohr
-from tests.store import iridiumCatalyst, pyridine_minusH
+from tests.store import iridiumCatalyst, pyridine_mH
 
 # global epsilon
 epsilon = 1e-4
@@ -25,7 +25,7 @@ def test_exs():
     ref = iridiumCatalyst()
     refBonds = ref.get_bonds()
     refNat = ref.get_number_of_atoms()
-    exchanger = pyridine_minusH()
+    exchanger = pyridine_mH()
     exchangerBonds = exchanger.get_bonds()
 
     mol = exchangeSubstructure(
@@ -79,7 +79,7 @@ def test_exs_rotate_180_degrees():
     ref = iridiumCatalyst()
     refBonds = ref.get_bonds()
     refNat = ref.get_number_of_atoms()
-    exchanger = pyridine_minusH()
+    exchanger = pyridine_mH()
     exchangerBonds = exchanger.get_bonds()
 
     mol = exchangeSubstructure(

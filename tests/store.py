@@ -62,7 +62,7 @@ def pyridine():
     return Molecule(symbols=atoms)
 
 
-def pyridine_minusH():
+def pyridine_mH():
     """Create a pyridine molecule minus Hydrogen on carbon #0 and return as Molecule."""
     coords = [
         [1.3603, 0.0256, 0.0],
