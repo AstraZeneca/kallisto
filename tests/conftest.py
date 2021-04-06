@@ -1,7 +1,8 @@
 # tests/conftest.py
 
-import pytest
 import os
+
+import pytest
 
 from tests.store import acetylene, iridiumCatalyst, pyridine
 

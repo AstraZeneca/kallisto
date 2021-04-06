@@ -1,7 +1,6 @@
 # tests/test_molecule.py
 
 import os
-import tempfile
 
 import numpy as np
 import pytest

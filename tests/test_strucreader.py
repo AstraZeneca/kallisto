@@ -1,14 +1,11 @@
 # tests/test_strucreader.py
 
 import os
-import tempfile
 
 from kallisto.atom import Atom
 import kallisto.reader.strucreader as ksr
 from kallisto.reader.turbomole import read as tmreader
 from kallisto.reader.xyz import read as xyzreader
-
-import pytest
 
 # define global lineseperator
 s = os.linesep
