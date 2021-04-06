@@ -10,6 +10,7 @@ from kallisto.reader.xyz import read as xyzreader
 # define global lineseperator
 s = os.linesep
 
+
 # turbomole coord files can be read
 def test_a_user_can_read_coord(fluoromethane_coord):
     fileObject = open(fluoromethane_coord, "r+")
