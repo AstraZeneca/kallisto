@@ -170,12 +170,6 @@ def getAtomicPartialCharges(
     eeq_en = np.array(eeq_en)
     eeq_gamm = np.array(eeq_gamm)
 
-    # initialize arrays
-    xi = np.zeros(shape=(nat,), dtype=np.float64)
-    gam = np.zeros(shape=(nat,), dtype=np.float64)
-    kappa = np.zeros(shape=(nat,), dtype=np.float64)
-    alpha = np.zeros(shape=(nat,), dtype=np.float64)
-
     # setup parameter arrays
     z = at - 1
     xi = eeq_en[z]

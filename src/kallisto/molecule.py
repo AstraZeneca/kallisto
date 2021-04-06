@@ -237,7 +237,6 @@ class Molecule(object):
     def writeMolecule(self, name: str, path=cwd):
         """Write molecular structure."""
 
-        import os
         from kallisto.data import chemical_symbols
         from kallisto.units import Bohr
 
