@@ -14,7 +14,6 @@ class Config(object):
 
     def __init__(self):
         self.silent = False
-        self.context = click.get_current_context()
         self.shift = 0
 
 
@@ -56,6 +55,15 @@ def cli(config, silent: bool, shift: int):
 def cns(config, inp: str, out: click.File, cntype: str):
     """Atomic coordination numbers."""
 
+    # Available CNs
+    availableCN = ("erf", "cov", "exp")
+    if cntype not in availableCN:
+        errorbye(
+            'CN definition "{}" is not implemented. Please use "erf", "cov", or "exp"'.format(
+                cntype
+            )
+        )
+
     molecule = ksr.constructMolecule(geometry=inp, out=out)
     cns = molecule.get_cns(cntype)
     nat = molecule.get_number_of_atoms()
@@ -86,6 +94,10 @@ def cns(config, inp: str, out: click.File, cntype: str):
 @click.argument("inp", type=str, default="coord", required=True)
 def prox(config, inp: str, size: Tuple[int, int], out: click.File):
     """Atomic proximity shells."""
+
+    # Stop if outer border is smaller than inner one
+    if size[0] > size[1]:
+        errorbye("Outer border is smaller than inner one. Switch them and try again!")
 
     molecule = ksr.constructMolecule(geometry=inp, out=out)
     nat = molecule.get_number_of_atoms()
@@ -130,9 +142,9 @@ def bonds(config, inp: str, partner: int, constrain: bool, out: click.File):
         # Get all covalent bonding partners of atom #partner
         bonds = molecule.get_bonds(partner=partner)
 
+    nat = molecule.get_number_of_atoms()
     # write constrain file in xtb format
     if constrain:
-        nat = molecule.get_number_of_atoms()
         f = open("constrain.inp", "w")
         s = os.linesep
         f.write("$constrain" + s)
@@ -146,6 +158,12 @@ def bonds(config, inp: str, partner: int, constrain: bool, out: click.File):
                 )
         f.write("$end" + s)
         f.close()
+
+    if partner != "X":
+        silentPrinter(config.silent, str(bonds), out)
+    else:
+        for i in range(nat):
+            silentPrinter(config.silent, str(bonds[i]), out)
 
     return bonds
 
@@ -293,6 +311,15 @@ def alp(config, inp: str, out: click.File, chrg: int, molecular: bool):
 def vdw(config, inp: str, out: click.File, chrg: int, vdwtype: str, angstrom: bool):
     """Charge-dependent atomic van der Waals radii in Bohr."""
 
+    # Available VDWs
+    availableVDW = ("rahm", "truhlar")
+    if vdwtype not in availableVDW:
+        errorbye(
+            'VDW definition "{}" is not implemented. Please use "rahm" or "truhlar"'.format(
+                vdwtype
+            )
+        )
+
     molecule = ksr.constructMolecule(geometry=inp, out=out)
     nat = molecule.get_number_of_atoms()
 
@@ -381,13 +408,13 @@ def lig(config, inp: str, center: int, out: click.File):
     nat = ref.get_number_of_atoms()
 
     # get all covalent bonding partner in reference complex
-    covbonds = config.context.invoke(bonds, inp=inp)
+    covbonds = ref.get_bonds()
 
     from kallisto.rmsd import recursiveGetSubstructures
 
     silentPrinter(config.silent, "Write out substructures for {}".format(center), out)
 
-    substructures = recursiveGetSubstructures(nat, covbonds, center)
+    substructures = recursiveGetSubstructures(nat, covbonds, center)  # type: ignore
 
     k = 0
     for path in substructures:
@@ -460,18 +487,19 @@ def exs(
     nat = ref.get_number_of_atoms()
 
     # get all covalent bonding partner in reference complex
-    covBonds = config.context.invoke(bonds, inp=inp[0])
+    covBonds = ref.get_bonds()
+
     # get covalent bonds in new substrate
-    newSubBonds = substrate.get_bonds(partner="X")
+    newSubBonds = substrate.get_bonds()
     newSubBonds = np.array(newSubBonds, dtype=object)
 
     from kallisto.rmsd import exchangeSubstructure
 
-    exchangeSubstructure(
+    mol = exchangeSubstructure(
         nat,
         center,
         subnr,
-        covBonds,
+        covBonds,  # type: ignore
         ref,
         substrate,
         newSubBonds,
@@ -479,6 +507,8 @@ def exs(
         rotate,
         exclude,
     )
+
+    return mol
 
 
 @cli.command("stm")
@@ -519,7 +549,7 @@ def stm(config, inp: str, origin: int, partner: int, out: click.File):
 
     L, bmin, bmax = getClassicalSterimol(mol, origin, partner)
 
-    # print values in Bohr
+    # print origin and partner
     silentPrinter(
         config.silent,
         "Calculated for atom {0} (origin) and atom {1} (partner)".format(
@@ -528,19 +558,19 @@ def stm(config, inp: str, origin: int, partner: int, out: click.File):
         out,
     )
 
-    # print values in Bohr
+    # descriptors in Bohr
     silentPrinter(
         config.silent,
-        "L, Bmin, Bmax / au: {:5.2f} {:5.2f} {:5.2f}".format(L, bmin, bmax),
+        "L, Bmin, Bmax / au: {:8.6f} {:8.6f} {:8.6f}".format(L, bmin, bmax),
         out,
     )
 
-    # print values in Angstrom
+    # descriptors in Angstrom
     from kallisto.units import Bohr
 
     silentPrinter(
         config.silent,
-        "L, Bmin, Bmax / A: {:5.2f} {:5.2f} {:5.2f}".format(
+        "L, Bmin, Bmax / A: {:8.6f} {:8.6f} {:8.6f}".format(
             L * Bohr, bmin * Bohr, bmax * Bohr
         ),
         out,

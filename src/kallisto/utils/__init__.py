@@ -18,12 +18,7 @@ def silentPrinter(silent: bool, message: str, out: click.File):
 def errorbye(message: str):
     """Exit application due to error."""
     click.echo("", err=True)  # type: ignore
-    click.echo(message, err=True)  # type: ignore
-    click.echo("", err=True)  # type: ignore
-    click.echo(
-        """- kallisto was terminated due to an error""", err=True,
-    )
-    exit()
+    raise RuntimeError(message)
 
 
 def goodbye(out: click.File):
