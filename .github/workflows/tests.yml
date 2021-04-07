@@ -1,13 +1,22 @@
 # .github/workflows/tests.yml
 name: Tests
-on: push
+
+on:
+  push:
+    branches:
+      - "master"
+  pull_request:
+    branches:
+      - "*"
+
 jobs:
   tests:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: ['3.7', '3.8']
-    name: Python ${{ matrix.python-version }}
+        os: [ubuntu-latest, macOS-latest]
+        python-version: ['3.7', '3.8', '3.9']
+    name: Python ${{ matrix.python-version }} OS ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v1
