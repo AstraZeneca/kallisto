@@ -4,7 +4,7 @@ import os
 
 import pytest
 
-from tests.store import acetylene, iridiumCatalyst, pyridine
+from tests.store import ch_radical, iridiumCatalyst, pyridine
 
 s = os.linesep
 
@@ -25,15 +25,15 @@ def pyridine_xyz(tmpdir_factory):
 
 
 @pytest.fixture(scope="session")
-def acetylene_xyz(tmpdir_factory):
-    """Write an acetylene molecule to a data file in a temporary directory."""
-    name = "acetylene.xyz"
-    dn = tmpdir_factory.mktemp("test_acetylene", numbered=True)
+def ch_radical_xyz(tmpdir_factory):
+    """Write a ch radical molecule to a data file in a temporary directory."""
+    name = "ch_radical.xyz"
+    dn = tmpdir_factory.mktemp("test_ch_radical", numbered=True)
     fn = dn.join(name)
     dn = str(dn)
     fn = str(fn)
 
-    mol = acetylene()
+    mol = ch_radical()
     mol.writeMolecule(name=name, path=dn)
 
     return fn

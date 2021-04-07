@@ -85,7 +85,7 @@ def rmsd(n: int, coord1: np.ndarray, coord2: np.ndarray) -> Tuple[float, np.ndar
     u = rotationMatrix(eigenvec)
 
     # root mean squared deviation
-    error = np.sqrt(np.maximum(0.0, ((x_norm + y_norm) - 2 * eigenval) / float(n),))
+    error = np.sqrt(np.maximum(0.0, ((x_norm + y_norm) - 2 * eigenval) / float(n)))
 
     return error, u
 

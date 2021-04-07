@@ -1,30 +1,29 @@
 # tests/test_eeq.py
 
-from tests.store import acetylene
+import numpy as np
 
-# global epsilon
-epsilon = 1e-06
+from tests.store import ch_radical
 
 
 def test_eeq():
     charge = 0
-    mol = acetylene()
+    mol = ch_radical()
     eeq = mol.get_eeq(charge)
-    assert (eeq[0] - -0.17166856) < epsilon
-    assert (eeq[1] - 0.17166856) < epsilon
+    assert np.isclose(eeq[0], -0.17166856)
+    assert np.isclose(eeq[1], 0.17166856)
 
 
 def test_eeq_cation():
     charge = 1
-    mol = acetylene()
+    mol = ch_radical()
     eeq = mol.get_eeq(charge)
-    assert (eeq[0] - 0.59769359) < epsilon
-    assert (eeq[1] - 0.40230641) < epsilon
+    assert np.isclose(eeq[0], 0.59769359)
+    assert np.isclose(eeq[1], 0.40230641)
 
 
 def test_eeq_anion():
     charge = -1
-    mol = acetylene()
+    mol = ch_radical()
     eeq = mol.get_eeq(charge)
-    assert (eeq[0] - -0.94103071) < epsilon
-    assert (eeq[1] - -0.05896929) < epsilon
+    assert np.isclose(eeq[0], -0.94103071)
+    assert np.isclose(eeq[1], -0.05896929)

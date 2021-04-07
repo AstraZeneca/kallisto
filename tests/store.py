@@ -7,8 +7,8 @@ from kallisto.molecule import Molecule
 from kallisto.units import Bohr
 
 
-def acetylene():
-    """Create an acetylene molecule and return as Molecule."""
+def ch_radical():
+    """Create an ch radical molecule and return as Molecule."""
     coords = [
         [0.0, 0.0, -1.06176434496059],
         [0.0, 0.0, 1.06176434496059],

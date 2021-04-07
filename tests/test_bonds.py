@@ -1,10 +1,10 @@
 # tests/test_bonds.py
 
-from tests.store import acetylene, pyridine, toluene
+from tests.store import ch_radical, pyridine, toluene
 
 
-def test_bonds_acetylene():
-    mol = acetylene()
+def test_bonds_ch_radical():
+    mol = ch_radical()
     bonds = mol.get_bonds()
     assert bonds[0] == [1]
     assert bonds[1] == [0]

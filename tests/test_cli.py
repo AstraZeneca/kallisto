@@ -209,24 +209,24 @@ def test_cli_rms_silent(runner, pyridine_xyz):
     assert result.exit_code == 0
 
 
-def test_cli_rms_nats_not_equal(runner, pyridine_xyz, acetylene_xyz):
-    result = runner.invoke(cli, ["rms", pyridine_xyz, acetylene_xyz])
+def test_cli_rms_nats_not_equal(runner, pyridine_xyz, ch_radical_xyz):
+    result = runner.invoke(cli, ["rms", pyridine_xyz, ch_radical_xyz])
     assert result.exit_code == 1
 
 
-def test_cli_rms(runner, acetylene_xyz):
-    result = runner.invoke(cli, ["rms", acetylene_xyz, acetylene_xyz])
+def test_cli_rms(runner, ch_radical_xyz):
+    result = runner.invoke(cli, ["rms", ch_radical_xyz, ch_radical_xyz])
     assert result.exit_code == 0
 
 
 # test cli part for lig
-def test_cli_lig_silent(runner, acetylene_xyz):
-    result = runner.invoke(cli, ["--silent", "lig", "--center", "1", acetylene_xyz])
+def test_cli_lig_silent(runner, ch_radical_xyz):
+    result = runner.invoke(cli, ["--silent", "lig", "--center", "1", ch_radical_xyz])
     assert result.exit_code == 0
 
 
-def test_cli_lig_0(runner, acetylene_xyz):
-    result = runner.invoke(cli, ["lig", "--center", "0", acetylene_xyz])
+def test_cli_lig_0(runner, ch_radical_xyz):
+    result = runner.invoke(cli, ["lig", "--center", "0", ch_radical_xyz])
     assert result.exit_code == 0
 
 

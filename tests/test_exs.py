@@ -2,12 +2,11 @@
 
 import os
 
+import numpy as np
+
 from kallisto.rmsd import exchangeSubstructure
 from kallisto.units import Bohr
 from tests.store import iridiumCatalyst, pyridine_mH
-
-# global epsilon
-epsilon = 1e-4
 
 
 def test_exs():
@@ -45,13 +44,13 @@ def test_exs():
     assert at[85] == 6
     coords = mol.get_positions()
     # position of Carbon bonding to Iridium
-    assert (coords[85, 0] - 0.2001 / Bohr) < epsilon
-    assert (coords[85, 1] - -2.2076 / Bohr) < epsilon
-    assert (coords[85, 2] - 2.6787 / Bohr) < epsilon
+    assert np.isclose(coords[85, 0], 0.2001 / Bohr, rtol=1e-04)
+    assert np.isclose(coords[85, 1], -2.2076 / Bohr, rtol=1e-04)
+    assert np.isclose(coords[85, 2], 2.6787 / Bohr, rtol=1e-04)
     # position of Nitrogen
-    assert (coords[90, 0] - -1.0435 / Bohr) < epsilon
-    assert (coords[90, 1] - -2.4569 / Bohr) < epsilon
-    assert (coords[90, 2] - 3.1496 / Bohr) < epsilon
+    assert np.isclose(coords[90, 0], -1.0435 / Bohr, rtol=1e-04)
+    assert np.isclose(coords[90, 1], -2.4569 / Bohr, rtol=1e-04)
+    assert np.isclose(coords[90, 2], 3.1496 / Bohr, rtol=1e-04)
     constrain = "constrain.inp"
     gotFile = os.path.isfile(constrain)
     assert gotFile is True
@@ -99,13 +98,13 @@ def test_exs_rotate_180_degrees():
     assert at[85] == 6
     coords = mol.get_positions()
     # position of Carbon bonding to Iridium
-    assert (coords[85, 0] - 0.2001 / Bohr) < epsilon
-    assert (coords[85, 1] - -2.2076 / Bohr) < epsilon
-    assert (coords[85, 2] - 2.6787 / Bohr) < epsilon
+    assert np.isclose(coords[85, 0], 0.2001 / Bohr, rtol=1e-04)
+    assert np.isclose(coords[85, 1], -2.2076 / Bohr, rtol=1e-04)
+    assert np.isclose(coords[85, 2], 2.6787 / Bohr, rtol=1e-04)
     # position of Nitrogen
-    assert (coords[90, 0] - 1.3335 / Bohr) < epsilon
-    assert (coords[90, 1] - -2.8374 / Bohr) < epsilon
-    assert (coords[90, 2] - 3.0650 / Bohr) < epsilon
+    assert np.isclose(coords[90, 0], 1.3335 / Bohr, rtol=1e-04)
+    assert np.isclose(coords[90, 1], -2.8374 / Bohr, rtol=1e-04)
+    assert np.isclose(coords[90, 2], 3.0650 / Bohr, rtol=1e-04)
     constrain = "constrain.inp"
     gotFile = os.path.isfile(constrain)
     assert gotFile is True

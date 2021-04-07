@@ -1,30 +1,29 @@
 # tests/test_cns.py
 
-from tests.store import acetylene
+import numpy as np
 
-# global epsilon
-epsilon = 1e-06
+from tests.store import ch_radical
 
 
-def test_cns_exp_acetylene():
+def test_cns_exp_ch_radical():
     cntype = "exp"
-    mol = acetylene()
+    mol = ch_radical()
     cns = mol.get_cns(cntype)
-    assert (cns[0] - 0.9867892) < epsilon
-    assert (cns[1] - 0.9867892) < epsilon
+    assert np.isclose(cns[0], 0.9867892708145132)
+    assert np.isclose(cns[1], 0.9867892708145132)
 
 
-def test_cns_erf_acetylene():
+def test_cns_erf_ch_radical():
     cntype = "erf"
-    mol = acetylene()
+    mol = ch_radical()
     cns = mol.get_cns(cntype)
-    assert (cns[0] - 0.9878465) < epsilon
-    assert (cns[1] - 0.9878465) < epsilon
+    assert np.isclose(cns[0], 0.9878465867658608)
+    assert np.isclose(cns[1], 0.9878465867658608)
 
 
-def test_cns_cov_acetylene():
+def test_cns_cov_ch_radical():
     cntype = "cov"
-    mol = acetylene()
+    mol = ch_radical()
     cns = mol.get_cns(cntype)
-    assert (cns[0] - 0.9878465) < epsilon
-    assert (cns[1] - 0.9878465) < epsilon
+    assert np.isclose(cns[0], 0.9189476178185281)
+    assert np.isclose(cns[1], 0.9189476178185281)
