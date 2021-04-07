@@ -131,11 +131,5 @@ commit automatically with `git commit -s`.
 The `kallisto` program has been developed by:
 
 - E. Caldeweyher (@f3rmion)
+- R. Meli (@RMeli)
 - P. Pracht (@pprcht)
-
-
-
-
-
-
-

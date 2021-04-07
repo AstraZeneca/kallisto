@@ -22,8 +22,9 @@
 
 # Full Author List
 
-- Developer [Eike Caldeweyher](https://scholar.google.com/citations?user=25n8C3wAAAAJ&hl=de)
-- Developer [Philipp Pracht](https://scholar.google.com/citations?user=PJiGPk0AAAAJ&hl=de)
+- Developer [Eike Caldeweyher](https://scholar.google.com/citations?user=25n8C3wAAAAJ&hl)
+- Developer [Rocco Meli](https://scholar.google.com/citations?hl=de&user=s8cVcvYAAAAJ)
+- Developer [Philipp Pracht](https://scholar.google.com/citations?user=PJiGPk0AAAAJ&hl)
 
 # Introduction
 

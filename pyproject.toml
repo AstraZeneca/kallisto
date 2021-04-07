@@ -7,7 +7,7 @@ readme = "README.md"
 homepage = "https://github.com/AstraZeneca/kallisto"
 repository = "https://github.com/AstraZeneca/kallisto"
 keywords = ["chemistry", "computational-chemistry", "quantum-chemistry", "machinelearning"]
-authors = ["Eike Caldeweyher <hello@eikecaldeweyher.de>", "Philipp Pracht <pracht@thch.uni-bonn.de>"]
+authors = ["Eike Caldeweyher <hello@eikecaldeweyher.de>", "Rocco Meli <rocco.meli@biodtp.ox.ac.uk>", "Philipp Pracht <pracht@thch.uni-bonn.de>"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
