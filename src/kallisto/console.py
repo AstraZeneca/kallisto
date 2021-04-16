@@ -27,7 +27,11 @@ pass_config = click.make_pass_decorator(Config, ensure=True)
 def cli(config, silent: bool, shift: int):
     """kallisto calculates quantum mechanically derived atomic features.\n
 
-    Please check out the documentation (https://ehjc.gitbook.io/kallisto/).
+    Please check out the documentation (https://ehjc.gitbook.io/kallisto/).\n
+
+    Always cite:\n
+     E. Caldeweyher J. Open Source Softw., 2021, 6, 3050.
+     (https://doi.org/10.21105/joss.03050)
     """
 
     config.shift = shift

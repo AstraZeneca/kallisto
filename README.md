@@ -155,4 +155,20 @@ Unit test [coverage](https://coverage.readthedocs.io/en/coverage-5.4/) can be ch
 Reference
 ---------
 
-tba
+Always cite:
+
+Eike Caldeweyher, J. Open Source Softw., *2021*, 6, 3050. DOI: [10.21105/joss.03050](https://doi.org/10.21105/joss.03050)
+
+```
+@article{Caldeweyher2021,
+  doi = {10.21105/joss.03050},
+  url = {https://doi.org/10.21105/joss.03050},
+  year = {2021},
+  volume = {6},
+  number = {60},
+  pages = {3050},
+  author = {Eike Caldeweyher},
+  title = {kallisto: A command-line interface to simplify computational modelling and the generation of atomic features},
+  journal = {J. Open Source Softw.}
+}
+```
