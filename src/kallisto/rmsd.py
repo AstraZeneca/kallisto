@@ -358,11 +358,8 @@ def matchSubstrates(
     covNew = len(bondsNewSub[0][:])
 
     # Check for linear moleule case
-    if covNew != 1:
-        isNotLinear = True
-    else:
-        isNotLinear = False
-
+    isNotLinear = covNew != 1
+        
     covOld += count
     covNew += count
 
