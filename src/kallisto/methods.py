@@ -364,13 +364,13 @@ def getCovalentBondingPartner(
             covalentList.append(covalentPartner)
         return covalentList
     # Get covalent bonding partners of atom #partner
-       covalentPartner = []
-       k = 0
-       for elem in btbl[int(partner)][:]:
-       if elem == 1:
-               covalentPartner.append(k)
-           k += 1
-       return covalentPartner
+       covalentPartner = [ ]
+    k = 0
+    for elem in btbl[ int(partner) ][ : ]:
+        if elem == 1:
+            covalentPartner.append(k)
+    k += 1
+    return covalentPartner
 
 
 def getVanDerWaalsRadii(
