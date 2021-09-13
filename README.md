@@ -6,7 +6,7 @@
 
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/kallisto)
 [![Documentation](https://img.shields.io/badge/GitBook-Docu-lightgrey)](https://app.gitbook.com/@ehjc/s/kallisto/)
-[![Maturity Level](https://img.shields.io/badge/Maturity%20Level-ML--1-orange)](https://img.shields.io/badge/Maturity%20Level-ML--1-orange)
+[![Maturity Level](https://img.shields.io/badge/Maturity%20Level-Under%20Development-orange)](https://img.shields.io/badge/Maturity%20Level-Under%20Development-orange)
 [![Tests](https://github.com/AstraZeneca/kallisto/workflows/Tests/badge.svg)](https://github.com/AstraZeneca/kallisto/actions?workflow=Tests)
 [![codecov](https://codecov.io/gh/AstraZeneca/kallisto/branch/master/graph/badge.svg?token=HI0U0R96X8)](https://codecov.io/gh/AstraZeneca/kallisto)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/AstraZeneca/kallisto.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/AstraZeneca/kallisto/context:python)
