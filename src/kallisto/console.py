@@ -423,7 +423,9 @@ def lig(config, inp: str, center: int, out: click.File):
     k = 0
     for path in substructures:
         silentPrinter(
-            config.silent, "Substructure {}: {}".format(k, path), out,
+            config.silent,
+            "Substructure {}: {}".format(k, path),
+            out,
         )
         k += 1
 

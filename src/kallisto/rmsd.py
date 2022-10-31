@@ -4,7 +4,7 @@ from collections import Counter
 from typing import Tuple
 
 import numpy as np
-from scipy.sparse.linalg.eigen.arpack import eigsh
+from scipy.sparse.linalg import eigsh
 from scipy.spatial import distance
 from scipy.spatial.transform import Rotation as R
 
@@ -199,7 +199,12 @@ def exchangeSubstructure(
             # get all bonding partner
             oldSubBonds = oldsub.get_bonds(partner="X")
             outxyz = matchSubstrates(
-                bonds, newsub, newSubBonds, oldsub, oldSubBonds, centralAtom,
+                bonds,
+                newsub,
+                newSubBonds,
+                oldsub,
+                oldSubBonds,
+                centralAtom,
             )
 
             # atoms from complex excluding old substrate
@@ -223,7 +228,10 @@ def exchangeSubstructure(
                 shift = outxyz[0, :] - refShift
                 for j in range(newnat):
                     outxyz2[j, :] = getRodriguezRotation(
-                        outxyz[j, :], origin, partner, theta,
+                        outxyz[j, :],
+                        origin,
+                        partner,
+                        theta,
                     )
                     outxyz2[j, :] += shift
 

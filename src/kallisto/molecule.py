@@ -29,7 +29,11 @@ class Molecule(object):
         Atomic charges."""
 
     def __init__(
-        self, symbols=None, positions=None, numbers=None, charges=None,
+        self,
+        symbols=None,
+        positions=None,
+        numbers=None,
+        charges=None,
     ):
 
         molecule = None

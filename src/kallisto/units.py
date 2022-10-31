@@ -78,7 +78,7 @@ def createUnits(version):
         units["_me"]
         * units["_e"] ** 3
         / 16
-        / pi ** 2
+        / pi**2
         / units["_eps0"] ** 2
         / units["_hbar"] ** 2
     )

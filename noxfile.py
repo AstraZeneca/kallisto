@@ -11,7 +11,7 @@ nox.options.sessions = "lint", "mypy", "pytype", "tests"
 locations = "src", "tests", "noxfile.py"
 
 
-python_versions = ["3.9", "3.8", "3.7"]
+python_versions = ["3.9", "3.8"]
 
 
 @nox.session(python=python_versions)
@@ -19,7 +19,10 @@ def tests(session: Session) -> None:
     args = session.posargs or ["--cov", "-m", "not e2e"]
     session.run("poetry", "install", "--no-dev", external=True)
     install_with_constraints(
-        session, "coverage[toml]", "pytest", "pytest-cov",
+        session,
+        "coverage[toml]",
+        "pytest",
+        "pytest-cov",
     )
     session.run("pytest", *args)
 
