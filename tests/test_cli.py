@@ -176,7 +176,8 @@ def test_cli_vdw_angstrom(runner, pyridine_xyz):
 
 def test_cli_vdw_angstrom_truhlar(runner, pyridine_xyz):
     result = runner.invoke(
-        cli, ["vdw", "--angstrom", "--vdwtype", "truhlar", pyridine_xyz],
+        cli,
+        ["vdw", "--angstrom", "--vdwtype", "truhlar", pyridine_xyz],
     )
     assert result.exit_code == 0
 
@@ -258,7 +259,8 @@ def test_cli_exs_silent(runner, pyridine_xyz):
 
 def test_cli_exs(runner, pyridine_xyz):
     result = runner.invoke(
-        cli, ["exs", "--center", "0", "--subnr", "2", pyridine_xyz, pyridine_xyz],
+        cli,
+        ["exs", "--center", "0", "--subnr", "2", pyridine_xyz, pyridine_xyz],
     )
     assert result.exit_code == 0
     newstructure = "newstructure.xyz"
@@ -304,14 +306,16 @@ def test_cli_exs_with_rotation(runner, pyridine_xyz):
 # test cli part for stm
 def test_cli_stm_silent(runner, iridiumcat_xyz):
     result = runner.invoke(
-        cli, ["--silent", "stm", "--origin", "18", "--partner", "23", iridiumcat_xyz],
+        cli,
+        ["--silent", "stm", "--origin", "18", "--partner", "23", iridiumcat_xyz],
     )
     assert result.exit_code == 0
 
 
 def test_cli_stm(runner, iridiumcat_xyz):
     result = runner.invoke(
-        cli, ["stm", "--origin", "18", "--partner", "23", iridiumcat_xyz],
+        cli,
+        ["stm", "--origin", "18", "--partner", "23", iridiumcat_xyz],
     )
     assert result.exit_code == 0
 

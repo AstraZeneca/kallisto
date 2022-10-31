@@ -10,9 +10,9 @@ def getCoordinationNumbers(
 ):
     """A method to compute coordination numbers (cns).
 
-        CN values are calculated for a given structure and are returned as an
-        array. Choose functional type by "cn" defining standard (exp), covalent (cov),
-        or error (err)."""
+    CN values are calculated for a given structure and are returned as an
+    array. Choose functional type by "cn" defining standard (exp), covalent (cov),
+    or error (err)."""
 
     from kallisto.data import covalent_radius as rcov
     from kallisto.data import pauling_en
@@ -65,7 +65,7 @@ def getCoordinationNumbers(
         # Fitted to match Wiberg bond orders of diatomic molecules
         k4 = 4.10451
         k5 = 19.08857
-        k6 = 2 * 11.28174 ** 2
+        k6 = 2 * 11.28174**2
 
         kn = 7.50
         for i in range(nat):
@@ -107,7 +107,7 @@ def getProximityShells(
     # Fitted to match Wiberg bond orders of diatomic molecules
     k4 = 4.10451
     k5 = 19.08857
-    k6 = 2 * 11.28174 ** 2
+    k6 = 2 * 11.28174**2
 
     kn = 7.50
     threshold = 800.0
@@ -148,10 +148,10 @@ def getAtomicPartialCharges(
     at: np.ndarray, coords: np.ndarray, cns: np.ndarray, charge: int
 ):
     """A method to compute atomic electronegativity equilibration partial
-        charges (eeqs).
+    charges (eeqs).
 
-        EEQ values are calculated for a given structure and are returned as an
-        array."""
+    EEQ values are calculated for a given structure and are returned as an
+    array."""
 
     from kallisto.data import eeq_alp, eeq_cnfak, eeq_en, eeq_gamm
     from numpy import linalg as LA
@@ -269,7 +269,8 @@ def getPolarizabilities(at: np.ndarray, covcn: np.ndarray, qs: np.ndarray, charg
             cncount[int(icn)] += 1
             for jj in range(23):
                 alphar[jj][j][ia] = np.maximum(
-                    ascale[j][ia] * (alphaiw[jj][j][ia] - hcount[j][ia] * alpha[jj]), 0,
+                    ascale[j][ia] * (alphaiw[jj][j][ia] - hcount[j][ia] * alpha[jj]),
+                    0,
                 )
         for j in range(refn[ia]):
             icn = cncount[int(np.rint(refcn[j][ia]))]
@@ -379,8 +380,8 @@ def getVanDerWaalsRadii(
 ):
     """A method to compute environment and charge dependent van der Waals radii (vdws).
 
-        VDW values are calculated from atomic polarizabilities for a given structure
-        and are returned as an array."""
+    VDW values are calculated from atomic polarizabilities for a given structure
+    and are returned as an array."""
 
     from kallisto.data import chemical_symbols
     from kallisto.data.vdw import rahm, truhlar
