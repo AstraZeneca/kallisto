@@ -1,5 +1,7 @@
 # src/kallisto/reader/strucreader.py
 
+from typing import TextIO
+
 import click
 
 from kallisto.molecule import Molecule
@@ -22,14 +24,17 @@ def constructMolecule(geometry: str, out: click.File) -> Molecule:
     return molecule
 
 
-def read(fileObject):
+def read(fileObject: TextIO):
     """Method to first check the file type and then read
 
     the structure accordingly
     The returned atom coordinates will be in Bohr
     """
 
-    fname = fileObject.name.lower()
+    # get name of file
+    fname = fileObject.name
+
+    # initialise file type
     filetp = "unknown"
 
     lines = fileObject.readlines()
