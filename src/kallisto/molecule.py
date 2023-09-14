@@ -1,5 +1,4 @@
 # src/kallisto/molecule.py
-
 import os
 from typing import Tuple
 
@@ -35,7 +34,6 @@ class Molecule(object):
         numbers=None,
         charges=None,
     ):
-
         molecule = None
 
         # Get data from another molecule

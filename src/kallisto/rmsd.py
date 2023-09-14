@@ -1,5 +1,4 @@
 # src/kallisto/rmsd.py
-
 from collections import Counter
 from typing import Tuple
 

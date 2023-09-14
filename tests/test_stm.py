@@ -1,9 +1,8 @@
 # tests/test_stm.py
-
 import numpy as np
+from tests.store import toluene
 
 from kallisto.sterics import getClassicalSterimol
-from tests.store import toluene
 
 
 def test_stm():

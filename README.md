@@ -28,11 +28,10 @@
 
 # Introduction
 
-We developed the `kallisto` program for the efficient and robust calculation of atomic features using molecular geometries either in a ``xmol`` or a ``Turbomole`` format.
-Furthermore, several modelling tools are implemented, e.g., to calculate root-mean squared deviations via quaternions (including rotation matrices), sorting of molecular geometries and many more. All features of ``kallisto`` are described in detail within our [documentation](https://ehjc.gitbook.io/kallisto/) ([GitBook repository](https://github.com/f3rmion/gitbook-kallisto)).
+We developed the `kallisto` program for the efficient and robust calculation of atomic features using molecular geometries either in a `xmol` or a `Turbomole` format.
+Furthermore, several modelling tools are implemented, e.g., to calculate root-mean squared deviations via quaternions (including rotation matrices), sorting of molecular geometries and many more. All features of `kallisto` are described in detail within our [documentation](https://ehjc.gitbook.io/kallisto/) ([GitBook repository](https://github.com/f3rmion/gitbook-kallisto)).
 
-Main dependencies
------------------
+## Main dependencies
 
 ```bash
 click 7.1.2 Composable command line interface toolkit
@@ -43,30 +42,30 @@ scipy 1.6.0 SciPy: Scientific Library for Python
 
 For a list of all dependencies have a look at the pyproject.toml file.
 
-Installation from PyPI
-----------------------
+## Installation from PyPI
 
-To install ``kallisto`` via `pip` use our published PyPI package
+To install `kallisto` via `pip` use our published PyPI package
+
 ```bash
 pip install kallisto
 ```
 
-Installation from Source
-------------------------
+## Installation from Source
 
-Requirements to install ``kallisto``from sources:
+Requirements to install `kallisto`from sources:
+
 - [poetry](https://python-poetry.org/docs/#installation)
 - [pyenv](https://github.com/pyenv/pyenv#installation) or [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
 - python >=3.7
 
-First check that ``poetry`` is running correctly (v1.0.10 at the time of writing)
+First check that `poetry` is running correctly (v1.0.10 at the time of writing)
 
 ```bash
 > poetry --version
 Poetry version 1.0.10
 ```
 
-Create a virtual environment (via ``pyenv`` or ``conda``) and activate it. Afterwards, clone the ``kallisto`` project from GitHub and install it using ``poetry``
+Create a virtual environment (via `pyenv` or `conda`) and activate it. Afterwards, clone the `kallisto` project from GitHub and install it using `poetry`
 
 ```bash
 > git clone git@github.com:AstraZeneca/kallisto.git
@@ -74,38 +73,37 @@ Create a virtual environment (via ``pyenv`` or ``conda``) and activate it. After
 > poetry install
 ```
 
-Testing suite
--------------
+## Testing suite
 
-The ``kallisto`` project uses [nox](https://nox.thea.codes/en/stable/tutorial.html#installation) as an automated unit test suite, which is therefore an additional dependency.
+The `kallisto` project uses [nox](https://nox.thea.codes/en/stable/tutorial.html#installation) as an automated unit test suite, which is therefore an additional dependency.
 
 ### Default nox session
 
-The default session includes: linting (lint), type checks (mypy, pytype), and unit tests (tests). 
+The default session includes: linting (lint), type checks (mypy, pytype), and unit tests (tests).
 
 ```bash
 > nox
 ```
 
-When everything runs smoothly through, you are ready to go! After one successful nox run, we can reuse the created virtual environment via the ``-r`` flag.
+When everything runs smoothly through, you are ready to go! After one successful nox run, we can reuse the created virtual environment via the `-r` flag.
 
 ```bash
 > nox -r
 ```
 
-Different unit test sessions are implemented (check the noxfile.py). They can be called separately via the run session ``-rs`` flag.
+Different unit test sessions are implemented (check the noxfile.py). They can be called separately via the run session `-rs` flag.
 
 ### Tests
 
 Run all unit tests that are defined in the /tests directory.
 
-```bash 
+```bash
 > nox -rs tests
 ```
 
 ### Lint
 
-``kallisto`` uses the [flake8](https://flake8.pycqa.org/en/latest/) linter (check the .flake8 config file).
+`kallisto` uses the [flake8](https://flake8.pycqa.org/en/latest/) linter (check the .flake8 config file).
 
 ```bash
 > nox -rs lint
@@ -113,15 +111,15 @@ Run all unit tests that are defined in the /tests directory.
 
 ### Black
 
-``kallisto`` uses the [black](https://github.com/psf/black) code formatter.
+`kallisto` uses the [black](https://github.com/psf/black) code formatter.
 
-```bash 
+```bash
 > nox -rs black
 ```
 
 ### Safety
 
-``kallisto`` checks the security of dependencies via [safety](https://pyup.io/safety/).
+`kallisto` checks the security of dependencies via [safety](https://pyup.io/safety/).
 
 ```bash
 > nox -rs safety
@@ -129,7 +127,7 @@ Run all unit tests that are defined in the /tests directory.
 
 ### Mypy
 
-``kallisto`` checks for static types via [mypy](https://github.com/python/mypy) (check the mypy.ini config file).
+`kallisto` checks for static types via [mypy](https://github.com/python/mypy) (check the mypy.ini config file).
 
 ```bash
 > nox -rs mypy
@@ -137,7 +135,7 @@ Run all unit tests that are defined in the /tests directory.
 
 ### Pytype
 
-``kallisto`` furthermore uses [pytype](https://github.com/google/pytype) for type checks.
+`kallisto` furthermore uses [pytype](https://github.com/google/pytype) for type checks.
 
 ```bash
 > nox -rs pytype
@@ -147,17 +145,15 @@ Run all unit tests that are defined in the /tests directory.
 
 Unit test [coverage](https://coverage.readthedocs.io/en/coverage-5.4/) can be checked as well.
 
-
 ```bash
 > nox -rs coverage
 ```
 
-Reference
----------
+## Reference
 
 Always cite:
 
-Eike Caldeweyher, J. Open Source Softw., *2021*, 6, 3050. DOI: [10.21105/joss.03050](https://doi.org/10.21105/joss.03050)
+Eike Caldeweyher, J. Open Source Softw., _2021_, 6, 3050. DOI: [10.21105/joss.03050](https://doi.org/10.21105/joss.03050)
 
 ```
 @article{Caldeweyher2021,

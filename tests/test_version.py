@@ -1,5 +1,4 @@
 # tests/test_version.py
-
 from kallisto import __version__
 
 

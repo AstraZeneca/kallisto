@@ -1,7 +1,7 @@
 # tests/test_lig.py
+from tests.store import neopentane
 
 from kallisto.rmsd import recursiveGetSubstructures
-from tests.store import neopentane
 
 
 def test_lig_neopentane():

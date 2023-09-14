@@ -1,5 +1,4 @@
 # src/kallisto/data/vdw.py
-
 # Scaling factors to match vdw radii from Table 12
 # in J. Phys. Chem. A, Vol. 113, No. 19, 2009
 truhlar = {

@@ -1,12 +1,12 @@
 # src/kallisto/console.py
-
 from typing import Tuple
 
 import click
 import numpy as np
 
 import kallisto.reader.strucreader as ksr
-from kallisto.utils import errorbye, silentPrinter
+from kallisto.utils import errorbye
+from kallisto.utils import silentPrinter
 
 
 class Config(object):

@@ -1,5 +1,4 @@
 # src/kallisto/reader/turbomole.py
-
 from kallisto.atom import Atom
 
 

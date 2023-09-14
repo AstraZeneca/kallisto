@@ -1,9 +1,9 @@
 # tests/test_rms.py
-
 import numpy as np
+from tests.store import propanolIntermediate
+from tests.store import propanolLowest
 
 from kallisto.rmsd import rmsd
-from tests.store import propanolIntermediate, propanolLowest
 
 
 def test_rms():

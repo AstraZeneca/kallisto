@@ -1,5 +1,4 @@
 # test/test_atom.py
-
 from kallisto.atom import Atom
 from kallisto.molecule import Molecule
 
