@@ -1,8 +1,17 @@
 # src/kallisto/units.py
+from math import pi
+from math import sqrt
 
-from math import pi, sqrt
-
-from scipy.constants import c, e, G, h, k, m_e, m_p, m_u, mu_0, N_A
+from scipy.constants import c
+from scipy.constants import e
+from scipy.constants import G
+from scipy.constants import h
+from scipy.constants import k
+from scipy.constants import m_e
+from scipy.constants import m_p
+from scipy.constants import m_u
+from scipy.constants import mu_0
+from scipy.constants import N_A
 
 version = "2018"
 
@@ -50,8 +59,8 @@ def createUnits(version):
 
     try:
         units = Units(codata[version])
-    except KeyError:
-        raise NotImplementedError("Codata {0} not found".format(version))
+    except KeyError as err:
+        raise NotImplementedError("Codata {0} not found".format(version)) from err
 
     # Define all units
     # permittivity of vacuum

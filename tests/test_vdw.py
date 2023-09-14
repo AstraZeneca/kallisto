@@ -1,9 +1,8 @@
 # tests/test_eeq.py
-
 import numpy as np
+from tests.store import ch_radical
 
 from kallisto.units import Bohr
-from tests.store import ch_radical
 
 
 def test_vdw_rahm():

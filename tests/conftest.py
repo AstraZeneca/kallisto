@@ -1,10 +1,10 @@
 # tests/conftest.py
-
 import os
 
 import pytest
-
-from tests.store import ch_radical, iridiumCatalyst, pyridine
+from tests.store import ch_radical
+from tests.store import iridiumCatalyst
+from tests.store import pyridine
 
 s = os.linesep
 

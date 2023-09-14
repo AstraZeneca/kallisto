@@ -1,5 +1,4 @@
 # src/kallisto/data/alpha.py
-
 import numpy as np
 
 secg = np.zeros(shape=(4,), dtype=np.float64)

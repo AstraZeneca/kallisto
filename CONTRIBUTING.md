@@ -10,7 +10,7 @@ evaluating changes, and helping you handle your pull requests.
 
 ## Reporting a Bug
 
-A bug is a *demonstratable problem* caused by the code in this repository.
+A bug is a _demonstratable problem_ caused by the code in this repository.
 
 Before opening a bug report:
 
@@ -23,7 +23,6 @@ A good bug report should not leave others needing to chase you up for more
 information. So please try to be as detailed as possible in your report,
 answer at least these questions:
 
-
 1. Which version of `kallisto` are you using? The current version is always
    a subject to change, so be more specific.
 2. What is your environment (your laptop, the cluster of the university)?
@@ -34,7 +33,6 @@ answer at least these questions:
 
 All these details will help people to fix any potential bugs.
 
-
 ## Suggesting a New Feature
 
 Feature requests are welcome. But take a moment to find out if your idea fits
@@ -42,30 +40,26 @@ the scope and goals of the project. It is up to you to provide a strong
 argument to convince the project's developers of the benefits of this feature.
 Please provide as much detail and context as possible.
 
-
 ## Implementing a New Feature
-
 
 Contributions are welcome via Github pull requests.
 
-
-- Each pull request should implement *one* feature or fix *one* bug.
+- Each pull request should implement _one_ feature or fix _one_ bug.
   If you want to add or fix more than one thing, submit more than one
   pull request.
 - Do not commit changes to files that are irrelevant to your feature or
-  bugfix (*e.g.* `.gitignore`).
+  bugfix (_e.g._ `.gitignore`).
 - Be willing to accept criticism and work on improving your code.
 - Do not add third-party dependencies, the `kallisto` program should be usable as
   standalone.
 - Make sure the tests run successful on more than
-  your local machine (*e.g.* on cluster of your university).
-  
+  your local machine (_e.g._ on cluster of your university).
+
   Please sign-off your commits
-  
-  
+
 ### For New Contributors
 
-If you never created a pull request before you can learn how to do this 
+If you never created a pull request before you can learn how to do this
 from [this great tutorial](https://app.egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github)
 
 Don't know where to start?
@@ -73,7 +67,7 @@ You can start by looking through these [help-wanted issues](https://github.com/f
 
 ## Sign Your Work
 
-The sign-off is a simple line at the end of the explanation for a commit. All 
+The sign-off is a simple line at the end of the explanation for a commit. All
 commits needs to be signed. Your signature certifies that you wrote the patch or
 otherwise have the right to contribute the material. The rules are pretty simple,
 if you can certify the below (from [developercertificate.org](https://developercertificate.org/)):

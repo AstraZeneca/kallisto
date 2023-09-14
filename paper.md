@@ -1,5 +1,5 @@
 ---
-title: 'kallisto: A command-line interface to simplify computational modelling and the generation of atomic features'
+title: "kallisto: A command-line interface to simplify computational modelling and the generation of atomic features"
 tags:
   - Python
   - Poetry
@@ -11,16 +11,15 @@ tags:
 authors:
   - name: Eike Caldeweyher^[Corresponding author]
     orcid: 0000-0002-3985-595X
-    affiliation: "1" 
+    affiliation: "1"
 
 affiliations:
- - name: Data Science and Modelling, Pharmaceutical Science, R&D, AstraZeneca, Gothenburg, Sweden
-   index: 1
+  - name: Data Science and Modelling, Pharmaceutical Science, R&D, AstraZeneca, Gothenburg, Sweden
+    index: 1
 
 date: 8 March 2021
 
 bibliography: paper.bib
-
 ---
 
 # Statement of Need
@@ -36,12 +35,12 @@ However, frequently we want to go beyond a structure-only approach thus incorpor
 The calculation of QM-based features relies often on well-established quantum chemistry methods like Kohn-Sham density functional theory (DFT) that is currently the workhorse of computational chemistry [@parr1980; @kohn1999].
 However, generating the feature space by DFT is computationally demanding and can become the computational bottleneck especially when aiming for high-throughput experiments with several hundred to thousands of molecules.
 
-Since there exists a critical need for an efficient yet accurate featurizer, we developed the ``kallisto`` command-line interface that is able to calculate QM-based atomic features for atoms and molecules efficiently (whole periodic table up to Radon).
+Since there exists a critical need for an efficient yet accurate featurizer, we developed the `kallisto` command-line interface that is able to calculate QM-based atomic features for atoms and molecules efficiently (whole periodic table up to Radon).
 The features are either interpolating high-level references (e.g., static/dynamic polarizabilities with time-dependent DFT data) or are parametrized [@caldeweyher2019] to reproduce QM references (e.g., DFT Hirshfeld [@hirshfeld1977] atomic partial charges).
-Molecular geometries need to have an [``xmol``](https://en.wikipedia.org/wiki/XYZ_file_format) or a [``Turbomole``](https://www.turbomole.org/wp-content/uploads/2019/11/Turbomole_Manual_7-4-1.pdf) like format to be processed by ``kallisto``.
+Molecular geometries need to have an [`xmol`](https://en.wikipedia.org/wiki/XYZ_file_format) or a [`Turbomole`](https://www.turbomole.org/wp-content/uploads/2019/11/Turbomole_Manual_7-4-1.pdf) like format to be processed by `kallisto`.
 Besides, we implemented several computational modelling helpers to simplify the development of high-throughput procedures.
 Some of those modelling helpers depend on the open-source [xtb](https://github.com/grimme-lab/xtb) tight-binding scheme that has been developed by Stefan Grimme and co-worker [@bannwarth2020].
-The ``kallisto`` software depends on the scientific libraries Numpy [@harris2020] and SciPy [@virtanen2020].
+The `kallisto` software depends on the scientific libraries Numpy [@harris2020] and SciPy [@virtanen2020].
 The [online documentation](https://ehjc.gitbook.io/kallisto/) covers all high-level functionalizations of this software mostly in terms of copy-paste recipes.
 Furthermore, we cover bits of the underlying theory and compare to experimental data as well as to other modern deep learning models.
 
@@ -50,7 +49,7 @@ Furthermore, we cover bits of the underlying theory and compare to experimental 
 The following atomic and molecular features are available for all atoms up to Radon
 
 - Coordination numbers [@grimme2010; @caldeweyher2019]
-- Proximity shells 
+- Proximity shells
 - Environment-dependent electronegativity equilibration partial charges [@caldeweyher2019]
 - Environment- and charge-dependent dynamic polarizabilities [@grimme2010; @caldeweyher2019]
 - Environment- and charge-dependent van-der-Waals radii [@fedorov2018; @rahm2017; @mantina2009]
@@ -63,7 +62,7 @@ The following modelling helper are implemented
 - Breadth first sorting
 - Root mean squared deviation (quaternions) [@coutsias2004]
 - Substructure identifier
-- Substructure exchanger 
+- Substructure exchanger
 
 # Acknowledgements
 

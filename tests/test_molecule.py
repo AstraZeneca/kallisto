@@ -1,13 +1,12 @@
 # tests/test_molecule.py
-
 import os
 
 import numpy as np
 import pytest
 
+import kallisto.reader.strucreader as ksr
 from kallisto.atom import Atom
 from kallisto.molecule import Molecule
-import kallisto.reader.strucreader as ksr
 
 # define global lineseperator
 s = os.linesep
@@ -36,7 +35,7 @@ def test_user_can_calculate_eeq_atomic_charges(lithium_hydride_coord):
     molecule = Molecule(symbols=atoms)
     eeq = molecule.get_eeq(charge=0)
     want = [0.51925854, -0.35007273, -0.16918582]
-    difference = sum([a - b for a, b in zip(want, eeq)])
+    difference = sum([a - b for a, b in zip(want, eeq, strict=True)])
     assert difference < 1e-6
 
 

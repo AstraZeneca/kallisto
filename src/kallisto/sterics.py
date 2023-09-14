@@ -1,5 +1,4 @@
 # src/kallisto/sterics.py
-
 import numpy as np
 from scipy.spatial.transform import Rotation as R  # type: ignore
 

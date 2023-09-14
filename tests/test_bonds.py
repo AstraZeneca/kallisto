@@ -1,6 +1,7 @@
 # tests/test_bonds.py
-
-from tests.store import ch_radical, pyridine, toluene
+from tests.store import ch_radical
+from tests.store import pyridine
+from tests.store import toluene
 
 
 def test_bonds_ch_radical():

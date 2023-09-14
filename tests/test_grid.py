@@ -1,6 +1,6 @@
 # test/test_grid.py
-
-from kallisto.grid import getLebedevLaikovGrid, gridSize
+from kallisto.grid import getLebedevLaikovGrid
+from kallisto.grid import gridSize
 
 
 def test_user_can_create_grid_sizes():

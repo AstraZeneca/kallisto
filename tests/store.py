@@ -1,7 +1,5 @@
 # tests/store.py
-
 # Molecular structure store for unit tests
-
 from kallisto.atom import Atom
 from kallisto.molecule import Molecule
 from kallisto.units import Bohr

@@ -1,5 +1,4 @@
 # src/kallisto/reader/xyz.py
-
 from kallisto.atom import Atom
 from kallisto.units import Bohr
 

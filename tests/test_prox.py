@@ -1,7 +1,5 @@
 # tests/test_prox.py
-
 import numpy as np
-
 from tests.store import toluene
 
 

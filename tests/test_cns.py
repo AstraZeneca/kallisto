@@ -1,7 +1,5 @@
 # tests/test_cns.py
-
 import numpy as np
-
 from tests.store import ch_radical
 
 

@@ -1,9 +1,8 @@
 # tests/test_strucreader.py
-
 import os
 
-from kallisto.atom import Atom
 import kallisto.reader.strucreader as ksr
+from kallisto.atom import Atom
 from kallisto.reader.turbomole import read as tmreader
 from kallisto.reader.xyz import read as xyzreader
 

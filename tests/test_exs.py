@@ -1,12 +1,12 @@
 # tests/test_exs.py
-
 import os
 
 import numpy as np
+from tests.store import iridiumCatalyst
+from tests.store import pyridine_mH
 
 from kallisto.rmsd import exchangeSubstructure
 from kallisto.units import Bohr
-from tests.store import iridiumCatalyst, pyridine_mH
 
 
 def test_exs():

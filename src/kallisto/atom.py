@@ -1,5 +1,4 @@
 # src/kallisto/atom.py
-
 import numpy as np
 
 from kallisto.data import atomic_numbers
@@ -52,7 +51,6 @@ class Atom(object):
     __slots__ = ("data", "molecule", "index")
 
     def __init__(self, symbol="X", position=(0, 0, 0), charge=0, molecule=None):
-
         self.data = data = {}
 
         if molecule is None:
