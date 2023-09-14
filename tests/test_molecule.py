@@ -35,7 +35,7 @@ def test_user_can_calculate_eeq_atomic_charges(lithium_hydride_coord):
     molecule = Molecule(symbols=atoms)
     eeq = molecule.get_eeq(charge=0)
     want = [0.51925854, -0.35007273, -0.16918582]
-    difference = sum([a - b for a, b in zip(want, eeq)])
+    difference = sum([a - b for a, b in zip(want, eeq, strict=True)])
     assert difference < 1e-6
 
 

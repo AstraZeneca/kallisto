@@ -59,8 +59,8 @@ def createUnits(version):
 
     try:
         units = Units(codata[version])
-    except KeyError:
-        raise NotImplementedError("Codata {0} not found".format(version))
+    except KeyError as err:
+        raise NotImplementedError("Codata {0} not found".format(version)) from err
 
     # Define all units
     # permittivity of vacuum
